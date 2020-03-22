@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+@import url('https://fonts.googleapis.com/css?family=Fira+Code&display=swap');
+
+body {
+  background-color: #333;
+  margin: 40px auto;
+  width: 1000px;
+}
+
+header > * {
+  font-family: Raleway, sans-serif;
+  color: #0c0;
+  text-align: center;
+}
+
+main > p, main > p > * {
+  font-family: 'Fira Code', monospace;
+  font-size: 16px;
+  color: #0c0;
+  border-color: #070;
+  border-width: 2px;
+  border-style: solid;
+  background-color: #111;
+  text-align: left;
+  padding: 10px;
+  width: 100%;
+}
+
+#text-panel {
+  height: 75%;
+  overflow: auto;
+}
+
+#text-input {
+  border-style: none;
+  padding: 0px;
+  outline: none;
+  /* width: 100%;
+  color: #0c0;
+  background-color: #111; */
+}
