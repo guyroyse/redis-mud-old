@@ -29,8 +29,8 @@
 
 ### Client
 
-- ☑️ Write simple WebSocket client
+- ☑︎ Write simple WebSocket client
 
 ### Server
 
-- ☑️ Write simple echo server
+- ☑︎ Write simple echo server
