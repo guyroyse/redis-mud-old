@@ -10,6 +10,10 @@ class Room {
     this.desc = desc
   }
 
+  uuid() { return this.uuid }
+  name() { return this.name }
+  desc() { return this.desc }
+
 }
 
 module.exports = Room

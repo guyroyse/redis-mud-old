@@ -1,17 +1,32 @@
 const chai = require('chai')
-const expect = chai.expect
+let expect = chai.expect
+
+const sinon = require('sinon')
+const sinonChai = require('sinon-chai')
+
+chai.use(sinonChai)
+
 
 const LookCommand = require('../src/look-command')
+const Room = require('../src/room')
 
 describe("LookCommand", function() {
 
   beforeEach(function() {
-    this.room = { name: 'the room', desc: 'the description' }
-    this.subject = new LookCommand(this.room)
+    let room = sinon.createStubInstance(Room)
+    room.name.returns('the room')
+    room.desc.returns('the description')
+
+    this.stream = { send: sinon.spy() }
+
+    this.subject = new LookCommand(room)
   })
 
-  it("describes the room", function() {
-    expect(this.subject.execute()).to.eql(["", "[the room]: the description"])
+  it("describes the current room", function() {
+    this.subject.execute('/look', this.stream)
+
+    expect(this.stream.send).to.have.been.calledWith("[the room]: the description")
+    expect(this.stream.send).to.have.been.calledWith("")
   })
 
 })
