@@ -4,6 +4,7 @@ const StaticServer = require('node-static').Server
 const WebSocketServer = require('ws').Server
 
 const Dungeon = require('./src/dungeon')
+const LookCommand = require('./src/look-command')
 
 let dungeon = new Dungeon()
 
@@ -22,8 +23,8 @@ async function main() {
     ws.on('message', message => {
 
       if (message === '/look') {
-        ws.send("")
-        ws.send(`[${currentRoom.name}]: ${currentRoom.desc}`)
+        let command = new LookCommand(currentRoom)
+        command.execute().forEach(s => ws.send(s))
         sendPrompt(ws, currentRoom)
       } else {
         ws.send(`You said: ${message}`)
