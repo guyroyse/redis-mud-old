@@ -8,9 +8,6 @@
 
 ### Server
 
-- ☐ Display welcome message upon connection
-- ☐ Create 'The Hub' at server launch if it doesn't exist
-- ☐ Display prompt with name of current room
 - ☐ Implement /look command to see description of room
 - ☐ Implement /describe command to update description of the room
 - ☐ Display doors to other rooms
@@ -34,3 +31,6 @@
 ### Server
 
 - ☑︎ Write simple echo server
+- ☑︎ Display welcome message upon connection
+- ☑︎ Create 'The Hub' at server launch if it doesn't exist
+- ☑︎ Display prompt with name of current room
