@@ -26,8 +26,8 @@ describe("LookCommand", function() {
     this.subject.execute('/look', this.stream)
 
     expect(this.stream.send).to.have.been.calledTwice
-    expect(this.stream.send.firstCall).to.have.been.calledWith("")
-    expect(this.stream.send.lastCall).to.have.been.calledWith("[the room]: the description")
+    expect(this.stream.send.firstCall).to.have.been.calledWith("[the room]: the description")
+    expect(this.stream.send.lastCall).to.have.been.calledWith("")
   })
 
 })

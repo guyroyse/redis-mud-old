@@ -15,16 +15,15 @@ async function main() {
   let wss = new WebSocketServer({ port: 8081 })
   
   wss.on('connection', ws => {
-  
-    ws.send("Welcome to RedisMUD!")
-    ws.send("Beware. You are likely to be eaten by a grue.")
+
+    sendMotd(ws)
     sendPrompt(ws, currentRoom)
 
     ws.on('message', message => {
 
       if (message === '/look') {
         let command = new LookCommand(currentRoom)
-        command.execute().forEach(s => ws.send(s))
+        command.execute(message, ws)
         sendPrompt(ws, currentRoom)
       } else {
         ws.send(`You said: ${message}`)
@@ -38,9 +37,15 @@ async function main() {
 
 }
 
-function sendPrompt(ws, currentRoom) {
+function sendMotd(ws) {
+  ws.send("Welcome to RedisMUD!")
+  ws.send("Beware. You are likely to be eaten by a grue.")
   ws.send("")
-  ws.send(`You are in [${currentRoom.name}]`)
+}
+
+function sendPrompt(ws, currentRoom) {
+  ws.send(`You are in [${currentRoom.name()}]`)
+  ws.send("")
 }
 
 function createHttpServer() {

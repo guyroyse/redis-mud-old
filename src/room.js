@@ -1,14 +1,14 @@
 class Room {
 
   constructor({uuid, name, desc}) {
-    this.uuid = uuid
-    this.name = name
-    this.desc = desc
+    this._uuid = uuid
+    this._name = name
+    this._desc = desc
   }
 
-  uuid() { return this.uuid }
-  name() { return this.name }
-  desc() { return this.desc }
+  uuid() { return this._uuid }
+  name() { return this._name }
+  desc() { return this._desc }
 
 }
 
