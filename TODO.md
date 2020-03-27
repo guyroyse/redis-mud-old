@@ -34,3 +34,10 @@
 - ☑︎ Create 'The Hub' at server launch if it doesn't exist
 - ☑︎ Display prompt with name of current room
 - ☑︎ Implement /look command to see description of room
+
+
+## Notes for Next Stream
+
+- Use MERGE: MERGE (r:room {uuid:'room_uuid'}) ON CREATE SET r.name='The Hub', r.desc='Huge hub is huge' return r
+- Setup stream wrapper
+
