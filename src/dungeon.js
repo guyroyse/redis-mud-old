@@ -21,13 +21,17 @@ class Dungeon {
         desc: 'Huge hub is huge.'})
       RETURN r`
 
-    let result = await this.graph.query(FETCH_HUB)
-    if (!result.hasNext()) {
-      result = await this.graph.query(CREATE_AND_FETCH_HUB)
+    let record = await this.fetchSingleNode(FETCH_HUB)
+    if (record === null) {
+      record = await this.fetchSingleNode(CREATE_AND_FETCH_HUB)
     }
 
-    let record = result.next()
     return new Room(record.get("r").properties)
+  }
+
+  async fetchSingleNode(query) {
+    let result = await this.graph.query(query)
+    return result.hasNext() ? result.next() : null
   }
 
 }

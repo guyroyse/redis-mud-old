@@ -9,7 +9,7 @@ class Room {
     this.name = name
     this.desc = desc
   }
-  
+
 }
 
 module.exports = Room
