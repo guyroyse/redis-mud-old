@@ -2,15 +2,14 @@ const http = require('http')
 
 const StaticServer = require('node-static').Server
 const WebSocketServer = require('ws').Server
-const RedisGraph = require("redisgraph.js").Graph
 
-let graph = new RedisGraph("dungeon")
+const Dungeon = require('./src/dungeon')
 
-const NULL_UUID = '00000000-0000-0000-0000-000000000000'
+let dungeon = new Dungeon()
 
 async function main() {
 
-  let room = await fetchOrCreateHub()
+  let currentRoom = await dungeon.fetchOrCreateHub()
   let httpServer = createHttpServer()
   let wss = new WebSocketServer({ port: 8081 })
   
@@ -18,12 +17,18 @@ async function main() {
   
     ws.send("Welcome to RedisMUD!")
     ws.send("Beware. You are likely to be eaten by a grue.")
-    ws.send('')
-    ws.send(`You are in [${room.name}]`)
+    sendPrompt(ws, currentRoom)
 
     ws.on('message', message => {
-      console.log('received:', message)
-      ws.send(`Echo: ${message}`)
+
+      if (message === '/look') {
+        ws.send("")
+        ws.send(`[${currentRoom.name}]: ${currentRoom.desc}`)
+        sendPrompt(ws, currentRoom)
+      } else {
+        ws.send(`You said: ${message}`)
+      }
+
     })
   
   })
@@ -32,27 +37,9 @@ async function main() {
 
 }
 
-async function fetchOrCreateHub() {
-
-  const FETCH_HUB = `MATCH (r:room { uuid: '${NULL_UUID}'}) RETURN r`
-
-  const CREATE_AND_FETCH_HUB = `
-    CREATE (r:room { 
-      uuid: '${NULL_UUID}',
-      name: 'The Hub',
-      desc: 'Huge hub is huge.'})
-    RETURN r`
-
-  let result = await graph.query(FETCH_HUB)
-  if (!result.hasNext()) {
-    result = await graph.query(CREATE_AND_FETCH_HUB)
-  }
-
-  let record = result.next()
-  let room = record.get("r").properties
-
-  return room
-
+function sendPrompt(ws, currentRoom) {
+  ws.send("")
+  ws.send(`You are in [${currentRoom.name}]`)
 }
 
 function createHttpServer() {
