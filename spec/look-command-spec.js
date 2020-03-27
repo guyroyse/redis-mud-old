@@ -23,7 +23,7 @@ describe("LookCommand", function() {
   })
 
   it("describes the current room", function() {
-    this.subject.execute('/look', this.stream)
+    this.subject.execute(this.stream)
 
     expect(this.stream.send).to.have.been.calledTwice
     expect(this.stream.send.firstCall).to.have.been.calledWith("[the room]: the description")

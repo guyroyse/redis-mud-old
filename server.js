@@ -23,7 +23,7 @@ async function main() {
 
       if (message === '/look') {
         let command = new LookCommand(currentRoom)
-        command.execute(message, ws)
+        command.execute(ws)
         sendPrompt(ws, currentRoom)
       } else {
         ws.send(`You said: ${message}`)
