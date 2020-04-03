@@ -1,9 +1,15 @@
+const redis = require('redis')
 const RedisGraph = require('redisgraph.js').Graph
 
 class RedisGraphShim {
 
-  constructor(key) {
-    this.graph = new RedisGraph(key)
+  open(key) {
+    this.client = redis.createClient()
+    this.graph = new RedisGraph(key, this.client)
+  }
+
+  close() {
+    this.client.end(false)
   }
 
   async fetchSingleNode(query, nodeName) {

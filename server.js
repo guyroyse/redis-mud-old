@@ -8,6 +8,7 @@ const LookCommand = require('./src/look-command')
 const SayCommand = require('./src/say-command')
 
 let dungeon = new Dungeon()
+dungeon.open('dungeon')
 
 async function main() {
 
