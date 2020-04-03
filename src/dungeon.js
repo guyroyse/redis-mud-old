@@ -1,4 +1,4 @@
-const RedisGraph = require("redisgraph.js").Graph
+const RedisGraphShim = require('./redis-graph-shim')
 
 const Room = require('./room')
 
@@ -7,7 +7,7 @@ const NULL_UUID = '00000000-0000-0000-0000-000000000000'
 class Dungeon {
 
   constructor() {
-    this.graph = new RedisGraph("dungeon")
+    this.shim = new RedisGraphShim('dungeon')
   }
 
   async fetchOrCreateHub() {
@@ -19,14 +19,9 @@ class Dungeon {
         r.desc='Huge hub is huge'
       RETURN r`
 
-    let record = await this.fetchSingleNode(MERGE_HUB)
+    let props = await this.shim.fetchSingleNode(MERGE_HUB, "r")
 
-    return new Room(record.get("r").properties)
-  }
-
-  async fetchSingleNode(query) {
-    let result = await this.graph.query(query)
-    return result.hasNext() ? result.next() : null
+    return new Room(props)
   }
 
 }

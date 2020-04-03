@@ -23,7 +23,7 @@ async function main() {
     ws.on('message', message => {
 
       let command
-      
+
       if (message === '/look') {
         command = new LookCommand(currentRoom)
       } else {

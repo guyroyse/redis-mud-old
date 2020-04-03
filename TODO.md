@@ -13,18 +13,12 @@
 
 ## Doing
 
-- ☐ Server: Use MERGE ON CREATE for creating initial room
-
-      `MERGE (r:room { uuid: 'room_uuid' }) ON CREATE SET r.name='The Hub', r.desc='Huge hub is huge' RETURN r`
-
 ## Done
 
 - ☑︎ Client: Write simple WebSocket client
-
-### Server
-
 - ☑︎ Server: Write simple echo server
 - ☑︎ Server: Display welcome message upon connection
 - ☑︎ Server: Create 'The Hub' at server launch if it doesn't exist
 - ☑︎ Server: Display prompt with name of current room
 - ☑︎ Server: Implement /look command to see description of room
+- ☑︎ Server: Use MERGE ON CREATE for creating initial room
