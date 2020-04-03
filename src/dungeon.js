@@ -12,19 +12,14 @@ class Dungeon {
 
   async fetchOrCreateHub() {
 
-    const FETCH_HUB = `MATCH (r:room { uuid: '${NULL_UUID}'}) RETURN r`
-
-    const CREATE_AND_FETCH_HUB = `
-      CREATE (r:room { 
-        uuid: '${NULL_UUID}',
-        name: 'The Hub',
-        desc: 'Huge hub is huge.'})
+    const MERGE_HUB = `
+      MERGE (r:room { uuid: '${NULL_UUID}' })
+      ON CREATE SET
+        r.name='The Hub',
+        r.desc='Huge hub is huge'
       RETURN r`
 
-    let record = await this.fetchSingleNode(FETCH_HUB)
-    if (record === null) {
-      record = await this.fetchSingleNode(CREATE_AND_FETCH_HUB)
-    }
+    let record = await this.fetchSingleNode(MERGE_HUB)
 
     return new Room(record.get("r").properties)
   }
