@@ -6,9 +6,10 @@
 - ☐ Server: Implement /describe command to update description of the room
 - ☐ Server: Display doors to other rooms
 - ☐ Server: Implement /use command to use doors
-- ☐ Server: Implmenet /look command to see description of doors
-- ☐ Server:Implement /create command to create rooms
+- ☐ Server: Implement /look command to see description of doors
+- ☐ Server: Implement /create command to create rooms
 - ☐ Server: Implement /create command to create doors
+- ☐ Server: Implement /emote command to emote things
 
 ## Doing
 
