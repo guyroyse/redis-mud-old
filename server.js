@@ -22,15 +22,16 @@ async function main() {
 
     ws.on('message', message => {
 
+      let command
+      
       if (message === '/look') {
-        let command = new LookCommand(currentRoom)
-        command.execute(ws)
-        sendPrompt(ws, currentRoom)
+        command = new LookCommand(currentRoom)
       } else {
-        let command = new SayCommand(message)
-        command.execute(ws)
-        sendPrompt(ws, currentRoom)
+        command = new SayCommand(message)
       }
+
+      command.execute(ws)
+      sendPrompt(ws, currentRoom)
 
     })
   
