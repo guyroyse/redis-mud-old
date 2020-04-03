@@ -12,7 +12,9 @@
 
 ## Doing
 
-- ☐ Server: Use MERGE ON CREATE for creating initial room – "MERGE (r:room { uuid: 'room_uuid' }) ON CREATE SET r.name='The Hub', r.desc='Huge hub is huge' RETURN r"
+- ☐ Server: Use MERGE ON CREATE for creating initial room
+
+      `MERGE (r:room { uuid: 'room_uuid' }) ON CREATE SET r.name='The Hub', r.desc='Huge hub is huge' RETURN r`
 
 ## Done
 
