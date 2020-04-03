@@ -9,9 +9,11 @@
 - ☐ Server: Implement /look command to see description of doors
 - ☐ Server: Implement /create command to create rooms
 - ☐ Server: Implement /create command to create doors
-- ☐ Server: Implement /emote command to emote things
 
 ## Doing
+
+- ☐ Server: Write tests for session
+- ☐ Server: Implement /emote command to emote things
 
 ## Done
 
