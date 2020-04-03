@@ -5,6 +5,7 @@ const WebSocketServer = require('ws').Server
 
 const Dungeon = require('./src/dungeon')
 const LookCommand = require('./src/look-command')
+const SayCommand = require('./src/say-command')
 
 let dungeon = new Dungeon()
 
@@ -26,7 +27,9 @@ async function main() {
         command.execute(ws)
         sendPrompt(ws, currentRoom)
       } else {
-        ws.send(`You said: ${message}`)
+        let command = new SayCommand(message)
+        command.execute(ws)
+        sendPrompt(ws, currentRoom)
       }
 
     })
