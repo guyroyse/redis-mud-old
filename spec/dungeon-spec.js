@@ -13,7 +13,7 @@ describe("Dungeon", function() {
 
   beforeEach(function() {
     this.subject = new Dungeon()
-    sinon.spy(this.subject.shim)
+    sinon.stub(this.subject.shim)
   })
 
   context("when opened", function() {
@@ -22,18 +22,19 @@ describe("Dungeon", function() {
       this.subject.open('dungeon')
     })
 
-    afterEach(function() {
-      this.subject.close()
-    })
-
     it("opens the shim with the key", function() {
       expect(this.subject.shim.open).to.have.been.calledWith('dungeon')
     })
 
     context("when the hub is fetched or created", function() {
 
-      beforeEach(function() {
-        return this.subject.fetchOrCreateHub()
+      beforeEach(async function() {
+        this.subject.shim.fetchSingleNode.returns({
+          uuid: 'the uuid',
+          name: 'the name',
+          desc: 'the description'
+        })
+        this.result = await this.subject.fetchOrCreateHub()
       })
   
       it("askes the graph for the hub", function() {
@@ -41,6 +42,12 @@ describe("Dungeon", function() {
           "MERGE (r:room { uuid: '00000000-0000-0000-0000-000000000000' }) ON CREATE SET r.name='The Hub', r.desc='Huge hub is huge' RETURN r",
           'r'
         )
+      })
+
+      it("returns a room with expected properties", function() {
+        expect(this.result.uuid()).to.equal('the uuid')
+        expect(this.result.name()).to.equal('the name')
+        expect(this.result.desc()).to.equal('the description')
       })
   
     })
