@@ -1,5 +1,11 @@
 # To Do List of Doing
 
+## Tech Debt
+
+- ☐ Server: Switch to use IoRedis or NodeRedis instead of RedisGraph.js
+- ☐ Server: Write tests for session
+- ☐ Server: Break out WebSocket and HttpServer to own classes and test
+
 ## To Do
 
 - ☐ Client: Add command history to WebSocket client
@@ -9,11 +15,9 @@
 - ☐ Server: Implement /look command to see description of doors
 - ☐ Server: Implement /create command to create rooms
 - ☐ Server: Implement /create command to create doors
+- ☐ Server: Implement /emote command to emote things
 
 ## Doing
-
-- ☐ Server: Write tests for session
-- ☐ Server: Implement /emote command to emote things
 
 ## Done
 
