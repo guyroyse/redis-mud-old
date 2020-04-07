@@ -3,7 +3,11 @@
   "version": "0.1.0",
   "description": "Simple MUD using JavaScript and RedisGraph.",
   "scripts": {
-    "test": "mocha spec/**/*-spec.js"
+    "test": "mocha"
+  },
+  "mocha": {
+    "spec": "spec/**/*-spec.js",
+    "ui": "bdd"
   },
   "author": "Guy Royse <guy@guyroyse.com>",
   "license": "CC-BY-SA-4.0",
