@@ -2,13 +2,14 @@ const http = require('http')
 
 const StaticServer = require('node-static').Server
 const WebSocketServer = require('ws').Server
-const Session = require('./src/session')
+
+const { MudSession } = require('./redis-mud')
 
 async function main() {
 
   let wss = new WebSocketServer({ port: 8081 })
   wss.on('connection', async ws => {
-    let session = new Session(ws)
+    let session = new MudSession(ws)
     await session.start()
     ws.on('message', message => session.processMessage(message))
   })

@@ -7,8 +7,8 @@ const sinonChai = require('sinon-chai')
 chai.use(sinonChai)
 
 
-const LookCommand = require('../src/look-command')
-const Room = require('../src/room')
+const LookCommand = require('../redis-mud/look-command')
+const Room = require('../redis-mud/room')
 
 describe("LookCommand", function() {
 

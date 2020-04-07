@@ -7,7 +7,7 @@ const sinonChai = require('sinon-chai')
 chai.use(sinonChai)
 
 
-const SayCommand = require('../src/say-command')
+const SayCommand = require('../redis-mud/say-command')
 
 describe("SayCommand", function() {
 
