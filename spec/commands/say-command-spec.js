@@ -7,14 +7,14 @@ const sinonChai = require('sinon-chai')
 chai.use(sinonChai)
 
 
-const SayCommand = require('../redis-mud/say-command')
+const Say = require('../../mud').Commands.Say
 
-describe("SayCommand", function() {
+describe("Say", function() {
 
   beforeEach(function() {
     this.stream = { send: sinon.spy() }
 
-    this.subject = new SayCommand("the message")
+    this.subject = new Say("the message")
   })
 
   it("says the thing", function() {

@@ -6,11 +6,10 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
+const Look = require('../../mud').Commands.Look
+const Room = require('../../mud').Room
 
-const LookCommand = require('../redis-mud/look-command')
-const Room = require('../redis-mud/room')
-
-describe("LookCommand", function() {
+describe("Look", function() {
 
   beforeEach(function() {
     let room = sinon.createStubInstance(Room)
@@ -19,7 +18,7 @@ describe("LookCommand", function() {
 
     this.stream = { send: sinon.spy() }
 
-    this.subject = new LookCommand(room)
+    this.subject = new Look(room)
   })
 
   it("describes the current room", function() {

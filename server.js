@@ -3,7 +3,7 @@ const http = require('http')
 const StaticServer = require('node-static').Server
 const WebSocketServer = require('ws').Server
 
-const { MudSession } = require('./redis-mud')
+const MudSession = require('./mud').Session
 
 async function main() {
 

@@ -1,6 +1,5 @@
 const Dungeon = require('./dungeon')
-const LookCommand = require('./look-command')
-const SayCommand = require('./say-command')
+const Commands = require('./commands')
 
 class Session {
 
@@ -21,9 +20,9 @@ class Session {
     let command
 
     if (message === '/look') {
-      command = new LookCommand(this.currentRoom)
+      command = new Commands.Look(this.currentRoom)
     } else {
-      command = new SayCommand(message)
+      command = new Commands.Say(message)
     }
 
     command.execute(this.ws)
