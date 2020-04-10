@@ -39,7 +39,7 @@ describe("Dungeon", function() {
   
       it("askes the graph for the hub", function() {
         expect(this.subject.shim.fetchSingleNode).to.have.been.calledWith(
-          "MERGE (r:room { uuid: '00000000-0000-0000-0000-000000000000' }) ON CREATE SET r.name='The Hub', r.desc='Huge hub is huge' RETURN r",
+          "MERGE (r:room { uuid: '00000000-0000-0000-0000-000000000000' }) ON CREATE SET r.name = 'The Hub', r.desc = 'Huge hub is huge' RETURN r",
           'r'
         )
       })
@@ -60,7 +60,7 @@ describe("Dungeon", function() {
 
       it("updates the room", function() {
         expect(this.subject.shim.updateNode).to.have.been.calledWith(
-          "MERGE (r:room { uuid: 'uuid', name: 'new name', desc: 'new description' })"
+          "MERGE (r:room { uuid: 'uuid' }) ON MATCH SET r.name = 'new name', r.desc = 'new description'"
         )
       })
 

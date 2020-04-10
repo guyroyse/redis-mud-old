@@ -22,7 +22,9 @@ class RedisGraphShim {
     return null
   }
 
-  async updateNode() {}
+  async updateNode(query) {
+    await this.graph.query(query)
+  }
 
 }
 

@@ -28,7 +28,7 @@ class Session {
       } else if (slashCommand === '/emote') {
         command = new Commands.Emote()
       } else if (slashCommand === '/describe') {
-        command = new Commands.Describe()
+        command = new Commands.Describe(this.currentRoom)
       } else {
         command = new Commands.Error()
       }
