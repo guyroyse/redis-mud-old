@@ -1,31 +1,31 @@
 # To Do List of Doing
 
-## Tech Debt
+## Debt
 
-- ☐ Server: Switch to use RedisGraph.close()
-- ☐ Server: Write tests for session
-- ☐ Server: Break out WebSocket and HttpServer to own classes and test
+- Switch to use RedisGraph.close()
+- Write tests for session
+- Break out WebSocket and HttpServer to own classes and test
 
-## To Do
+## Backlog
 
-- ☐ Client: Add command history to WebSocket client
-- ☐ Server: Display doors to other rooms
-- ☐ Server: Implement /use command to use doors
-- ☐ Server: Implement /look command to see description of doors
+- Add command history to WebSocket client
+- Display doors to other rooms
+- Implement /use command to use doors
+- Implement /look command to see description of doors
 
 ## Doing
 
-- ☐ Server: Implement /emote command to emote things
-- ☐ Server: Implement /describe command to update description of the room
-- ☐ Server: Implement /create command to create rooms
-- ☐ Server: Implement /create command to create doors
+- Implement /emote command to emote things
+- Implement /describe command to update description of the room
+- Implement /create command to create rooms
+- Implement /create command to create doors
 
 ## Done
 
-- ☑︎ Client: Write simple WebSocket client
-- ☑︎ Server: Write simple echo server
-- ☑︎ Server: Display welcome message upon connection
-- ☑︎ Server: Create 'The Hub' at server launch if it doesn't exist
-- ☑︎ Server: Display prompt with name of current room
-- ☑︎ Server: Implement /look command to see description of room
-- ☑︎ Server: Use MERGE ON CREATE for creating initial room
+- Use MERGE ON CREATE for creating initial room
+- Implement /look command to see description of room
+- Display prompt with name of current room
+- Create 'The Hub' at server launch if it doesn't exist
+- Display welcome message upon connection
+- Write simple echo server
+- Write simple WebSocket client
