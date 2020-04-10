@@ -16,13 +16,14 @@
 
 ## Doing
 
-- Implement /emote command to emote things
 - Implement /describe command to update description of the room
 - Implement /create command to create rooms
 - Implement /create command to create doors
 
 ## Done
 
+- Implement error command
+- Implement /emote command to emote things
 - Use MERGE ON CREATE for creating initial room
 - Implement /look command to see description of room
 - Display prompt with name of current room
