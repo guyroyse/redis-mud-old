@@ -18,7 +18,7 @@ describe("Describe", function() {
     this.subject = new Describe(this.room)
   })
 
-  it("describes the current room", function() {
+  it("redescribes the current room", function() {
     this.subject.execute(this.stream, "/describe room This room is big and ugly.")
 
     expect(this.room.desc).to.have.been.calledWith("This room is big and ugly.")
