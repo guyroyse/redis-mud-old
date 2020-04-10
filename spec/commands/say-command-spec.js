@@ -14,11 +14,11 @@ describe("Say", function() {
   beforeEach(function() {
     this.stream = { send: sinon.spy() }
 
-    this.subject = new Say("the message")
+    this.subject = new Say()
   })
 
   it("says the thing", function() {
-    this.subject.execute(this.stream)
+    this.subject.execute(this.stream, "the message")
 
     expect(this.stream.send).to.have.been.calledTwice
     expect(this.stream.send.firstCall).to.have.been.calledWith("You said: the message")

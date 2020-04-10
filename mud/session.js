@@ -23,13 +23,12 @@ class Session {
     if (message === '/look') {
       command = new Commands.Look(this.currentRoom)
     } else if (message.startsWith('/emote')) {
-      let match = message.match(/^\/emote (.*)$/)
-      command = new Commands.Emote(match[1])
+      command = new Commands.Emote()
     } else {
-      command = new Commands.Say(message)
+      command = new Commands.Say()
     }
 
-    command.execute(this.ws)
+    command.execute(this.ws, message)
     this.sendPrompt()
   }
 
