@@ -2,22 +2,23 @@
 
 ## Tech Debt
 
-- ☐ Server: Switch to use IoRedis or NodeRedis instead of RedisGraph.js
+- ☐ Server: Switch to use RedisGraph.close()
 - ☐ Server: Write tests for session
 - ☐ Server: Break out WebSocket and HttpServer to own classes and test
 
 ## To Do
 
 - ☐ Client: Add command history to WebSocket client
-- ☐ Server: Implement /describe command to update description of the room
 - ☐ Server: Display doors to other rooms
 - ☐ Server: Implement /use command to use doors
 - ☐ Server: Implement /look command to see description of doors
-- ☐ Server: Implement /create command to create rooms
-- ☐ Server: Implement /create command to create doors
-- ☐ Server: Implement /emote command to emote things
 
 ## Doing
+
+- ☐ Server: Implement /emote command to emote things
+- ☐ Server: Implement /describe command to update description of the room
+- ☐ Server: Implement /create command to create rooms
+- ☐ Server: Implement /create command to create doors
 
 ## Done
 
