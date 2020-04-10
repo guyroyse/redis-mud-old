@@ -22,6 +22,8 @@ class RedisGraphShim {
     return null
   }
 
+  async updateNode() {}
+
 }
 
 module.exports = RedisGraphShim

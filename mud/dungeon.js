@@ -24,7 +24,12 @@ class Dungeon {
 
     let props = await this.shim.fetchSingleNode(MERGE_HUB, "r")
 
-    return new Room(props)
+    return new Room(this, props)
+  }
+
+  async updateRoom(uuid, name, desc) {
+    const UPDATE_ROOM = `MERGE (r:room { uuid: '${uuid}', name: '${name}', desc: '${desc}' })`
+    await this.shim.updateNode(UPDATE_ROOM)
   }
 
 }

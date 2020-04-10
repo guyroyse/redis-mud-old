@@ -52,6 +52,20 @@ describe("Dungeon", function() {
   
     })
 
+    context("when a room is updated", function() {
+
+      beforeEach(function() {
+        return this.subject.updateRoom('uuid', 'new name', 'new description')
+      })
+
+      it("updates the room", function() {
+        expect(this.subject.shim.updateNode).to.have.been.calledWith(
+          "MERGE (r:room { uuid: 'uuid', name: 'new name', desc: 'new description' })"
+        )
+      })
+
+    })
+
     context("when the dungeon is closed", function() {
 
       beforeEach(function() {
