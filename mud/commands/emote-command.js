@@ -1,7 +1,4 @@
 class EmoteCommand {
-  constructor(message) {
-  }
-
   execute(stream, message) {
     let [ _, emote ] = message.match(/^\/emote (.*)$/)
 

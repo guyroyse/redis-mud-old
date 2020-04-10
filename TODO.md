@@ -12,6 +12,7 @@
 - Display doors to other rooms
 - Implement /use command to use doors
 - Implement /look command to see description of doors
+- Implement command aliases
 
 ## Doing
 

@@ -19,11 +19,18 @@ class Session {
   processMessage(message) {
     let command
 
+    let slashCommand = message.split(' ')[0]
 
-    if (message === '/look') {
-      command = new Commands.Look(this.currentRoom)
-    } else if (message.startsWith('/emote')) {
-      command = new Commands.Emote()
+    if (slashCommand.startsWith('/')) {
+
+      if (slashCommand === '/look') {
+        command = new Commands.Look(this.currentRoom)
+      } else if (slashCommand === '/emote') {
+        command = new Commands.Emote()
+      } else {
+        command = new Commands.Error()
+      }
+
     } else {
       command = new Commands.Say()
     }
