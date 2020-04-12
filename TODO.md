@@ -2,9 +2,8 @@
 
 ## Debt
 
-- Switch to use RedisGraph.close()
+- BLOCKED: Switch to use RedisGraph.close()
 - Write tests for session
-- Break out WebSocket and HttpServer to own classes and test
 
 ## Backlog
 
@@ -22,6 +21,7 @@
 
 ## Done
 
+- Break out WebSocket and HttpServer to own classes
 - Implement error command
 - Implement /emote command to emote things
 - Use MERGE ON CREATE for creating initial room
