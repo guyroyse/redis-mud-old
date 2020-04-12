@@ -1,5 +1,6 @@
 const Dungeon = require('./things').Dungeon
-const Commands = require('./commands')
+
+const MessageProcessor = require('./message-processor')
 
 class Session {
 
@@ -32,40 +33,6 @@ class Session {
   sendPrompt() {
     this.ws.send(`You are in [${this.currentRoom.name()}]`)
     this.ws.send("")
-  }
-
-}
-
-class MessageProcessor {
-  constructor(ws) {
-    this.ws = ws
-  }
-
-  processMessage(message, currentRoom) {
-    let command
-
-    let commandTable = {
-      '/look': () => new Commands.Look(currentRoom),
-      '/emote': () => new Commands.Emote(),
-      '/describe': () => new Commands.Describe(currentRoom)
-    }
-
-    if (this.isSlashCommand(message)) {
-      let slashCommand = this.extractSlashCommand(message)
-      command = (commandTable[slashCommand] || (() => new Commands.Error()))()
-    } else {
-      command = new Commands.Say()
-    }
-
-    command.execute(this.ws, message)
-  }
-
-  isSlashCommand(slashCommand) {
-    return slashCommand.startsWith('/')
-  }
-
-  extractSlashCommand(message) {
-    return message.split(' ')[0]
   }
 
 }
