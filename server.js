@@ -1,6 +1,5 @@
-const http = require('http')
+const HttpServer = require('./http-server')
 
-const StaticServer = require('node-static').Server
 const WebSocketServer = require('ws').Server
 
 const MudSession = require('./mud').Session
@@ -13,23 +12,8 @@ async function main() {
     await session.start()
     ws.on('message', message => session.processMessage(message))
   })
-  
-  let httpServer = createHttpServer()
-  httpServer.listen(8080)
 
-}
-
-function createHttpServer() {
-
-  let staticServer = new StaticServer('./static')
-
-  let httpServer = http.createServer((request, response) => {
-    request
-      .addListener('end', () => staticServer.serve(request, response))
-      .resume()
-  })
-
-  return httpServer
+  HttpServer.start()
 
 }
 
