@@ -1,9 +1,6 @@
 const Commands = require('./commands')
 
 class MessageProcessor {
-  constructor(ws) {
-    this.ws = ws
-  }
 
   processMessage(message, currentRoom) {
     let command
@@ -21,7 +18,7 @@ class MessageProcessor {
       command = new Commands.Say()
     }
 
-    command.execute(this.ws, message)
+    return command.execute(message)
   }
 
   isSlashCommand(slashCommand) {

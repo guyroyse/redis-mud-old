@@ -20,7 +20,8 @@ class Session {
   }
 
   processMessage(message) {
-    this.messageProcessor.processMessage(message, this.currentRoom)
+    let response = this.messageProcessor.processMessage(message, this.currentRoom)
+    this.ws.send(response)
     this.sendPrompt()
   }
 
@@ -32,7 +33,6 @@ class Session {
   
   sendPrompt() {
     this.ws.send(`You are in [${this.currentRoom.name()}]`)
-    this.ws.send("")
   }
 
 }
