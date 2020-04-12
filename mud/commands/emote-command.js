@@ -1,9 +1,7 @@
 class EmoteCommand {
-  execute(stream, message) {
+  execute(message) {
     let [ _, emote ] = message.match(/^\/emote (.*)$/)
-
-    stream.send(`Player ${emote}`)
-    stream.send("")
+    return `Player ${emote}`
   }
 
 }

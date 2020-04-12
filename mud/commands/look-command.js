@@ -4,8 +4,7 @@ class LookCommand {
   }
 
   execute(stream) {
-    stream.send(`[${this.room.name()}]: ${this.room.desc()}`)
-    stream.send("")
+    return `[${this.room.name()}]: ${this.room.desc()}`
   }
 }
 

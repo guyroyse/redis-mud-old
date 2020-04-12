@@ -1,7 +1,6 @@
 class SayCommand {
-  execute(stream, message) {
-    stream.send(`You said: ${message}`)
-    stream.send("")
+  execute(message) {
+    return `You said: ${message}`
   }
 }
 
