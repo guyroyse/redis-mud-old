@@ -1,21 +1,14 @@
+const WebSocketServer = require('./web-socket-server')
 const HttpServer = require('./http-server')
-
-const WebSocketServer = require('ws').Server
-
 const MudSession = require('./mud').Session
 
-async function main() {
+let wss = new WebSocketServer()
+wss.start(8081)
 
-  let wss = new WebSocketServer({ port: 8081 })
-  wss.on('connection', async ws => {
-    let session = new MudSession(ws)
-    await session.start()
-    ws.on('message', message => session.processMessage(message))
-  })
+wss.onConnection(async ws => {
+  let session = new MudSession(ws)
+  await session.start()
+  wss.onMessage(ws, message => session.processMessage(message))
+})
 
-  HttpServer.start()
-
-}
-
-main()
-
+HttpServer.start()
