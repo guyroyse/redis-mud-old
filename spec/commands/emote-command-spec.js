@@ -21,7 +21,7 @@ describe("Emote", function() {
     this.subject.execute(this.stream, "/emote did the thing.")
 
     expect(this.stream.send).to.have.been.calledTwice
-    expect(this.stream.send.firstCall).to.have.been.calledWith("You did the thing.")
+    expect(this.stream.send.firstCall).to.have.been.calledWith("Player did the thing.")
     expect(this.stream.send.lastCall).to.have.been.calledWith("")
   })
 
