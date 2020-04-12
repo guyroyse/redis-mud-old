@@ -6,8 +6,9 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-const Look = require('../../mud').Commands.Look
-const Room = require('../../mud').Room
+const Mud = require('../../mud')
+const Look = Mud.Commands.Look
+const Room = Mud.Things.Room
 
 describe("Look", function() {
 

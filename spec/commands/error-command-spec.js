@@ -6,8 +6,8 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-
-const Error = require('../../mud').Commands.Error
+const Mud = require('../../mud')
+const Error = Mud.Commands.Error
 
 describe("Error", function() {
 

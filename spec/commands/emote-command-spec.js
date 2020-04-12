@@ -6,8 +6,8 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-
-const Emote = require('../../mud').Commands.Emote
+const Mud = require('../../mud')
+const Emote = Mud.Commands.Emote
 
 describe("Emote", function() {
 

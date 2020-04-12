@@ -1,4 +1,4 @@
-const RedisGraphShim = require('./redis-graph-shim')
+const RedisGraphShim = require('../redis-graph-shim')
 
 const Room = require('./room')
 

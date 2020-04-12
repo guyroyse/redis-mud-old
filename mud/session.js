@@ -1,4 +1,4 @@
-const Dungeon = require('./dungeon')
+const Dungeon = require('./things').Dungeon
 const Commands = require('./commands')
 
 class Session {

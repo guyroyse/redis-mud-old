@@ -6,8 +6,8 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-
-const Say = require('../../mud').Commands.Say
+const Mud = require('../../mud')
+const Say = Mud.Commands.Say
 
 describe("Say", function() {
 

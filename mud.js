@@ -1,6 +1,5 @@
 module.exports = { 
   Session: require('./mud/session'),
-  Dungeon: require('./mud/dungeon'),
-  Room: require('./mud/room'),
+  Things: require('./mud/things'),
   Commands: require('./mud/commands')
 }
