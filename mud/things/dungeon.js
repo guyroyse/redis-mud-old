@@ -17,7 +17,13 @@ class Dungeon {
 
   async fetchOrCreateHub() {
 
-    const MERGE_HUB = `MERGE (r:room { uuid: '${NULL_UUID}' }) ON CREATE SET r.name = 'The Hub', r.desc = 'Huge hub is huge' RETURN r`
+    const MERGE_HUB = `
+      MERGE
+        (r:room { uuid: '${NULL_UUID}' })
+      ON CREATE SET 
+        r.name = 'The Hub',
+        r.desc = 'Huge hub is huge'
+      RETURN r`
 
     let props = await this.shim.fetchSingleNode(MERGE_HUB, "r")
 
@@ -25,7 +31,13 @@ class Dungeon {
   }
 
   async updateRoom(uuid, name, desc) {
-    const UPDATE_ROOM = `MERGE (r:room { uuid: '${uuid}' }) ON MATCH SET r.name = '${name}', r.desc = '${desc}'`
+    const UPDATE_ROOM = `
+      MERGE
+        (r:room { uuid: '${uuid}' })
+      ON MATCH SET
+        r.name = '${name}',
+        r.desc = '${desc}'`
+
     await this.shim.updateNode(UPDATE_ROOM)
   }
 
