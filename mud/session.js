@@ -1,12 +1,11 @@
-const Dungeon = require('./things').Dungeon
-
 const MessageProcessor = require('./message-processor')
+const Dungeon = require('./things/dungeon')
 
 class Session {
 
   constructor(ws) {
     this.ws = ws
-    this.messageProcessor = new MessageProcessor(ws)
+    this.messageProcessor = new MessageProcessor()
   }
 
   async start() {
@@ -21,6 +20,7 @@ class Session {
 
   processMessage(message) {
     let response = this.messageProcessor.processMessage(message, this.currentRoom)
+    this.ws.send("")
     this.ws.send(response)
     this.sendPrompt()
   }
@@ -28,10 +28,10 @@ class Session {
   sendMotd() {
     this.ws.send("Welcome to RedisMUD!")
     this.ws.send("Beware. You are likely to be eaten by a grue.")
-    this.ws.send("")
   }
   
   sendPrompt() {
+    this.ws.send("")
     this.ws.send(`You are in [${this.currentRoom.name()}]`)
   }
 

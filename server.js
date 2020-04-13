@@ -1,9 +1,6 @@
-const Mud = require('./mud')
-
-const WebSocketServer = Mud.Servers.WebSocketServer
-const HttpServer = Mud.Servers.HttpServer
-
-const Session = Mud.Session
+const WebSocketServer = require('./mud/servers/web-socket-server')
+const HttpServer = require('./mud/servers/http-server')
+const Session = require('./mud/session')
 
 let wss = new WebSocketServer()
 wss.start(8081)

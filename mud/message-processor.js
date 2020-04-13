@@ -1,4 +1,8 @@
-const Commands = require('./commands')
+const Look = require('./commands/look-command')
+const Emote = require('./commands/emote-command')
+const Describe = require('./commands/describe-command')
+const Error = require('./commands/error-command')
+const Say = require('./commands/say-command')
 
 class MessageProcessor {
 
@@ -6,16 +10,16 @@ class MessageProcessor {
     let command
 
     let commandTable = {
-      '/look': () => new Commands.Look(currentRoom),
-      '/emote': () => new Commands.Emote(),
-      '/describe': () => new Commands.Describe(currentRoom)
+      '/look': () => new Look(currentRoom),
+      '/emote': () => new Emote(),
+      '/describe': () => new Describe(currentRoom)
     }
 
     if (this.isSlashCommand(message)) {
       let slashCommand = this.extractSlashCommand(message)
-      command = (commandTable[slashCommand] || (() => new Commands.Error()))()
+      command = (commandTable[slashCommand] || (() => new Error()))()
     } else {
-      command = new Commands.Say()
+      command = new Say()
     }
 
     return command.execute(message)

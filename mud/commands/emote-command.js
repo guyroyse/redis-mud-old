@@ -3,7 +3,6 @@ class EmoteCommand {
     let [ _, emote ] = message.match(/^\/emote (.*)$/)
     return `Player ${emote}`
   }
-
 }
 
 module.exports = EmoteCommand
