@@ -6,8 +6,7 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-const Mud = require('../../mud')
-const Dungeon = Mud.Things.Dungeon
+const Dungeon = require('../../mud/things/dungeon')
 
 describe("Dungeon", function() {
 

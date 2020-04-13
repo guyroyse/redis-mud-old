@@ -1,8 +1,7 @@
 const chai = require('chai')
 let expect = chai.expect
 
-const Mud = require('../../mud')
-const Error = Mud.Commands.Error
+const Error = require('../../mud/commands/error-command')
 
 describe("Error", function() {
 

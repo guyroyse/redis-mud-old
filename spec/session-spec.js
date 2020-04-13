@@ -6,11 +6,10 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-const Mud = require('/mud')
-const Session = Mud.Session
-const MessageProcessor = Mud.MessageProcessor
-const Room = Mud.Things.Room
-const Dungeon = Mud.Things.Dungeon
+const Session = require('../mud/session')
+const MessageProcessor = require('../mud/message-processor')
+const Room = require('../mud/things/room')
+const Dungeon = require('../mud/things/dungeon')
 
 const WebSocket = require('ws')
 

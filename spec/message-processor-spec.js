@@ -6,10 +6,13 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-const Mud = require('../mud')
-const MessageProcessor = Mud.MessageProcessor
-const Commands = Mud.Commands
-const Room = Mud.Things.Room
+const MessageProcessor = require('../mud/message-processor')
+const Look = require('../mud/commands/look-command')
+const Emote = require('../mud/commands/emote-command')
+const Describe = require('../mud/commands/describe-command')
+const Error = require('../mud/commands/error-command')
+const Say = require('../mud/commands/say-command')
+const Room = require('../mud/things/room')
 
 describe("MessageProcessor", function() {
 

@@ -1,8 +1,7 @@
 const chai = require('chai')
 let expect = chai.expect
 
-const Mud = require('../../mud')
-const Emote = Mud.Commands.Emote
+const Emote = require('../../mud/commands/emote-command')
 
 describe("Emote", function() {
 
