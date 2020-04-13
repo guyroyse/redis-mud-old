@@ -7,7 +7,7 @@ const sinonChai = require('sinon-chai')
 chai.use(sinonChai)
 
 const Dungeon = require('../../mud/things/dungeon')
-const RedisGraphShim = require('../../mud/redis-graph-shim')
+const RedisGraphShim = require('../../mud/data/redis-graph-shim')
 
 describe("Dungeon", function() {
 
