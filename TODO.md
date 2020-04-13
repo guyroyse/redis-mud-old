@@ -2,7 +2,7 @@
 
 ## Debt
 
-- BLOCKED: Switch to use RedisGraph.close()
+- Switch to use RedisGraph.close()
 - Write tests for session
 
 ## Backlog
@@ -15,12 +15,12 @@
 
 ## Doing
 
-- Implement /describe command to update description of the room
 - Implement /create command to create rooms
 - Implement /create command to create doors
 
 ## Done
 
+- Implement /describe command to update description of the room
 - Break out WebSocket and HttpServer to own classes
 - Implement error command
 - Implement /emote command to emote things

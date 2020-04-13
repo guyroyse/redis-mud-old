@@ -41,7 +41,7 @@ describe("MessageProcessor", function() {
       })
   
       afterEach(function() {
-        clazz.prototype.execute.restore()
+        sinon.restore()
       })
   
       it("executes the command", function() {

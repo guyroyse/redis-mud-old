@@ -23,7 +23,7 @@ describe("Session", function() {
   })
 
   afterEach(function() {
-    MessageProcessor.prototype.processMessage.restore()
+    sinon.restore()
   })
 
   context("when started", function() {

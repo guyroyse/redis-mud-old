@@ -21,10 +21,7 @@ describe("Dungeon", function() {
   })
 
   afterEach(function () {
-    RedisGraphShim.prototype.open.restore()
-    RedisGraphShim.prototype.close.restore()
-    RedisGraphShim.prototype.fetchSingleNode.restore()
-    RedisGraphShim.prototype.updateNode.restore()
+    sinon.restore()
   })
 
   context("when opened", function() {
