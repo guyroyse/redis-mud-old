@@ -6,7 +6,7 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-const Look = require('../../mud/commands/emote-command')
+const Look = require('../../mud/commands/look-command')
 const Room = require('../../mud/things/room')
 
 describe("Look", function() {
