@@ -1,10 +1,6 @@
 class LookCommand {
-  constructor(room) {
-    this.room = room
-  }
-
-  execute(stream) {
-    return `[${this.room.name()}]: ${this.room.desc()}`
+  execute(message, room) {
+    return `[${room.name()}]: ${room.desc()}`
   }
 }
 

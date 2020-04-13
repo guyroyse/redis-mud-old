@@ -12,16 +12,16 @@ const Room = require('../../mud/things/room')
 describe("Look", function() {
 
   beforeEach(function() {
-    let room = sinon.createStubInstance(Room)
-    room.name.returns('the room')
-    room.desc.returns('the description')
-
-    this.subject = new Look(room)
+    this.subject = new Look()
   })
 
   context("when executed", function() {
     beforeEach(function() {
-      this.response = this.subject.execute("/look")
+      this.room = sinon.createStubInstance(Room)
+      this.room.name.returns('the room')
+      this.room.desc.returns('the description')
+  
+      this.response = this.subject.execute("/look", this.room)
     })
 
     it("describes the current room", function() {

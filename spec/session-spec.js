@@ -15,10 +15,7 @@ const WebSocket = require('ws')
 
 describe("Session", function() {
   beforeEach(function() {
-    this.stubbedMessageProcessorInstance = sinon.createStubInstance(MessageProcessor)
-
-    this.stubbedMessageProcessorClass = sinon.stub(Mud, 'MessageProcessor')
-    this.stubbedMessageProcessorClass.returns(this.stubbedMessageProcessorInstance)
+    sinon.stub(MessageProcessor.prototype, 'processMessage')
 
     this.stubbedWebSocket = sinon.createStubInstance(WebSocket)
 
@@ -26,32 +23,31 @@ describe("Session", function() {
   })
 
   afterEach(function() {
-    this.stubbedMessageProcessorClass.restore()
+    MessageProcessor.prototype.processMessage.restore()
   })
 
   context("when started", function() {
     beforeEach(function() {
       this.stubbedRoom = sinon.createStubInstance(Room)
 
-      this.stubbedDungeonInstance = sinon.createStubInstance(Dungeon)
-      this.stubbedDungeonInstance.fetchOrCreateHub.returns(this.stubbedRoom)
-  
-      this.stubbedDungeonClass = sinon.stub(Mud.Things, 'Dungeon')
-      this.stubbedDungeonClass.returns(this.stubbedDungeonInstance)
+      sinon.stub(Dungeon.prototype, 'open')
+      sinon.stub(Dungeon.prototype, 'fetchOrCreateHub')
+      Dungeon.prototype.fetchOrCreateHub.returns(this.stubbedRoom)
 
       return this.subject.start()
     })
 
     afterEach(function() {
-      this.stubbedDungeonClass.restore()
+      Dungeon.prototype.open.restore()
+      Dungeon.prototype.fetchOrCreateHub.restore()
     })
 
     it("opens the dungeon", function() {
-      expect(this.stubbedDungeonInstance.open).to.have.been.calledWith('dungeon')
+      expect(Dungeon.prototype.open).to.have.been.calledWith('dungeon')
     })
 
     it("fetchs the current room", function() {
-      expect(this.stubbedDungeonInstance.fetchOrCreateHub).to.have.been.called
+      expect(Dungeon.prototype.fetchOrCreateHub).to.have.been.called
     })
 
     it("it sends the message of the day", function() {

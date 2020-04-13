@@ -22,38 +22,30 @@ describe("MessageProcessor", function() {
   })
 
   let scenarios = [
-    { clazz: 'Look', needsRoom: true, text: "/look" },
-    { clazz: 'Emote', needsRoom: false, text: "/emote is eating food!" },
-    { clazz: 'Describe', needsRoom: true, text: "/describe room It has a view." },
-    { clazz: 'Error', needsRoom: false, text: "/error is not a valid command." },
-    { clazz: 'Say', needsRoom: false, text: "I have a dream!" }
+    { clazz: Look, clazzName: 'Look', text: "/look" },
+    { clazz: Emote, clazzName: 'Emote', text: "/emote is eating food!" },
+    { clazz: Describe, clazzName: 'Describe', text: "/describe room It has a view." },
+    { clazz: Error, clazzName: 'Error', text: "/error is not a valid command." },
+    { clazz: Say, clazzName: 'Say', text: "I have a dream!" }
   ]
 
   scenarios.forEach(scenario => {
-    let { clazz, needsRoom, text } = scenario
+    let { clazz, clazzName, text } = scenario
 
-    context(`when processing a ${clazz} command`, function() {
+    context(`when processing a ${clazzName} command`, function() {
       beforeEach(function() {
-        this.stubbedInstance = sinon.createStubInstance(Commands[clazz])
-        this.stubbedInstance.execute.returns("The command did a thing!")
+        sinon.stub(clazz.prototype, 'execute')
+        clazz.prototype.execute.returns("The command did a thing!")
     
-        this.stubbedClass = sinon.stub(Commands, clazz)
-        this.stubbedClass.returns(this.stubbedInstance)
-  
         this.response = this.subject.processMessage(text, this.room)
       })
   
       afterEach(function() {
-        this.stubbedClass.restore()
+        clazz.prototype.execute.restore()
       })
   
-      it("creates the command", function() {
-        expect(this.stubbedClass).to.have.been.calledWithNew
-        if (needsRoom) expect(this.stubbedClass).to.have.been.calledWith(this.room)
-      })
-    
       it("executes the command", function() {
-        expect(this.stubbedInstance.execute).to.have.been.calledWith(text)
+        expect(clazz.prototype.execute).to.have.been.calledWith(text, this.room)
       })
   
       it("returns the response of the command", function() {

@@ -4,25 +4,24 @@ const Describe = require('./commands/describe-command')
 const Error = require('./commands/error-command')
 const Say = require('./commands/say-command')
 
+const commandTable = {
+  '/look': Look,
+  '/emote': Emote,
+  '/describe': Describe
+}
+
 class MessageProcessor {
 
   processMessage(message, currentRoom) {
-    let command
-
-    let commandTable = {
-      '/look': () => new Look(currentRoom),
-      '/emote': () => new Emote(),
-      '/describe': () => new Describe(currentRoom)
-    }
-
+    let clazz
     if (this.isSlashCommand(message)) {
       let slashCommand = this.extractSlashCommand(message)
-      command = (commandTable[slashCommand] || (() => new Error()))()
+      clazz = commandTable[slashCommand] || Error 
     } else {
-      command = new Say()
+      clazz = Say
     }
 
-    return command.execute(message)
+    return new clazz().execute(message, currentRoom)
   }
 
   isSlashCommand(slashCommand) {
