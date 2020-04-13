@@ -6,27 +6,26 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-const Look = require('../../mud').Commands.Look
-const Room = require('../../mud').Room
+const Look = require('../../mud/commands/look-command')
+const Room = require('../../mud/things/room')
 
 describe("Look", function() {
 
   beforeEach(function() {
-    let room = sinon.createStubInstance(Room)
-    room.name.returns('the room')
-    room.desc.returns('the description')
-
-    this.stream = { send: sinon.spy() }
-
-    this.subject = new Look(room)
+    this.subject = new Look()
   })
 
-  it("describes the current room", function() {
-    this.subject.execute(this.stream)
+  context("when executed", function() {
+    beforeEach(function() {
+      this.room = sinon.createStubInstance(Room)
+      this.room.name.returns('the room')
+      this.room.desc.returns('the description')
+  
+      this.response = this.subject.execute("/look", this.room)
+    })
 
-    expect(this.stream.send).to.have.been.calledTwice
-    expect(this.stream.send.firstCall).to.have.been.calledWith("[the room]: the description")
-    expect(this.stream.send.lastCall).to.have.been.calledWith("")
+    it("describes the current room", function() {
+      expect(this.response).to.equal("[the room]: the description")
+    })
   })
-
 })

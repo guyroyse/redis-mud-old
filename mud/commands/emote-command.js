@@ -1,11 +1,8 @@
 class EmoteCommand {
-  execute(stream, message) {
+  execute(message, room) {
     let [ _, emote ] = message.match(/^\/emote (.*)$/)
-
-    stream.send(`You ${emote}`)
-    stream.send("")
+    return `Player ${emote}`
   }
-
 }
 
 module.exports = EmoteCommand

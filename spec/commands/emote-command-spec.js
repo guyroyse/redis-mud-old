@@ -6,23 +6,23 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-
-const Emote = require('../../mud').Commands.Emote
+const Emote = require('../../mud/commands/emote-command')
+const Room = require('../../mud/things/room')
 
 describe("Emote", function() {
 
   beforeEach(function() {
-    this.stream = { send: sinon.spy() }
-
     this.subject = new Emote()
   })
 
-  it("emotes the thing", function() {
-    this.subject.execute(this.stream, "/emote did the thing.")
+  context("when executed", function() {
+    beforeEach(function() {
+      this.room = sinon.createStubInstance(Room)
+      this.response = this.subject.execute("/emote did the thing.", this.room)
+    })
 
-    expect(this.stream.send).to.have.been.calledTwice
-    expect(this.stream.send.firstCall).to.have.been.calledWith("You did the thing.")
-    expect(this.stream.send.lastCall).to.have.been.calledWith("")
+    it("emotes the thing", function() {
+      expect(this.response).to.equal("Player did the thing.")
+    })
   })
-
 })

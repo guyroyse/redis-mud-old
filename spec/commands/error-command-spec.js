@@ -6,23 +6,23 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-
-const Error = require('../../mud').Commands.Error
+const Error = require('../../mud/commands/error-command')
+const Room = require('../../mud/things/room')
 
 describe("Error", function() {
 
   beforeEach(function() {
-    this.stream = { send: sinon.spy() }
-
     this.subject = new Error()
   })
 
-  it("emotes the thing", function() {
-    this.subject.execute(this.stream, "/foo is so wrong")
+  context("when executed", function() {
+    beforeEach(function() {
+      this.room = sinon.createStubInstance(Room)
+      this.response = this.subject.execute("/foo is so wrong", this.room)
+    })
 
-    expect(this.stream.send).to.have.been.calledTwice
-    expect(this.stream.send.firstCall).to.have.been.calledWith("Invalid command '/foo is so wrong'")
-    expect(this.stream.send.lastCall).to.have.been.calledWith("")
+    it("displays the error message", function() {
+      expect(this.response).to.equal("Invalid command '/foo is so wrong'")
+    })
   })
-
 })

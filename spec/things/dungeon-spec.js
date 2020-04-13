@@ -6,14 +6,25 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-
-const Dungeon = require('../mud').Dungeon
+const Dungeon = require('../../mud/things/dungeon')
+const RedisGraphShim = require('../../mud/redis-graph-shim')
 
 describe("Dungeon", function() {
 
   beforeEach(function() {
+    sinon.stub(RedisGraphShim.prototype, 'open')
+    sinon.stub(RedisGraphShim.prototype, 'close')
+    sinon.stub(RedisGraphShim.prototype, 'fetchSingleNode')
+    sinon.stub(RedisGraphShim.prototype, 'updateNode')
+
     this.subject = new Dungeon()
-    sinon.stub(this.subject.shim)
+  })
+
+  afterEach(function () {
+    RedisGraphShim.prototype.open.restore()
+    RedisGraphShim.prototype.close.restore()
+    RedisGraphShim.prototype.fetchSingleNode.restore()
+    RedisGraphShim.prototype.updateNode.restore()
   })
 
   context("when opened", function() {
@@ -23,13 +34,13 @@ describe("Dungeon", function() {
     })
 
     it("opens the shim with the key", function() {
-      expect(this.subject.shim.open).to.have.been.calledWith('dungeon')
+      expect(RedisGraphShim.prototype.open).to.have.been.calledWith('dungeon')
     })
 
     context("when the hub is fetched or created", function() {
 
       beforeEach(async function() {
-        this.subject.shim.fetchSingleNode.returns({
+        RedisGraphShim.prototype.fetchSingleNode.returns({
           uuid: 'the uuid',
           name: 'the name',
           desc: 'the description'
@@ -38,7 +49,7 @@ describe("Dungeon", function() {
       })
   
       it("askes the graph for the hub", function() {
-        expect(this.subject.shim.fetchSingleNode).to.have.been.calledWith(
+        expect(RedisGraphShim.prototype.fetchSingleNode).to.have.been.calledWith(
           "MERGE (r:room { uuid: '00000000-0000-0000-0000-000000000000' }) ON CREATE SET r.name = 'The Hub', r.desc = 'Huge hub is huge' RETURN r",
           'r'
         )
@@ -59,7 +70,7 @@ describe("Dungeon", function() {
       })
 
       it("updates the room", function() {
-        expect(this.subject.shim.updateNode).to.have.been.calledWith(
+        expect(RedisGraphShim.prototype.updateNode).to.have.been.calledWith(
           "MERGE (r:room { uuid: 'uuid' }) ON MATCH SET r.name = 'new name', r.desc = 'new description'"
         )
       })
@@ -73,7 +84,7 @@ describe("Dungeon", function() {
       })
   
       it("closes the shim", function() {
-        expect(this.subject.shim.close).to.have.been.called
+        expect(RedisGraphShim.prototype.close).to.have.been.called
       })
 
     })

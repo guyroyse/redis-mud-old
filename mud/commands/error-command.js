@@ -1,9 +1,7 @@
 class ErrorCommand {
-  execute(stream, message) {
-    stream.send(`Invalid command '${message}'`)
-    stream.send("")
+  execute(message, room) {
+    return `Invalid command '${message}'`
   }
-
 }
 
 module.exports = ErrorCommand

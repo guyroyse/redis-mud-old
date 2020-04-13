@@ -1,14 +1,8 @@
 class DescribeCommand {
-  constructor(room) {
-    this.room = room
-  }
-
-  execute(stream, message) {
+  execute(message, room) {
     let [ _, description ] = message.match(/^\/describe room (.*)$/)
-    this.room.desc(description)
-
-    stream.send("Room description updated.")
-    stream.send("")
+    room.desc(description)
+    return "Room description updated."
   }
 }
 

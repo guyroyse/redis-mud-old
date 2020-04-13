@@ -1,37 +1,14 @@
-const http = require('http')
+const WebSocketServer = require('./mud/servers/web-socket-server')
+const HttpServer = require('./mud/servers/http-server')
+const Session = require('./mud/session')
 
-const StaticServer = require('node-static').Server
-const WebSocketServer = require('ws').Server
+let wss = new WebSocketServer()
+wss.start(8081)
 
-const MudSession = require('./mud').Session
+wss.onConnection(async ws => {
+  let session = new Session(ws)
+  await session.start()
+  wss.onMessage(ws, message => session.processMessage(message))
+})
 
-async function main() {
-
-  let wss = new WebSocketServer({ port: 8081 })
-  wss.on('connection', async ws => {
-    let session = new MudSession(ws)
-    await session.start()
-    ws.on('message', message => session.processMessage(message))
-  })
-  
-  let httpServer = createHttpServer()
-  httpServer.listen(8080)
-
-}
-
-function createHttpServer() {
-
-  let staticServer = new StaticServer('./static')
-
-  let httpServer = http.createServer((request, response) => {
-    request
-      .addListener('end', () => staticServer.serve(request, response))
-      .resume()
-  })
-
-  return httpServer
-
-}
-
-main()
-
+HttpServer.start()
