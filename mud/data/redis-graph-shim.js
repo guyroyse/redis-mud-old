@@ -12,14 +12,14 @@ class RedisGraphShim {
     this.client.end(false)
   }
 
-  async fetchSingleNode(query, nodeName) {
+  async fetchSingleNode(query) {
     let result = await this.graph.query(query)
+    if (result.hasNext() === false) return null
+    
+    let record = result.next()
+    if (record.size() <= 0) return null
 
-    if (result.hasNext()) {
-      return result.next().get(nodeName).properties
-    }
-
-    return null
+    return record.values()[0].properties
   }
 
   async updateNode(query) {

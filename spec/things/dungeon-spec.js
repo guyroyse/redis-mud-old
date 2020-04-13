@@ -50,7 +50,7 @@ describe("Dungeon", function() {
   
       it("askes the graph for the hub", function() {
         expect(RedisGraphShim.prototype.fetchSingleNode)
-          .to.have.been.calledWithMatch(sinon.match.string, sinon.match.string)
+          .to.have.been.calledWithMatch(sinon.match.string)
       })
 
       it("returns a room with expected properties", function() {
