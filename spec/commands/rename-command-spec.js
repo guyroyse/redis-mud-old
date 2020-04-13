@@ -9,7 +9,7 @@ chai.use(sinonChai)
 const Rename = require('../../mud/commands/rename-command')
 const Room = require('../../mud/things/room')
 
-xdescribe("Rename", function() {
+describe("Rename", function() {
 
   beforeEach(function() {
     this.subject = new Rename()

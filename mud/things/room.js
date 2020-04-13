@@ -11,7 +11,12 @@ class Room {
     return this._uuid
   }
 
-  name() {
+  name(name) {
+    if (name) {
+      this._name = name
+      this.dungeon.updateRoom(this.uuid(), this.name(), this.desc())
+    }
+
     return this._name
   }
 

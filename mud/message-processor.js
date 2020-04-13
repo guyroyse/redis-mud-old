@@ -1,13 +1,15 @@
 const Look = require('./commands/look-command')
 const Emote = require('./commands/emote-command')
 const Describe = require('./commands/describe-command')
+const Rename = require('./commands/rename-command')
 const Error = require('./commands/error-command')
 const Say = require('./commands/say-command')
 
 const commandTable = {
   '/look': Look,
   '/emote': Emote,
-  '/describe': Describe
+  '/describe': Describe,
+  '/rename': Rename
 }
 
 class MessageProcessor {

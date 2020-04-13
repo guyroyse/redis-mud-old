@@ -44,4 +44,19 @@ describe("Room", function() {
 
   })
 
+  context("when renamed", function() {
+
+    this.beforeEach(function() {
+      this.subject.name('new name')
+    })
+
+    it("has the new name", function() {
+      expect(this.subject.name()).to.equal('new name')
+    })
+
+    it("renames the room", function() {
+      expect(this.dungeon.updateRoom).to.have.been.calledWith('uuid', 'new name', 'desc')
+    })
+
+  })
 })

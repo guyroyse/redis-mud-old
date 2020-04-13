@@ -10,6 +10,7 @@ const MessageProcessor = require('../mud/message-processor')
 const Look = require('../mud/commands/look-command')
 const Emote = require('../mud/commands/emote-command')
 const Describe = require('../mud/commands/describe-command')
+const Rename = require('../mud/commands/rename-command')
 const Error = require('../mud/commands/error-command')
 const Say = require('../mud/commands/say-command')
 const Room = require('../mud/things/room')
@@ -25,6 +26,7 @@ describe("MessageProcessor", function() {
     { clazz: Look, clazzName: 'Look', text: "/look" },
     { clazz: Emote, clazzName: 'Emote', text: "/emote is eating food!" },
     { clazz: Describe, clazzName: 'Describe', text: "/describe room It has a view." },
+    { clazz: Rename, clazzName: 'Rename', text: "/rename room Room with a View" },
     { clazz: Error, clazzName: 'Error', text: "/error is not a valid command." },
     { clazz: Say, clazzName: 'Say', text: "I have a dream!" }
   ]
