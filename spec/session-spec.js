@@ -38,8 +38,7 @@ describe("Session", function() {
     })
 
     afterEach(function() {
-      Dungeon.prototype.open.restore()
-      Dungeon.prototype.fetchOrCreateHub.restore()
+      sinon.restore()
     })
 
     it("opens the dungeon", function() {
@@ -50,12 +49,18 @@ describe("Session", function() {
       expect(Dungeon.prototype.fetchOrCreateHub).to.have.been.called
     })
 
-    it("it sends the message of the day", function() {
-
+    xit("it sends the message of the day", function() {
     })
 
-    it("it sends a prompt", function() {
-
+    xit("it sends a prompt", function() {
     })
+
+    xcontext("when processing a message", function() {
+      it("invokes the processor in the expected way", function() {})
+      it("returns the response to the web socket", function() {})
+      it("returns the response to the web socket", function() {})
+      it("it sends a prompt", function() {})
+    })
+
   })
 })

@@ -3,7 +3,6 @@
 ## Debt
 
 - Switch to use RedisGraph.close()
-- Write tests for session
 
 ## Backlog
 
@@ -12,6 +11,9 @@
 - Implement /use command to use doors
 - Implement /look command to see description of doors
 - Implement command aliases
+- Implement /help commands
+- Implement /list rooms command
+- To do list? ;)
 
 ## Doing
 
@@ -20,6 +22,7 @@
 
 ## Done
 
+- Write tests for session
 - Implement /describe command to update description of the room
 - Break out WebSocket and HttpServer to own classes
 - Implement error command

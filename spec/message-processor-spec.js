@@ -7,12 +7,15 @@ const sinonChai = require('sinon-chai')
 chai.use(sinonChai)
 
 const MessageProcessor = require('../mud/message-processor')
-const Look = require('../mud/commands/look-command')
+
+const Say = require('../mud/commands/say-command')
 const Emote = require('../mud/commands/emote-command')
+const Look = require('../mud/commands/look-command')
 const Describe = require('../mud/commands/describe-command')
 const Rename = require('../mud/commands/rename-command')
+const Create = require('../mud/commands/create-command')
 const Error = require('../mud/commands/error-command')
-const Say = require('../mud/commands/say-command')
+
 const Room = require('../mud/things/room')
 
 describe("MessageProcessor", function() {
@@ -23,12 +26,13 @@ describe("MessageProcessor", function() {
   })
 
   let scenarios = [
-    { clazz: Look, clazzName: 'Look', text: "/look" },
+    { clazz: Say, clazzName: 'Say', text: "I have a dream!" },
     { clazz: Emote, clazzName: 'Emote', text: "/emote is eating food!" },
+    { clazz: Look, clazzName: 'Look', text: "/look" },
     { clazz: Describe, clazzName: 'Describe', text: "/describe room It has a view." },
     { clazz: Rename, clazzName: 'Rename', text: "/rename room Room with a View" },
+    { clazz: Create, clazzName: 'Create', text: "/create room The Back Room" },
     { clazz: Error, clazzName: 'Error', text: "/error is not a valid command." },
-    { clazz: Say, clazzName: 'Say', text: "I have a dream!" }
   ]
 
   scenarios.forEach(scenario => {
