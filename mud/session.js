@@ -19,7 +19,12 @@ class Session {
   }
 
   processMessage(message) {
-    let response = this.messageProcessor.processMessage(message, this.currentRoom)
+    let context = { 
+      currentRoom: this.currentRoom,
+      dungeon: this.dungeon
+    }
+
+    let response = this.messageProcessor.processMessage(context, message)
     this.ws.send("")
     this.ws.send(response)
     this.sendPrompt()

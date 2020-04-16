@@ -58,6 +58,11 @@ describe("Dungeon", function() {
   
     })
 
+    context("when a room is created", function() {
+      it("creates the room")
+      it("returns the room id")
+    })
+
     context("when a room is updated", function() {
       beforeEach(function() {
         return this.subject.updateRoom('uuid', 'new name', 'new description')

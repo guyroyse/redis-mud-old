@@ -16,12 +16,17 @@ const Rename = require('../mud/commands/rename-command')
 const Create = require('../mud/commands/create-command')
 const Error = require('../mud/commands/error-command')
 
+const Dungeon = require('../mud/things/dungeon')
 const Room = require('../mud/things/room')
 
 describe("MessageProcessor", function() {
 
   beforeEach(function() {
-    this.room = sinon.createStubInstance(Room)
+    this.context = {
+      dungeon: sinon.createStubInstance(Dungeon),
+      room: sinon.createStubInstance(Room)
+    }
+
     this.subject = new MessageProcessor()
   })
 
@@ -43,7 +48,7 @@ describe("MessageProcessor", function() {
         sinon.stub(clazz.prototype, 'execute')
         clazz.prototype.execute.returns("The command did a thing!")
     
-        this.response = this.subject.processMessage(text, this.room)
+        this.response = this.subject.processMessage(this.context, text)
       })
   
       afterEach(function() {
@@ -51,7 +56,7 @@ describe("MessageProcessor", function() {
       })
   
       it("executes the command", function() {
-        expect(clazz.prototype.execute).to.have.been.calledWith(text, this.room)
+        expect(clazz.prototype.execute).to.have.been.calledWith(this.context, text)
       })
   
       it("returns the response of the command", function() {

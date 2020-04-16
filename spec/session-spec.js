@@ -49,17 +49,27 @@ describe("Session", function() {
       expect(Dungeon.prototype.fetchOrCreateHub).to.have.been.called
     })
 
-    xit("it sends the message of the day", function() {
-    })
+    it("it sends the message of the day")
 
-    xit("it sends a prompt", function() {
-    })
+    it("it sends a prompt")
 
-    xcontext("when processing a message", function() {
-      it("invokes the processor in the expected way", function() {})
-      it("returns the response to the web socket", function() {})
-      it("returns the response to the web socket", function() {})
-      it("it sends a prompt", function() {})
+    context("when processing a message", function() {
+      beforeEach(function() {
+        this.subject.processMessage("some message")
+      })
+
+      it("invokes the processor in the expected way", function() {
+        let expectedContext = { 
+          currentRoom: this.stubbedRoom,
+          dungeon: this.subject.dungeon
+        }
+
+        expect(MessageProcessor.prototype.processMessage)
+          .to.have.been.calledWith(expectedContext, "some message")
+      })
+
+      it("returns the response to the web socket")
+      it("it sends a prompt")
     })
 
   })

@@ -20,6 +20,8 @@ xdescribe("Create", function() {
       this.response = this.subject.execute("/create room The Blue Room")
     })
 
+    it("creates the room")
+
     it("reports the creation", function() {
       expect(this.response).to.equal("Room created with ID: foobar")
     })
