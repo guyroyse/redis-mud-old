@@ -1,5 +1,5 @@
 class LookCommand {
-  execute(message, room) {
+  execute({ room }) {
     return `[${room.name()}]: ${room.desc()}`
   }
 }

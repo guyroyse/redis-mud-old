@@ -1,5 +1,5 @@
 class SayCommand {
-  execute(message, room) {
+  execute({}, message) {
     return `You said: ${message}`
   }
 }

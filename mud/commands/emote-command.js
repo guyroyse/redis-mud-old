@@ -1,6 +1,6 @@
 class EmoteCommand {
-  execute(message, room) {
-    let [ _, emote ] = message.match(/^\/emote (.*)$/)
+  execute({}, message) {
+    let [ , emote ] = message.match(/^\/emote (.*)$/)
     return `Player ${emote}`
   }
 }

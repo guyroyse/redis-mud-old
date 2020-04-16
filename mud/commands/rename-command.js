@@ -1,6 +1,6 @@
 class RenameCommand {
-  execute(message, room) {
-    let [ _, name ] = message.match(/^\/rename room (.*)$/)
+  execute({ room }, message) {
+    let [ , name ] = message.match(/^\/rename room (.*)$/)
     room.name(name)
     return "Room renamed."
   }

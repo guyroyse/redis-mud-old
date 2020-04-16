@@ -7,18 +7,24 @@ const sinonChai = require('sinon-chai')
 chai.use(sinonChai)
 
 const Error = require('../../mud/commands/error-command')
+
+const Dungeon = require('../../mud/things/dungeon')
 const Room = require('../../mud/things/room')
 
 describe("Error", function() {
 
   beforeEach(function() {
+    this.context = {
+      dungeon: sinon.createStubInstance(Dungeon),
+      room: sinon.createStubInstance(Room)
+    }
+
     this.subject = new Error()
   })
 
   context("when executed", function() {
     beforeEach(function() {
-      this.room = sinon.createStubInstance(Room)
-      this.response = this.subject.execute("/foo is so wrong", this.room)
+      this.response = this.subject.execute(this.context, "/foo is so wrong")
     })
 
     it("displays the error message", function() {

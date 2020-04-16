@@ -7,17 +7,24 @@ const sinonChai = require('sinon-chai')
 chai.use(sinonChai)
 
 const Create = require('../../mud/commands/create-command')
+
 const Dungeon = require('../../mud/things/dungeon')
+const Room = require('../../mud/things/room')
 
 xdescribe("Create", function() {
 
   beforeEach(function() {
+    this.context = {
+      dungeon: sinon.createStubInstance(Dungeon),
+      room: sinon.createStubInstance(Room)
+    }
+
     this.subject = new Create()
   })
 
   context("when executed", function() {
     beforeEach(function() {
-      this.response = this.subject.execute("/create room The Blue Room")
+      this.response = this.subject.execute(this.context, "/create room The Blue Room")
     })
 
     it("creates the room")

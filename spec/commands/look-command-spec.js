@@ -7,21 +7,27 @@ const sinonChai = require('sinon-chai')
 chai.use(sinonChai)
 
 const Look = require('../../mud/commands/look-command')
+
+const Dungeon = require('../../mud/things/dungeon')
 const Room = require('../../mud/things/room')
 
 describe("Look", function() {
 
   beforeEach(function() {
+    this.context = {
+      dungeon: sinon.createStubInstance(Dungeon),
+      room: sinon.createStubInstance(Room)
+    }
+
     this.subject = new Look()
   })
 
   context("when executed", function() {
     beforeEach(function() {
-      this.room = sinon.createStubInstance(Room)
-      this.room.name.returns('the room')
-      this.room.desc.returns('the description')
+      this.context.room.name.returns('the room')
+      this.context.room.desc.returns('the description')
   
-      this.response = this.subject.execute("/look", this.room)
+      this.response = this.subject.execute(this.context, "/look")
     })
 
     it("describes the current room", function() {

@@ -1,5 +1,5 @@
 class ErrorCommand {
-  execute(message, room) {
+  execute({}, message) {
     return `Invalid command '${message}'`
   }
 }
