@@ -16,17 +16,12 @@ const Rename = require('../mud/commands/rename-command')
 const Create = require('../mud/commands/create-command')
 const Error = require('../mud/commands/error-command')
 
-const Dungeon = require('../mud/things/dungeon')
-const Room = require('../mud/things/room')
+const Context = require('../mud/context')
 
 describe("MessageProcessor", function() {
 
   beforeEach(function() {
-    this.context = {
-      dungeon: sinon.createStubInstance(Dungeon),
-      room: sinon.createStubInstance(Room)
-    }
-
+    this.context = sinon.createStubInstance(Context)
     this.subject = new MessageProcessor()
   })
 
@@ -60,7 +55,7 @@ describe("MessageProcessor", function() {
       })
   
       it("returns the response of the command", function() {
-        expect(this.response).to.equal("The command did a thing!")
+        expect(this.response).to.have.ordered.members(["The command did a thing!"])
       })
     })
   })

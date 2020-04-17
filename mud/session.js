@@ -1,43 +1,42 @@
 const MessageProcessor = require('./message-processor')
-const Dungeon = require('./things/dungeon')
+const Motd = require('./motd')
+const Prompt = require('./prompt')
+const Context = require('./context')
 
 class Session {
 
   constructor(ws) {
     this.ws = ws
+    this.context = new Context()
+    this.motd = new Motd()
+    this.prompt = new Prompt()
     this.messageProcessor = new MessageProcessor()
   }
 
   async start() {
-    this.dungeon = new Dungeon()
-    this.dungeon.open('dungeon')
-
-    this.currentRoom = await this.dungeon.fetchOrCreateHub()
-
+    await this.context.start()
     this.sendMotd()
     this.sendPrompt()
   }
 
   processMessage(message) {
-    let context = { 
-      currentRoom: this.currentRoom,
-      dungeon: this.dungeon
-    }
-
-    let response = this.messageProcessor.processMessage(context, message)
-    this.ws.send("")
-    this.ws.send(response)
+    let text = this.messageProcessor.processMessage(this.context, message)
+    this.sendText(text)
     this.sendPrompt()
   }
 
   sendMotd() {
-    this.ws.send("Welcome to RedisMUD!")
-    this.ws.send("Beware. You are likely to be eaten by a grue.")
+    let text = this.motd.fetchMotd()
+    this.sendText(text)
   }
   
   sendPrompt() {
-    this.ws.send("")
-    this.ws.send(`You are in [${this.currentRoom.name()}]`)
+    let text = this.prompt.fetchPrompt(this.context)
+    this.sendText(text)
+  }
+
+  sendText(text) {
+    text.forEach(s => this.ws.send(s))
   }
 
 }

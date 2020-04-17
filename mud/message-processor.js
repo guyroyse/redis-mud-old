@@ -25,7 +25,7 @@ class MessageProcessor {
       clazz = Say
     }
 
-    return new clazz().execute(context, message)
+    return [ new clazz().execute(context, message) ]
   }
 
   isSlashCommand(slashCommand) {
