@@ -11,10 +11,11 @@
 - Implement /use command to use doors
 - Implement /look command to see description of doors
 - Implement command aliases
-- Implement /help commands
 - Implement /list rooms command
 - To do list? ;)
 - Implement /create command to create doors
+- Add multiple connections
+- Add player/login
 
 ## Doing
 
