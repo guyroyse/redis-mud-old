@@ -13,7 +13,7 @@ header > * {
   text-align: center;
 }
 
-main > p, main > p > * {
+main > section, main > p, main > p > input {
   font-family: 'Fira Code', monospace;
   font-size: 16px;
   color: #0c0;
@@ -24,7 +24,11 @@ main > p, main > p > * {
   text-align: left;
   padding: 10px;
   width: 100%;
-  line-height: 30px;
+}
+
+main > section > p {
+  margin: 15px;
+  padding: 0px;
 }
 
 #text-panel {
