@@ -2,7 +2,7 @@ class Prompt {
   fetchPrompt({ room }) {
     return [
       "",
-      `You are in [${this.currentRoom.name()}]` ]
+      `You are in [${room.name()}]` ]
   }
 }
 
