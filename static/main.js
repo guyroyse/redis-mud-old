@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     ws.onmessage = event => {
-      display.innerHTML = display.innerHTML + '<p>' + event.data + '</p>'
+      display.innerHTML = `${display.innerHTML}<p>${event.data}</p>`
       display.scrollTop = display.scrollHeight
     }
 
