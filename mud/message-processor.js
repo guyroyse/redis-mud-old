@@ -4,6 +4,7 @@ const Look = require('./commands/look')
 const Describe = require('./commands/describe')
 const Rename = require('./commands/rename')
 const Create = require('./commands/create')
+const List = require('./commands/list')
 const Error = require('./commands/error')
 
 const commandTable = {
@@ -11,7 +12,8 @@ const commandTable = {
   '/look': Look,
   '/describe': Describe,
   '/rename': Rename,
-  '/create': Create
+  '/create': Create,
+  '/list': List
 }
 
 class MessageProcessor {
@@ -25,7 +27,7 @@ class MessageProcessor {
       clazz = Say
     }
 
-    return [ await new clazz().execute(context, message) ]
+    return await new clazz().execute(context, message)
   }
 
   isSlashCommand(slashCommand) {

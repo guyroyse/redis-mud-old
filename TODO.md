@@ -20,7 +20,6 @@
 
 ## Doing
 
-- Implement /create command to create rooms
 - Implement /teleport command to move between rooms
 - Implement /list command to list rooms
 - Change Hub to be marked by property rather than ID (data has no meaning violation)
@@ -29,6 +28,7 @@
 
 ## Done
 
+- Implement /create command to create rooms
 - Write tests for session
 - Implement /describe command to update description of the room
 - Break out WebSocket and HttpServer to own classes

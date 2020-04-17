@@ -22,6 +22,21 @@ class RedisGraphShim {
     return record.values()[0].properties
   }
 
+  async fetchNodes(query) {
+    let result = await this.graph.query(query)
+
+    let returnValue = []
+    while (result.hasNext()) {
+      let record = result.next()
+      console.log(record)
+      if (record.size() > 0) {
+        returnValue.push(record.values()[0].properties)
+      }
+    }
+
+    return returnValue
+  }
+
   async updateNode(query) {
     await this.graph.query(query)
   }

@@ -15,6 +15,7 @@ describe("Dungeon", function() {
     sinon.stub(RedisGraphShim.prototype, 'open')
     sinon.stub(RedisGraphShim.prototype, 'close')
     sinon.stub(RedisGraphShim.prototype, 'fetchSingleNode')
+    sinon.stub(RedisGraphShim.prototype, 'fetchNodes')
     sinon.stub(RedisGraphShim.prototype, 'updateNode')
     sinon.stub(RedisGraphShim.prototype, 'executeQueryAndReturnValue')
 
@@ -35,7 +36,7 @@ describe("Dungeon", function() {
       expect(RedisGraphShim.prototype.open).to.have.been.calledWith('dungeon')
     })
 
-    context("when the hub is fetched or created", function() {
+    describe("#fetchOrCreateHub", function() {
 
       beforeEach(async function() {
         RedisGraphShim.prototype.fetchSingleNode.returns({
@@ -59,7 +60,7 @@ describe("Dungeon", function() {
   
     })
 
-    context("when a room is created", function() {
+    describe("#createRoom", function() {
 
       beforeEach(async function() {
         RedisGraphShim.prototype.executeQueryAndReturnValue.returns(42)
@@ -76,14 +77,44 @@ describe("Dungeon", function() {
       })
     })
 
-    context("when a room is updated", function() {
-      beforeEach(function() {
-        return this.subject.updateRoom('uuid', 'new name', 'new description')
+    describe("#updateRoom", function() {
+      beforeEach(async function() {
+        await this.subject.updateRoom('uuid', 'new name', 'new description')
       })
 
       it("updates the room", function() {
         expect(RedisGraphShim.prototype.updateNode)
           .to.have.been.calledWithMatch(sinon.match.string)
+      })
+    })
+
+    describe("#fetchRoomList", function() {
+      beforeEach(async function() {
+        RedisGraphShim.prototype.fetchNodes.returns([
+          { uuid: '23', name: 'the room', desc: 'desc 1' },
+          { uuid: '42', name: 'the other room', desc: 'desc 2' },
+          { uuid: '13', name: 'the back room', desc: 'desc 3' }
+        ])
+
+        this.rooms = await this.subject.fetchRoomList()
+      })
+
+      it("fetches the rooms", function() {
+        expect(RedisGraphShim.prototype.fetchNodes)
+          .to.have.been.calledWithMatch(sinon.match.string)
+      })
+
+      it("returns all the rooms", function() {
+        expect(this.rooms).to.have.lengthOf(3)
+        expect(this.rooms[0].uuid()).to.equal('23')
+        expect(this.rooms[0].name()).to.equal('the room')
+        expect(this.rooms[0].desc()).to.equal('desc 1')
+        expect(this.rooms[1].uuid()).to.equal('42')
+        expect(this.rooms[1].name()).to.equal('the other room')
+        expect(this.rooms[1].desc()).to.equal('desc 2')
+        expect(this.rooms[2].uuid()).to.equal('13')
+        expect(this.rooms[2].name()).to.equal('the back room')
+        expect(this.rooms[2].desc()).to.equal('desc 3')
       })
     })
 

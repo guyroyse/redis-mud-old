@@ -15,9 +15,7 @@ describe("Motd", function() {
     })
 
     it("returns the prompt", function() {
-      expect(this.result).to.have.ordered.members([
-        "Welcome to RedisMUD!",
-        "Beware. You are likely to be eaten by a grue."])
+      expect(this.result).to.have.equal("Welcome to RedisMUD!\nBeware. You are likely to be eaten by a grue.")
     })
   })
 })

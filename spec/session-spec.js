@@ -31,8 +31,8 @@ describe("Session", function() {
 
   context("when started", function() {
     beforeEach(function() {
-      Motd.prototype.fetchMotd.returns(["some motd"])
-      Prompt.prototype.fetchPrompt.returns(["some prompt"])
+      Motd.prototype.fetchMotd.returns("some\nmotd")
+      Prompt.prototype.fetchPrompt.returns("some\nprompt")
       return this.subject.start()
     })
 
@@ -41,14 +41,14 @@ describe("Session", function() {
     })
 
     it("it sends the message of the day and the prompt", function() {
-      expect(this.websocket.send.firstCall).to.have.been.calledWith("some motd")
-      expect(this.websocket.send.secondCall).to.have.been.calledWith("some prompt")
+      expect(this.websocket.send.firstCall).to.have.been.calledWith("some<br/>motd")
+      expect(this.websocket.send.secondCall).to.have.been.calledWith("some<br/>prompt")
     })
 
     describe("#processMessage", function() {
       beforeEach(async function() {
         this.websocket.send.resetHistory()
-        MessageProcessor.prototype.processMessage.returns(["some response"])
+        MessageProcessor.prototype.processMessage.returns("some response\nwith multiple line")
         await this.subject.processMessage("some message")
       })
 
@@ -58,8 +58,8 @@ describe("Session", function() {
       })
 
       it("returns the response to the web socket", function() {
-        expect(this.websocket.send.firstCall).to.have.been.calledWith("some response")
-        expect(this.websocket.send.secondCall).to.have.been.calledWith("some prompt")
+        expect(this.websocket.send.firstCall).to.have.been.calledWith("some response<br/>with multiple line")
+        expect(this.websocket.send.secondCall).to.have.been.calledWith("some<br/>prompt")
       })
     })
   })

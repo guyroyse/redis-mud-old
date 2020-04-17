@@ -46,6 +46,11 @@ class Dungeon {
     return id
   }
 
+  async fetchRoomList() {
+    let nodes = await this.shim.fetchNodes(`MATCH (r:room) RETURN r`)
+    return nodes.map(props => new Room(this, props))
+  }
+
 }
 
 module.exports = Dungeon

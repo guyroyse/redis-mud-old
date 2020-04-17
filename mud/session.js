@@ -35,8 +35,8 @@ class Session {
     this.sendText(text)
   }
 
-  sendText(text) {
-    text.forEach(s => this.ws.send(s))
+  sendText(s) {
+    this.ws.send(s.split('\n').join('<br/>'))
   }
 
 }
