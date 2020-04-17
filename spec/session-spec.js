@@ -46,10 +46,10 @@ describe("Session", function() {
     })
 
     describe("#processMessage", function() {
-      beforeEach(function() {
+      beforeEach(async function() {
         this.websocket.send.resetHistory()
         MessageProcessor.prototype.processMessage.returns(["some response"])
-        this.subject.processMessage("some message")
+        await this.subject.processMessage("some message")
       })
 
       it("invokes the message processor", function() {

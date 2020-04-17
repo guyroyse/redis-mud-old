@@ -11,7 +11,7 @@ const Create = require('../../mud/commands/create')
 const Dungeon = require('../../mud/things/dungeon')
 const Room = require('../../mud/things/room')
 
-xdescribe("Create", function() {
+describe("Create", function() {
 
   beforeEach(function() {
     this.context = {
@@ -23,14 +23,17 @@ xdescribe("Create", function() {
   })
 
   context("when executed", function() {
-    beforeEach(function() {
-      this.response = this.subject.execute(this.context, "/create room The Blue Room")
+    beforeEach(async function() {
+      this.context.dungeon.createRoom.returns(42)
+      this.response = await this.subject.execute(this.context, "/create room The Blue Room")
     })
 
-    it("creates the room")
+    it("creates the room", function() {
+      expect(this.context.dungeon.createRoom).to.have.been.calledWith("The Blue Room")
+    })
 
     it("reports the creation", function() {
-      expect(this.response).to.equal("Room created with ID: foobar")
+      expect(this.response).to.equal("Room 'The Blue Room' created with ID of 42.")
     })
   })
 })

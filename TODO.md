@@ -3,6 +3,7 @@
 ## Debt
 
 - Switch to use RedisGraph.close()
+- async executes
 
 ## Backlog
 

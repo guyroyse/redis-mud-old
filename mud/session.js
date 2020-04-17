@@ -19,8 +19,8 @@ class Session {
     this.sendPrompt()
   }
 
-  processMessage(message) {
-    let text = this.messageProcessor.processMessage(this.context, message)
+  async processMessage(message) {
+    let text = await this.messageProcessor.processMessage(this.context, message)
     this.sendText(text)
     this.sendPrompt()
   }

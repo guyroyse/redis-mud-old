@@ -36,6 +36,16 @@ class Dungeon {
         r.desc = '${desc}'`)
   }
 
+  async createRoom(name) {
+    let id = await this.shim.executeQueryAndReturnValue(`
+      CREATE
+        (r:room { name: '${name}', desc: 'This is a room.' })
+      RETURN
+        id(r)`)
+
+    return id
+  }
+
 }
 
 module.exports = Dungeon

@@ -8,7 +8,7 @@ wss.start(8081)
 wss.onConnection(async ws => {
   let session = new Session(ws)
   await session.start()
-  wss.onMessage(ws, message => session.processMessage(message))
+  wss.onMessage(ws, async message => await session.processMessage(message))
 })
 
 HttpServer.start()

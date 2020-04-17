@@ -16,7 +16,7 @@ const commandTable = {
 
 class MessageProcessor {
 
-  processMessage(context, message) {
+  async processMessage(context, message) {
     let clazz
     if (this.isSlashCommand(message)) {
       let slashCommand = this.extractSlashCommand(message)
@@ -25,7 +25,7 @@ class MessageProcessor {
       clazz = Say
     }
 
-    return [ new clazz().execute(context, message) ]
+    return [ await new clazz().execute(context, message) ]
   }
 
   isSlashCommand(slashCommand) {

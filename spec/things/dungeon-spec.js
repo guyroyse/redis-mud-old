@@ -16,6 +16,7 @@ describe("Dungeon", function() {
     sinon.stub(RedisGraphShim.prototype, 'close')
     sinon.stub(RedisGraphShim.prototype, 'fetchSingleNode')
     sinon.stub(RedisGraphShim.prototype, 'updateNode')
+    sinon.stub(RedisGraphShim.prototype, 'executeQueryAndReturnValue')
 
     this.subject = new Dungeon()
   })
@@ -59,8 +60,20 @@ describe("Dungeon", function() {
     })
 
     context("when a room is created", function() {
-      it("creates the room")
-      it("returns the room id")
+
+      beforeEach(async function() {
+        RedisGraphShim.prototype.executeQueryAndReturnValue.returns(42)
+        this.result = await this.subject.createRoom("The Blue Room")
+      })
+
+      it("creates the room", function() {
+        expect(RedisGraphShim.prototype.executeQueryAndReturnValue)
+          .to.have.been.calledWithMatch(sinon.match.string)
+      })
+
+      it("returns the room id", function() {
+        expect(this.result).to.equal(42)
+      })
     })
 
     context("when a room is updated", function() {

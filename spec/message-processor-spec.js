@@ -37,11 +37,11 @@ describe("MessageProcessor", function() {
     let { clazz, clazzName, text } = scenario
 
     context(`when processing a ${clazzName} command`, function() {
-      beforeEach(function() {
+      beforeEach(async function() {
         sinon.stub(clazz.prototype, 'execute')
         clazz.prototype.execute.returns("The command did a thing!")
     
-        this.response = this.subject.processMessage(this.context, text)
+        this.response = await this.subject.processMessage(this.context, text)
       })
   
       afterEach(function() {
