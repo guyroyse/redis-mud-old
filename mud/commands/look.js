@@ -1,6 +1,6 @@
 class Look {
   execute({ room }) {
-    return `[${room.name()}]: ${room.desc()}`
+    return `[${room.name()}]: ${room.description()}`
   }
 }
 

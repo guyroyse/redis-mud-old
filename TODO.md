@@ -3,7 +3,6 @@
 ## Debt
 
 - Switch to use RedisGraph.close()
-- async executes
 
 ## Backlog
 
@@ -12,22 +11,21 @@
 - Implement /use command to use doors
 - Implement /look command to see description of doors
 - Implement command aliases
-- Implement /list rooms command
 - To do list? ;)
 - Implement /create command to create doors
 - Add multiple connections
 - Add player/login
+- Implement /teleport command to move between rooms
 
 ## Doing
 
-- Implement /teleport command to move between rooms
-- Implement /list command to list rooms
+## Done
+
 - Change Hub to be marked by property rather than ID (data has no meaning violation)
 - Refactor Cypher queries to use internal ID over UUID
 - Refactor Cypher queries to return individual fields over nodes
-
-## Done
-
+- Implement /list command to list rooms
+- async executes
 - Implement /create command to create rooms
 - Write tests for session
 - Implement /describe command to update description of the room

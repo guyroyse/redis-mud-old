@@ -14,10 +14,9 @@ describe("Dungeon", function() {
   beforeEach(function() {
     sinon.stub(RedisGraphShim.prototype, 'open')
     sinon.stub(RedisGraphShim.prototype, 'close')
-    sinon.stub(RedisGraphShim.prototype, 'fetchSingleNode')
-    sinon.stub(RedisGraphShim.prototype, 'fetchNodes')
-    sinon.stub(RedisGraphShim.prototype, 'updateNode')
-    sinon.stub(RedisGraphShim.prototype, 'executeQueryAndReturnValue')
+    sinon.stub(RedisGraphShim.prototype, 'execute')
+    sinon.stub(RedisGraphShim.prototype, 'executeAndReturnSingle')
+    sinon.stub(RedisGraphShim.prototype, 'executeAndReturnMany')
 
     this.subject = new Dungeon()
   })
@@ -39,23 +38,20 @@ describe("Dungeon", function() {
     describe("#fetchOrCreateHub", function() {
 
       beforeEach(async function() {
-        RedisGraphShim.prototype.fetchSingleNode.returns({
-          uuid: 'the uuid',
-          name: 'the name',
-          desc: 'the description'
-        })
+        RedisGraphShim.prototype.executeAndReturnSingle
+          .returns([ 42, 'the name', 'the description' ])
         this.result = await this.subject.fetchOrCreateHub()
       })
   
       it("askes the graph for the hub", function() {
-        expect(RedisGraphShim.prototype.fetchSingleNode)
+        expect(RedisGraphShim.prototype.executeAndReturnSingle)
           .to.have.been.calledWithMatch(sinon.match.string)
       })
 
       it("returns a room with expected properties", function() {
-        expect(this.result.uuid()).to.equal('the uuid')
+        expect(this.result.id()).to.equal(42)
         expect(this.result.name()).to.equal('the name')
-        expect(this.result.desc()).to.equal('the description')
+        expect(this.result.description()).to.equal('the description')
       })
   
     })
@@ -63,17 +59,20 @@ describe("Dungeon", function() {
     describe("#createRoom", function() {
 
       beforeEach(async function() {
-        RedisGraphShim.prototype.executeQueryAndReturnValue.returns(42)
+        RedisGraphShim.prototype.executeAndReturnSingle
+          .returns([ 42, 'the name', 'the description' ])
         this.result = await this.subject.createRoom("The Blue Room")
       })
 
       it("creates the room", function() {
-        expect(RedisGraphShim.prototype.executeQueryAndReturnValue)
+        expect(RedisGraphShim.prototype.executeAndReturnSingle)
           .to.have.been.calledWithMatch(sinon.match.string)
       })
 
-      it("returns the room id", function() {
-        expect(this.result).to.equal(42)
+      it("returns a room with expected properties", function() {
+        expect(this.result.id()).to.equal(42)
+        expect(this.result.name()).to.equal('the name')
+        expect(this.result.description()).to.equal('the description')
       })
     })
 
@@ -83,38 +82,41 @@ describe("Dungeon", function() {
       })
 
       it("updates the room", function() {
-        expect(RedisGraphShim.prototype.updateNode)
+        expect(RedisGraphShim.prototype.execute)
           .to.have.been.calledWithMatch(sinon.match.string)
       })
     })
 
     describe("#fetchRoomList", function() {
       beforeEach(async function() {
-        RedisGraphShim.prototype.fetchNodes.returns([
-          { uuid: '23', name: 'the room', desc: 'desc 1' },
-          { uuid: '42', name: 'the other room', desc: 'desc 2' },
-          { uuid: '13', name: 'the back room', desc: 'desc 3' }
+        RedisGraphShim.prototype.executeAndReturnMany.returns([
+          [ 23, 'the room', 'desc 1' ],
+          [ 42, 'the other room', 'desc 2' ],
+          [ 13, 'the back room', 'desc 3' ]
         ])
 
         this.rooms = await this.subject.fetchRoomList()
       })
 
       it("fetches the rooms", function() {
-        expect(RedisGraphShim.prototype.fetchNodes)
+        expect(RedisGraphShim.prototype.executeAndReturnMany)
           .to.have.been.calledWithMatch(sinon.match.string)
       })
 
       it("returns all the rooms", function() {
         expect(this.rooms).to.have.lengthOf(3)
-        expect(this.rooms[0].uuid()).to.equal('23')
+
+        expect(this.rooms[0].id()).to.equal(23)
         expect(this.rooms[0].name()).to.equal('the room')
-        expect(this.rooms[0].desc()).to.equal('desc 1')
-        expect(this.rooms[1].uuid()).to.equal('42')
+        expect(this.rooms[0].description()).to.equal('desc 1')
+
+        expect(this.rooms[1].id()).to.equal(42)
         expect(this.rooms[1].name()).to.equal('the other room')
-        expect(this.rooms[1].desc()).to.equal('desc 2')
-        expect(this.rooms[2].uuid()).to.equal('13')
+        expect(this.rooms[1].description()).to.equal('desc 2')
+
+        expect(this.rooms[2].id()).to.equal(13)
         expect(this.rooms[2].name()).to.equal('the back room')
-        expect(this.rooms[2].desc()).to.equal('desc 3')
+        expect(this.rooms[2].description()).to.equal('desc 3')
       })
     })
 

@@ -34,12 +34,12 @@ describe("List", function() {
       rooms[1].name.returns('the other room')
       rooms[2].name.returns('the back room')
 
-      rooms[0].uuid.returns(23)
-      rooms[1].uuid.returns(42)
-      rooms[2].uuid.returns(13)
+      rooms[0].id.returns(23)
+      rooms[1].id.returns(42)
+      rooms[2].id.returns(13)
 
       this.context.dungeon.fetchRoomList.returns(rooms)
-      this.context.room.desc.returns('the description')
+      this.context.room.description.returns('the description')
   
       this.response = await this.subject.execute(this.context, "/list")
     })

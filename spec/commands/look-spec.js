@@ -25,7 +25,7 @@ describe("Look", function() {
   context("when executed", function() {
     beforeEach(function() {
       this.context.room.name.returns('the room')
-      this.context.room.desc.returns('the description')
+      this.context.room.description.returns('the description')
   
       this.response = this.subject.execute(this.context, "/look")
     })

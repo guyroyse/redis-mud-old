@@ -12,43 +12,32 @@ class RedisGraphShim {
     this.client.end(false)
   }
 
-  async fetchSingleNode(query) {
+  async execute(query) {
+    await this.graph.query(query)
+  }
+
+  async executeAndReturnSingle(query) {
     let result = await this.graph.query(query)
     if (result.hasNext() === false) return null
     
     let record = result.next()
     if (record.size() <= 0) return null
 
-    return record.values()[0].properties
+    return record.values()
   }
 
-  async fetchNodes(query) {
+  async executeAndReturnMany(query) {
     let result = await this.graph.query(query)
 
-    let returnValue = []
+    let valueSet = []
     while (result.hasNext()) {
       let record = result.next()
-      console.log(record)
       if (record.size() > 0) {
-        returnValue.push(record.values()[0].properties)
+        valueSet.push(record.values())
       }
     }
 
-    return returnValue
-  }
-
-  async updateNode(query) {
-    await this.graph.query(query)
-  }
-
-  async executeQueryAndReturnValue(query) {
-    let result = await this.graph.query(query)
-    if (result.hasNext() === false) return null
-
-    let record = result.next()
-    if (record.size() <= 0) return null
-
-    return record.values()[0]
+    return valueSet
   }
 
 }

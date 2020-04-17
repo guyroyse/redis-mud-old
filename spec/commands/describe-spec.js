@@ -28,7 +28,7 @@ describe("Describe", function() {
     })
 
     it("redescribes the current room", function() {
-      expect(this.context.room.desc).to.have.been.calledWith("This room is big and ugly.")
+      expect(this.context.room.description).to.have.been.calledWith("This room is big and ugly.")
     })
 
     it("reports the redescription", function() {

@@ -1,32 +1,32 @@
 class Room {
 
-  constructor(dungeon, {uuid, name, desc}) {
+  constructor(dungeon, {id, name, description}) {
     this.dungeon = dungeon
-    this._uuid = uuid
+    this._id = id
     this._name = name
-    this._desc = desc
+    this._description = description
   }
 
-  uuid() {
-    return this._uuid
+  id() {
+    return this._id
   }
 
   name(name) {
     if (name) {
       this._name = name
-      this.dungeon.updateRoom(this.uuid(), this.name(), this.desc())
+      this.dungeon.updateRoom(this.id(), this.name(), this.description())
     }
 
     return this._name
   }
 
-  desc(description) {
+  description(description) {
     if (description) {
-      this._desc = description
-      this.dungeon.updateRoom(this.uuid(), this.name(), this.desc())
+      this._description = description
+      this.dungeon.updateRoom(this.id(), this.name(), this.description())
     }
 
-    return this._desc
+    return this._description
   }
 
 }

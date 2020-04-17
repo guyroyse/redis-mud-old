@@ -1,7 +1,7 @@
 class Describe {
   execute({ room }, message) {
     let [ , description ] = message.match(/^\/describe room (.*)$/)
-    room.desc(description)
+    room.description(description)
     return "Room description updated."
   }
 }

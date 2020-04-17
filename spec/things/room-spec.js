@@ -13,11 +13,11 @@ describe("Room", function() {
 
   beforeEach(function() {
     this.dungeon = sinon.createStubInstance(Dungeon)
-    this.subject = new Room(this.dungeon, { uuid: 'uuid', name: 'name', desc: 'desc' })
+    this.subject = new Room(this.dungeon, { id: 42, name: 'name', description: 'description' })
   })
 
-  it("has expected UUID", function() {
-    expect(this.subject.uuid()).to.equal('uuid')
+  it("has expected ID", function() {
+    expect(this.subject.id()).to.equal(42)
   })
 
   it("has expected name", function() {
@@ -25,21 +25,21 @@ describe("Room", function() {
   })
 
   it("has expected description", function() {
-    expect(this.subject.desc()).to.equal('desc')
+    expect(this.subject.description()).to.equal('description')
   })
 
   context("when redescribed", function() {
 
     this.beforeEach(function() {
-      this.subject.desc('new description')
+      this.subject.description('new description')
     })
 
     it("has the new description", function() {
-      expect(this.subject.desc()).to.equal('new description')
+      expect(this.subject.description()).to.equal('new description')
     })
 
     it("updates the room", function() {
-      expect(this.dungeon.updateRoom).to.have.been.calledWith('uuid', 'name', 'new description')
+      expect(this.dungeon.updateRoom).to.have.been.calledWith(42, 'name', 'new description')
     })
 
   })
@@ -55,7 +55,7 @@ describe("Room", function() {
     })
 
     it("renames the room", function() {
-      expect(this.dungeon.updateRoom).to.have.been.calledWith('uuid', 'new name', 'desc')
+      expect(this.dungeon.updateRoom).to.have.been.calledWith(42, 'new name', 'description')
     })
 
   })
