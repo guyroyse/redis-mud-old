@@ -19,12 +19,12 @@
 
 ## Doing
 
+- Implement /create command to create rooms
+- Implement /teleport command to move between rooms
+- Implement /list command to list rooms
 - Change Hub to be marked by property rather than ID (data has no meaning violation)
 - Refactor Cypher queries to use internal ID over UUID
 - Refactor Cypher queries to return individual fields over nodes
-- Implement /list command to list rooms
-- Implement /create command to create rooms
-- Implement /teleport command to move between rooms
 
 ## Done
 
