@@ -14,11 +14,16 @@
 - Implement /help commands
 - Implement /list rooms command
 - To do list? ;)
+- Implement /create command to create doors
 
 ## Doing
 
+- Change Hub to be marked by property rather than ID (data has no meaning violation)
+- Refactor Cypher queries to use internal ID over UUID
+- Refactor Cypher queries to return individual fields over nodes
+- Implement /list command to list rooms
 - Implement /create command to create rooms
-- Implement /create command to create doors
+- Implement /teleport command to move between rooms
 
 ## Done
 
