@@ -24,6 +24,7 @@ main > p, main > p > * {
   text-align: left;
   padding: 10px;
   width: 100%;
+  line-height: 30px;
 }
 
 #text-panel {
