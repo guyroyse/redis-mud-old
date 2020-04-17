@@ -6,12 +6,12 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-const Say = require('../../mud/commands/say-command')
+const Create = require('../../mud/commands/create')
 
 const Dungeon = require('../../mud/things/dungeon')
 const Room = require('../../mud/things/room')
 
-describe("Say", function() {
+xdescribe("Create", function() {
 
   beforeEach(function() {
     this.context = {
@@ -19,17 +19,18 @@ describe("Say", function() {
       room: sinon.createStubInstance(Room)
     }
 
-    this.subject = new Say()
+    this.subject = new Create()
   })
 
   context("when executed", function() {
     beforeEach(function() {
-      this.room = sinon.createStubInstance(Room)
-      this.response = this.subject.execute(this.context, "the message")
+      this.response = this.subject.execute(this.context, "/create room The Blue Room")
     })
 
-    it("says the thing", function() {
-      expect(this.response).to.equal("You said: the message")
+    it("creates the room")
+
+    it("reports the creation", function() {
+      expect(this.response).to.equal("Room created with ID: foobar")
     })
   })
 })

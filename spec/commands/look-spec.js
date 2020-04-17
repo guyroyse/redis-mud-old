@@ -6,12 +6,12 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-const Emote = require('../../mud/commands/emote-command')
+const Look = require('../../mud/commands/look')
 
 const Dungeon = require('../../mud/things/dungeon')
 const Room = require('../../mud/things/room')
 
-describe("Emote", function() {
+describe("Look", function() {
 
   beforeEach(function() {
     this.context = {
@@ -19,16 +19,19 @@ describe("Emote", function() {
       room: sinon.createStubInstance(Room)
     }
 
-    this.subject = new Emote()
+    this.subject = new Look()
   })
 
   context("when executed", function() {
     beforeEach(function() {
-      this.response = this.subject.execute(this.context, "/emote did the thing.")
+      this.context.room.name.returns('the room')
+      this.context.room.desc.returns('the description')
+  
+      this.response = this.subject.execute(this.context, "/look")
     })
 
-    it("emotes the thing", function() {
-      expect(this.response).to.equal("Player did the thing.")
+    it("describes the current room", function() {
+      expect(this.response).to.equal("[the room]: the description")
     })
   })
 })

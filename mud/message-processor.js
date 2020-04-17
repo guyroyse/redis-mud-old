@@ -1,10 +1,10 @@
-const Say = require('./commands/say-command')
-const Emote = require('./commands/emote-command')
-const Look = require('./commands/look-command')
-const Describe = require('./commands/describe-command')
-const Rename = require('./commands/rename-command')
-const Create = require('./commands/create-command')
-const Error = require('./commands/error-command')
+const Say = require('./commands/say')
+const Emote = require('./commands/emote')
+const Look = require('./commands/look')
+const Describe = require('./commands/describe')
+const Rename = require('./commands/rename')
+const Create = require('./commands/create')
+const Error = require('./commands/error')
 
 const commandTable = {
   '/emote': Emote,

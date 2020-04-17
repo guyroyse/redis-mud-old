@@ -8,13 +8,13 @@ chai.use(sinonChai)
 
 const MessageProcessor = require('../mud/message-processor')
 
-const Say = require('../mud/commands/say-command')
-const Emote = require('../mud/commands/emote-command')
-const Look = require('../mud/commands/look-command')
-const Describe = require('../mud/commands/describe-command')
-const Rename = require('../mud/commands/rename-command')
-const Create = require('../mud/commands/create-command')
-const Error = require('../mud/commands/error-command')
+const Say = require('../mud/commands/say')
+const Emote = require('../mud/commands/emote')
+const Look = require('../mud/commands/look')
+const Describe = require('../mud/commands/describe')
+const Rename = require('../mud/commands/rename')
+const Create = require('../mud/commands/create')
+const Error = require('../mud/commands/error')
 
 describe("MessageProcessor", function() {
 

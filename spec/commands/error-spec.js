@@ -6,12 +6,12 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-const Look = require('../../mud/commands/look-command')
+const Error = require('../../mud/commands/error')
 
 const Dungeon = require('../../mud/things/dungeon')
 const Room = require('../../mud/things/room')
 
-describe("Look", function() {
+describe("Error", function() {
 
   beforeEach(function() {
     this.context = {
@@ -19,19 +19,16 @@ describe("Look", function() {
       room: sinon.createStubInstance(Room)
     }
 
-    this.subject = new Look()
+    this.subject = new Error()
   })
 
   context("when executed", function() {
     beforeEach(function() {
-      this.context.room.name.returns('the room')
-      this.context.room.desc.returns('the description')
-  
-      this.response = this.subject.execute(this.context, "/look")
+      this.response = this.subject.execute(this.context, "/foo is so wrong")
     })
 
-    it("describes the current room", function() {
-      expect(this.response).to.equal("[the room]: the description")
+    it("displays the error message", function() {
+      expect(this.response).to.equal("Invalid command '/foo is so wrong'")
     })
   })
 })

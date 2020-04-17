@@ -6,12 +6,12 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-const Error = require('../../mud/commands/error-command')
+const Emote = require('../../mud/commands/emote')
 
 const Dungeon = require('../../mud/things/dungeon')
 const Room = require('../../mud/things/room')
 
-describe("Error", function() {
+describe("Emote", function() {
 
   beforeEach(function() {
     this.context = {
@@ -19,16 +19,16 @@ describe("Error", function() {
       room: sinon.createStubInstance(Room)
     }
 
-    this.subject = new Error()
+    this.subject = new Emote()
   })
 
   context("when executed", function() {
     beforeEach(function() {
-      this.response = this.subject.execute(this.context, "/foo is so wrong")
+      this.response = this.subject.execute(this.context, "/emote did the thing.")
     })
 
-    it("displays the error message", function() {
-      expect(this.response).to.equal("Invalid command '/foo is so wrong'")
+    it("emotes the thing", function() {
+      expect(this.response).to.equal("Player did the thing.")
     })
   })
 })
