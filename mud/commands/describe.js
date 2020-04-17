@@ -1,4 +1,4 @@
-class DescribeCommand {
+class Describe {
   execute({ room }, message) {
     let [ , description ] = message.match(/^\/describe room (.*)$/)
     room.desc(description)
@@ -6,4 +6,4 @@ class DescribeCommand {
   }
 }
 
-module.exports = DescribeCommand
+module.exports = Describe

@@ -1,4 +1,4 @@
-class RenameCommand {
+class Rename {
   execute({ room }, message) {
     let [ , name ] = message.match(/^\/rename room (.*)$/)
     room.name(name)
@@ -6,4 +6,4 @@ class RenameCommand {
   }
 }
 
-module.exports = RenameCommand
+module.exports = Rename

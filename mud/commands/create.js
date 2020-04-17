@@ -1,6 +1,6 @@
-class CreateCommand {
+class Create {
   execute(message, room) {
   }
 }
 
-module.exports = CreateCommand
+module.exports = Create

@@ -1,7 +1,7 @@
-class LookCommand {
+class Look {
   execute({ room }) {
     return `[${room.name()}]: ${room.desc()}`
   }
 }
 
-module.exports = LookCommand
+module.exports = Look

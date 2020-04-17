@@ -1,7 +1,7 @@
-class ErrorCommand {
+class Error {
   execute({}, message) {
     return `Invalid command '${message}'`
   }
 }
 
-module.exports = ErrorCommand
+module.exports = Error
