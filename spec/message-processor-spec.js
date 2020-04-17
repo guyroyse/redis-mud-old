@@ -16,12 +16,10 @@ const Rename = require('../mud/commands/rename-command')
 const Create = require('../mud/commands/create-command')
 const Error = require('../mud/commands/error-command')
 
-const Context = require('../mud/context')
-
 describe("MessageProcessor", function() {
 
   beforeEach(function() {
-    this.context = sinon.createStubInstance(Context)
+    this.context = "some object"
     this.subject = new MessageProcessor()
   })
 

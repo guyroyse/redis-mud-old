@@ -26,7 +26,7 @@ describe("Prompt", function() {
     })
 
     it("returns the prompt", function() {
-      expect(this.result).to.have.ordered.members(["", "You are in [some room]" ])
+      expect(this.result).to.have.ordered.members(["", "You are in [some room]"])
     })
   })
 })
