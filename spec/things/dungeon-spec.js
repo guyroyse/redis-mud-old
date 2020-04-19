@@ -8,6 +8,7 @@ chai.use(sinonChai)
 
 const Dungeon = require('../../mud/things/dungeon')
 const RedisGraphShim = require('../../mud/data/redis-graph-shim')
+const Queries = require('../../mud/data/queries')
 
 describe("Dungeon", function() {
 
@@ -45,7 +46,8 @@ describe("Dungeon", function() {
   
       it("askes the graph for the hub", function() {
         expect(RedisGraphShim.prototype.executeAndReturnSingle)
-          .to.have.been.calledWithMatch(sinon.match.string)
+          .to.have.been.calledWith(Queries.FETCH_OR_CREATE_HUB,
+            { name: 'The Hub', description: 'Huge hub is huge' })
       })
 
       it("returns a room with expected properties", function() {
@@ -66,7 +68,7 @@ describe("Dungeon", function() {
 
       it("creates the room", function() {
         expect(RedisGraphShim.prototype.executeAndReturnSingle)
-          .to.have.been.calledWithMatch(sinon.match.string)
+          .to.have.been.calledWith(Queries.CREATE_ROOM, { name: 'The Blue Room', description: 'This is a room.' })
       })
 
       it("returns a room with expected properties", function() {
@@ -78,12 +80,13 @@ describe("Dungeon", function() {
 
     describe("#updateRoom", function() {
       beforeEach(async function() {
-        await this.subject.updateRoom('uuid', 'new name', 'new description')
+        await this.subject.updateRoom(42, 'new name', 'new description')
       })
 
       it("updates the room", function() {
         expect(RedisGraphShim.prototype.execute)
-          .to.have.been.calledWithMatch(sinon.match.string)
+          .to.have.been.calledWith(Queries.UPDATE_ROOM,
+            { id: 42, name: 'new name', description: 'new description'})
       })
     })
 
@@ -100,7 +103,7 @@ describe("Dungeon", function() {
 
       it("fetches the rooms", function() {
         expect(RedisGraphShim.prototype.executeAndReturnMany)
-          .to.have.been.calledWithMatch(sinon.match.string)
+          .to.have.been.calledWith(Queries.FETCH_ALL_ROOMS)
       })
 
       it("returns all the rooms", function() {

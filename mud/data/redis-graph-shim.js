@@ -12,12 +12,12 @@ class RedisGraphShim {
     this.client.end(false)
   }
 
-  async execute(query) {
-    await this.graph.query(query)
+  async execute(query, parameters) {
+    await this.graph.query(query, parameters)
   }
 
-  async executeAndReturnSingle(query) {
-    let result = await this.graph.query(query)
+  async executeAndReturnSingle(query, parameters) {
+    let result = await this.graph.query(query, parameters)
     if (result.hasNext() === false) return null
     
     let record = result.next()
@@ -26,8 +26,8 @@ class RedisGraphShim {
     return record.values()
   }
 
-  async executeAndReturnMany(query) {
-    let result = await this.graph.query(query)
+  async executeAndReturnMany(query, parameters) {
+    let result = await this.graph.query(query, parameters)
 
     let valueSet = []
     while (result.hasNext()) {

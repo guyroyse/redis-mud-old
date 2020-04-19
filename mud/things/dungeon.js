@@ -1,4 +1,5 @@
 const RedisGraphShim = require('../data/redis-graph-shim')
+const Queries = require('../data/queries')
 
 const Room = require('./room')
 
@@ -16,45 +17,24 @@ class Dungeon {
   }
 
   async fetchRoomList() {
-    let valueSet = await this.shim.executeAndReturnMany(`
-      MATCH (r:room)
-      RETURN 
-        id(r), r.name, r.description`)
-
+    let valueSet = await this.shim.executeAndReturnMany(Queries.FETCH_ALL_ROOMS)
     return valueSet.map(values => this.roomFromValues(values))
   }
 
   async fetchOrCreateHub() {
-    let values = await this.shim.executeAndReturnSingle(`
-      MERGE
-        (r:room { hub: 'true' })
-      ON CREATE SET
-        r.name = 'The Hub',
-        r.description = 'Huge hub is huge',
-        r.hub = 'true'
-      RETURN
-        id(r), r.name, r.description`)
-
+    let values = await this.shim.executeAndReturnSingle(Queries.FETCH_OR_CREATE_HUB,
+      { name: 'The Hub', description: 'Huge hub is huge' })
     return this.roomFromValues(values)
   }
 
   async createRoom(name) {
-    let values = await this.shim.executeAndReturnSingle(`
-      CREATE
-        (r:room { name: '${name}', description: 'This is a room.' })
-      RETURN
-        id(r), r.name, r.description`)
-
+    let values = await this.shim.executeAndReturnSingle(Queries.CREATE_ROOM,
+      { name, description: 'This is a room.' })
     return this.roomFromValues(values)
   }
 
   async updateRoom(id, name, description) {
-    await this.shim.execute(`
-      MATCH (r:room) WHERE id(r) = ${id}
-      MERGE (r)
-      ON MATCH SET
-        r.name = '${name}',
-        r.description = '${description}'`)
+    await this.shim.execute(Queries.UPDATE_ROOM, { id, name, description })
   }
 
   roomFromValues(values) {
