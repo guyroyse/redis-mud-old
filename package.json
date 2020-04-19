@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "description": "Simple MUD using JavaScript and RedisGraph.",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "debug": "node --inspect server.js"
   },
   "mocha": {
     "spec": "spec/**/*-spec.js",
