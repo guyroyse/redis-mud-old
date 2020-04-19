@@ -1,4 +1,8 @@
 Technical Debt:
+  ☐ Some commands fail dramatically when parsing unexpected strings @created(2020-04-19)
+    ☐ /describe room @created(2020-04-19)
+    ☐ /rename room @created(2020-04-19)
+    ☐ /create room @created(2020-04-19)
 
 Feature Backlog:
   ☐ Command history for WebSocket client
@@ -14,7 +18,8 @@ Feature Backlog:
 
 Current Features:
   ☐ Teleport
-    ☐ Implement /teleport command to move between rooms
+    ☐ /teleport room {id} @created(2020-04-19)
+    ☐ /teleport room {name} @created(2020-04-19)
 
 Archive:
   ✔ Switch to use RedisGraph.close()
