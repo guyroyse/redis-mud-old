@@ -4,12 +4,11 @@ const RedisGraph = require('redisgraph.js').Graph
 class RedisGraphShim {
 
   open(key) {
-    this.client = redis.createClient()
-    this.graph = new RedisGraph(key, this.client)
+    this.graph = new RedisGraph(key)
   }
 
   close() {
-    this.client.end(false)
+    this.graph.close();
   }
 
   async execute(query, parameters) {

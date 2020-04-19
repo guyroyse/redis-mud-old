@@ -20,9 +20,7 @@
   },
   "dependencies": {
     "node-static": "^0.7.11",
-    "redis": "^3.0.2",
-    "redisgraph.js": "^2.0.3",
-    "uuid": "^7.0.2",
+    "redisgraph.js": "^2.1.0",
     "ws": "^7.2.3"
   }
 }
