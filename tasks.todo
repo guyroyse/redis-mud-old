@@ -21,7 +21,7 @@ Current Features:
     ☐ Implement /create command to create doors
     ☐ Implement /use command to use doors
   ☐ Teleport
-    ☐ /teleport room {id} @created(2020-04-19)
+    ✔ /teleport room {id} @created(2020-04-19) @done(2020-04-24)
     ☐ /teleport room {name} @created(2020-04-19)
 
 Archive:
