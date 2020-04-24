@@ -17,6 +17,9 @@ Feature Backlog:
     ☐ Add player login
 
 Current Features:
+  ☐ Doors
+    ☐ Implement /create command to create doors
+    ☐ Implement /use command to use doors
   ☐ Teleport
     ☐ /teleport room {id} @created(2020-04-19)
     ☐ /teleport room {name} @created(2020-04-19)

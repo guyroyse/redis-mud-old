@@ -1,5 +1,12 @@
 module.exports = {
 
+  FETCH_ROOM: `
+    MATCH
+     (r:room)
+    WHERE
+      id(r) = $id
+    RETURN id(r), r.name, r.description`,
+
   FETCH_OR_CREATE_HUB: `
     MERGE
       (r:room { hub: 'true' })

@@ -6,6 +6,7 @@ const Rename = require('./commands/rename')
 const Create = require('./commands/create')
 const List = require('./commands/list')
 const Error = require('./commands/error')
+const Teleport = require('./commands/teleport')
 
 const commandTable = {
   '/emote': Emote,
@@ -13,7 +14,8 @@ const commandTable = {
   '/describe': Describe,
   '/rename': Rename,
   '/create': Create,
-  '/list': List
+  '/list': List,
+  '/teleport': Teleport
 }
 
 class MessageProcessor {

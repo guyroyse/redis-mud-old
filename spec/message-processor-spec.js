@@ -16,6 +16,7 @@ const Rename = require('../mud/commands/rename')
 const Create = require('../mud/commands/create')
 const List = require('../mud/commands/list')
 const Error = require('../mud/commands/error')
+const Teleport = require('../mud/commands/teleport')
 
 describe("MessageProcessor", function() {
 
@@ -32,7 +33,8 @@ describe("MessageProcessor", function() {
     { clazz: Rename, clazzName: 'Rename', text: "/rename room Room with a View" },
     { clazz: Create, clazzName: 'Create', text: "/create room The Back Room" },
     { clazz: Error, clazzName: 'Error', text: "/error is not a valid command." },
-    { clazz: List, clazzName: 'List', text: "/list rooms"}
+    { clazz: List, clazzName: 'List', text: "/list rooms"},
+    { clazz: Teleport, clazzName: 'Teleport', text: "/teleport room 42"}
   ]
 
   scenarios.forEach(scenario => {

@@ -21,6 +21,11 @@ class Dungeon {
     return valueSet.map(values => this.roomFromValues(values))
   }
 
+  async fetchRoom(id) {
+    let values = await this.shim.executeAndReturnSingle(Queries.FETCH_ROOM, {id})
+    return this.roomFromValues(values)
+  }
+
   async fetchOrCreateHub() {
     let values = await this.shim.executeAndReturnSingle(Queries.FETCH_OR_CREATE_HUB,
       { name: 'The Hub', description: 'Huge hub is huge' })

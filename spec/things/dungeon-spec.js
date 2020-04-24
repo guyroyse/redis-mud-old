@@ -36,6 +36,26 @@ describe("Dungeon", function() {
       expect(RedisGraphShim.prototype.open).to.have.been.calledWith('dungeon')
     })
 
+    describe("#fetchRoom", function() {
+      beforeEach(async function() {
+        RedisGraphShim.prototype.executeAndReturnSingle
+          .returns([ 42, 'the name', 'the description' ])
+        this.result = await this.subject.fetchRoom(42)
+      })
+
+      it("askes the graph for the room", function() {
+        expect(RedisGraphShim.prototype.executeAndReturnSingle)
+          .to.have.been.calledWith(Queries.FETCH_ROOM, { id: 42 })
+      })
+
+      it("returns a room with expected properties", function() {
+        expect(this.result.id()).to.equal(42)
+        expect(this.result.name()).to.equal('the name')
+        expect(this.result.description()).to.equal('the description')
+      })
+
+    })
+
     describe("#fetchOrCreateHub", function() {
 
       beforeEach(async function() {
