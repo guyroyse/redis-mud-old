@@ -9,12 +9,10 @@ Feature Backlog:
   ☐ Command aliases
   ☐ Doors
     ☐ Display doors to other rooms
-    ☐ Implement /use command to use doors
     ☐ Implement /look command to see description of doors
-    ☐ Implement /create command to create doors
   ☐ Multiplayer
     ☐ Add multiple connections
-    ☐ Add player login
+    ☐ Add player login (twitch auth)
 
 Current Features:
   ☐ Doors

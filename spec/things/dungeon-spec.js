@@ -98,6 +98,28 @@ describe("Dungeon", function() {
       })
     })
 
+    describe("#createDoor", function() {
+      beforeEach(async function() {
+        RedisGraphShim.prototype.executeAndReturnSingle
+          .returns([ 23, 'the name', 'the description', 13, 42 ])
+        this.result = await this.subject.createDoor({ name: "The Red Door", from: 13, to: 42 })
+      })
+
+      it("create the door", function() {
+        expect(RedisGraphShim.prototype.executeAndReturnSingle)
+          .to.have.been.calledWith(Queries.CREATE_DOOR, 
+            { name: 'The Red Door', description: 'This is a door.', from: 13, to: 42 })
+      })
+
+      it("returns a door with expected properties", function() {
+        expect(this.result.id()).to.equal(23)
+        expect(this.result.name()).to.equal('the name')
+        expect(this.result.description()).to.equal('the description')
+        expect(this.result.from()).to.equal(13)
+        expect(this.result.to()).to.equal(42)
+      })
+    })
+
     describe("#updateRoom", function() {
       beforeEach(async function() {
         await this.subject.updateRoom(42, 'new name', 'new description')

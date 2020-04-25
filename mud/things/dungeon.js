@@ -2,6 +2,7 @@ const RedisGraphShim = require('../data/redis-graph-shim')
 const Queries = require('../data/queries')
 
 const Room = require('./room')
+const Door = require('./door')
 
 const NULL_UUID = '00000000-0000-0000-0000-000000000000'
 
@@ -38,6 +39,12 @@ class Dungeon {
     return this.roomFromValues(values)
   }
 
+  async createDoor({ name, from, to }) {
+    let values = await this.shim.executeAndReturnSingle(Queries.CREATE_DOOR,
+      { name, description: 'This is a door.', from, to })
+    return this.doorFromValues(values)
+  }
+
   async updateRoom(id, name, description) {
     await this.shim.execute(Queries.UPDATE_ROOM, { id, name, description })
   }
@@ -47,6 +54,16 @@ class Dungeon {
       id: values[0],
       name: values[1],
       description: values[2]
+    })
+  }
+
+  doorFromValues(values) {
+    return new Door(this, {
+      id: values[0],
+      name: values[1],
+      description: values[2],
+      from: values[3],
+      to: values[4]
     })
   }
 }
