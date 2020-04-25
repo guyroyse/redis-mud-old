@@ -1,28 +1,53 @@
 Technical Debt:
+  ☐ Doors should be nodes @created(2020-04-25)
+
+Bugs:
   ☐ Some commands fail dramatically when parsing unexpected strings @created(2020-04-19)
     ☐ /describe room @created(2020-04-19)
     ☐ /rename room @created(2020-04-19)
     ☐ /create room @created(2020-04-19)
 
-Feature Backlog:
+Features:
   ☐ Command history for WebSocket client
   ☐ Command aliases
-  ☐ Doors
-    ☐ Display doors to other rooms
-    ☐ Implement /look command to see description of doors
-  ☐ Multiplayer
-    ☐ Add multiple connections
-    ☐ Add player login (twitch auth)
 
-Current Features:
-  ☐ Doors
-    ☐ Implement /create command to create doors
-    ☐ Implement /use command to use doors
-  ☐ Teleport
-    ✔ /teleport room {id} @created(2020-04-19) @done(2020-04-24)
-    ☐ /teleport room {name} @created(2020-04-19)
+  Access Control:
+    ☐ Use OAuth to determine player id @created(2020-04-25)
+
+  Multiplayer:
+    ☐ Add multiple connections @created(2020-04-25)
+    ☐ Broadcast what is said to the current room @created(2020-04-25)
+    ☐ Broadcast what is emoted to the current room @created(2020-04-25)
+    ☐ Broadcast what is shouted to current and adjacent rooms @created(2020-04-25)
+    ☐ Send whispers between players @created(2020-04-25)
+
+  Rooms:
+    ☐ Edit room to set name, description, and greeting message @created(2020-04-25)
+    ☐ Display greeting message when arriving in room @created(2020-04-25)
+    ☐ Display doors in the room @created(2020-04-25)
+    ☐ Deprecate rename and describe commands from room @created(2020-04-25)
+
+  Doors:
+    ☐ Create door to nowhere @created(2020-04-25)
+    ☐ Create door with destinations @created(2020-04-25)
+    ☐ Create door with sources and destination @created(2020-04-25)
+    ☐ Edit door to set name, description, locations, destinations, and traversal message @created(2020-04-25)
+    ☐ Look at doors by name @created(2020-04-25)
+    ☐ Look at doors by ID @created(2020-04-25)
+    ☐ Use doors by name @created(2020-04-25)
+    ☐ Use doors by ID @created(2020-04-25)
+    ☐ Display description of door when looked at @created(2020-04-25)
+    ☐ Display traversal message when using a door @created(2020-04-25)
+    ☐ Select random destination when using door if there are multiple @created(2020-04-25)
+  
+  Objects:
+    ☐ Look at objects by name @created(2020-04-25)
+    ☐ Look at objects by ID @created(2020-04-25)
+    ☐ Use objects by name @created(2020-04-25)
+    ☐ Use objects by ID @created(2020-04-25)
 
 Archive:
+  ✔ /teleport room {id} @created(2020-04-19) @done(2020-04-24)
   ✔ Switch to use RedisGraph.close()
   ✔ Change Hub to be marked by property rather than ID (data has no meaning violation)
   ✔ Refactor Cypher queries to use internal ID over UUID
