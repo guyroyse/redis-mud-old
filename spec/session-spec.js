@@ -12,7 +12,7 @@ const WebSocket = require('ws')
 const Context = require('../mud/context')
 const Motd = require('../mud/motd')
 const Prompt = require('../mud/prompt')
-const CommandProcessor = require('../mud/command-processor')
+const CommandProcessor = require('../mud/commands/command-processor')
 
 describe("Session", function() {
   beforeEach(function() {

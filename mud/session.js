@@ -1,4 +1,4 @@
-const CommandProcessor = require('./command-processor')
+const CommandProcessor = require('./commands/command-processor')
 const Motd = require('./motd')
 const Prompt = require('./prompt')
 const Context = require('./context')
