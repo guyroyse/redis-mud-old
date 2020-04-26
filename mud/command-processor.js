@@ -12,7 +12,7 @@ const commandTable = {
   '/teleport': Teleport
 }
 
-class MessageProcessor {
+class CommandProcessor {
 
   async processMessage(context, message) {
     let clazz
@@ -36,4 +36,4 @@ class MessageProcessor {
 
 }
 
-module.exports = MessageProcessor
+module.exports = CommandProcessor

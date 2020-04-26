@@ -6,7 +6,7 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-const MessageProcessor = require('../mud/command-processor')
+const CommandProcessor = require('../mud/command-processor')
 
 const {
   Say, Emote, Look, Describe, Rename, 
@@ -17,7 +17,7 @@ describe("MessageProcessor", function() {
 
   beforeEach(function() {
     this.context = "some object"
-    this.subject = new MessageProcessor()
+    this.subject = new CommandProcessor()
   })
 
   let scenarios = [
