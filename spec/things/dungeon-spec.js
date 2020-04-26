@@ -7,17 +7,17 @@ const sinonChai = require('sinon-chai')
 chai.use(sinonChai)
 
 const Dungeon = require('../../mud/things/dungeon')
-const RedisGraphShim = require('../../mud/data/redis-graph-shim')
+const RedisShim = require('../../mud/data/redis-shim')
 const Queries = require('../../mud/data/queries')
 
 describe("Dungeon", function() {
 
   beforeEach(function() {
-    sinon.stub(RedisGraphShim.prototype, 'open')
-    sinon.stub(RedisGraphShim.prototype, 'close')
-    sinon.stub(RedisGraphShim.prototype, 'execute')
-    sinon.stub(RedisGraphShim.prototype, 'executeAndReturnSingle')
-    sinon.stub(RedisGraphShim.prototype, 'executeAndReturnMany')
+    sinon.stub(RedisShim.prototype, 'open')
+    sinon.stub(RedisShim.prototype, 'close')
+    sinon.stub(RedisShim.prototype, 'execute')
+    sinon.stub(RedisShim.prototype, 'executeAndReturnSingle')
+    sinon.stub(RedisShim.prototype, 'executeAndReturnMany')
 
     this.subject = new Dungeon()
   })
@@ -33,18 +33,18 @@ describe("Dungeon", function() {
     })
 
     it("opens the shim with the key", function() {
-      expect(RedisGraphShim.prototype.open).to.have.been.calledWith('dungeon')
+      expect(RedisShim.prototype.open).to.have.been.calledWith('dungeon')
     })
 
     describe("#fetchRoom", function() {
       beforeEach(async function() {
-        RedisGraphShim.prototype.executeAndReturnSingle
+        RedisShim.prototype.executeAndReturnSingle
           .returns([ 42, 'the name', 'the description' ])
         this.result = await this.subject.fetchRoom(42)
       })
 
       it("askes the graph for the room", function() {
-        expect(RedisGraphShim.prototype.executeAndReturnSingle)
+        expect(RedisShim.prototype.executeAndReturnSingle)
           .to.have.been.calledWith(Queries.FETCH_ROOM, { id: 42 })
       })
 
@@ -59,13 +59,13 @@ describe("Dungeon", function() {
     describe("#fetchOrCreateHub", function() {
 
       beforeEach(async function() {
-        RedisGraphShim.prototype.executeAndReturnSingle
+        RedisShim.prototype.executeAndReturnSingle
           .returns([ 42, 'the name', 'the description' ])
         this.result = await this.subject.fetchOrCreateHub()
       })
   
       it("askes the graph for the hub", function() {
-        expect(RedisGraphShim.prototype.executeAndReturnSingle)
+        expect(RedisShim.prototype.executeAndReturnSingle)
           .to.have.been.calledWith(Queries.FETCH_OR_CREATE_HUB,
             { name: 'The Hub', description: 'Huge hub is huge' })
       })
@@ -81,13 +81,13 @@ describe("Dungeon", function() {
     describe("#createRoom", function() {
 
       beforeEach(async function() {
-        RedisGraphShim.prototype.executeAndReturnSingle
+        RedisShim.prototype.executeAndReturnSingle
           .returns([ 42, 'the name', 'the description' ])
         this.result = await this.subject.createRoom("The Blue Room")
       })
 
       it("creates the room", function() {
-        expect(RedisGraphShim.prototype.executeAndReturnSingle)
+        expect(RedisShim.prototype.executeAndReturnSingle)
           .to.have.been.calledWith(Queries.CREATE_ROOM, { name: 'The Blue Room', description: 'This is a room.' })
       })
 
@@ -100,13 +100,13 @@ describe("Dungeon", function() {
 
     describe("#createDoor", function() {
       beforeEach(async function() {
-        RedisGraphShim.prototype.executeAndReturnSingle
+        RedisShim.prototype.executeAndReturnSingle
           .returns([ 23, 'the name', 'the description', 13, 42 ])
         this.result = await this.subject.createDoor({ name: "The Red Door", from: 13, to: 42 })
       })
 
       it("create the door", function() {
-        expect(RedisGraphShim.prototype.executeAndReturnSingle)
+        expect(RedisShim.prototype.executeAndReturnSingle)
           .to.have.been.calledWith(Queries.CREATE_DOOR, 
             { name: 'The Red Door', description: 'This is a door.', from: 13, to: 42 })
       })
@@ -126,7 +126,7 @@ describe("Dungeon", function() {
       })
 
       it("updates the room", function() {
-        expect(RedisGraphShim.prototype.execute)
+        expect(RedisShim.prototype.execute)
           .to.have.been.calledWith(Queries.UPDATE_ROOM,
             { id: 42, name: 'new name', description: 'new description'})
       })
@@ -134,7 +134,7 @@ describe("Dungeon", function() {
 
     describe("#fetchRoomList", function() {
       beforeEach(async function() {
-        RedisGraphShim.prototype.executeAndReturnMany.returns([
+        RedisShim.prototype.executeAndReturnMany.returns([
           [ 23, 'the room', 'desc 1' ],
           [ 42, 'the other room', 'desc 2' ],
           [ 13, 'the back room', 'desc 3' ]
@@ -144,7 +144,7 @@ describe("Dungeon", function() {
       })
 
       it("fetches the rooms", function() {
-        expect(RedisGraphShim.prototype.executeAndReturnMany)
+        expect(RedisShim.prototype.executeAndReturnMany)
           .to.have.been.calledWith(Queries.FETCH_ALL_ROOMS)
       })
 
@@ -171,7 +171,7 @@ describe("Dungeon", function() {
       })
   
       it("closes the shim", function() {
-        expect(RedisGraphShim.prototype.close).to.have.been.called
+        expect(RedisShim.prototype.close).to.have.been.called
       })
     })
 

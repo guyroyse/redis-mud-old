@@ -1,4 +1,4 @@
-const RedisGraphShim = require('../data/redis-graph-shim')
+const RedisShim = require('../data/redis-shim')
 const Queries = require('../data/queries')
 
 const Room = require('./room')
@@ -7,7 +7,7 @@ const Door = require('./door')
 class Dungeon {
 
   open() {
-    this.shim = new RedisGraphShim()
+    this.shim = new RedisShim()
     this.shim.open('dungeon')
   }
 

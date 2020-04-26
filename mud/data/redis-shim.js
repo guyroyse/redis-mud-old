@@ -1,6 +1,6 @@
 const RedisGraph = require('redisgraph.js').Graph
 
-class RedisGraphShim {
+class RedisShim {
 
   open(key) {
     this.graph = new RedisGraph(key)
@@ -40,4 +40,4 @@ class RedisGraphShim {
 
 }
 
-module.exports = RedisGraphShim
+module.exports = RedisShim
