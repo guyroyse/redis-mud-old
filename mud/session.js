@@ -1,4 +1,4 @@
-const MessageProcessor = require('./message-processor')
+const CommandProcessor = require('./command-processor')
 const Motd = require('./motd')
 const Prompt = require('./prompt')
 const Context = require('./context')
@@ -10,7 +10,7 @@ class Session {
     this.context = new Context()
     this.motd = new Motd()
     this.prompt = new Prompt()
-    this.messageProcessor = new MessageProcessor()
+    this.commandProcessor = new CommandProcessor()
   }
 
   async start() {
@@ -20,7 +20,7 @@ class Session {
   }
 
   async processMessage(message) {
-    let text = await this.messageProcessor.processMessage(this.context, message)
+    let text = await this.commandProcessor.processMessage(this.context, message)
     this.sendText(text)
     this.sendPrompt()
   }

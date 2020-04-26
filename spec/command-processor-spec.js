@@ -6,7 +6,7 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-const MessageProcessor = require('../mud/message-processor')
+const MessageProcessor = require('../mud/command-processor')
 
 const {
   Say, Emote, Look, Describe, Rename, 

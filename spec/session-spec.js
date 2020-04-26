@@ -12,14 +12,14 @@ const WebSocket = require('ws')
 const Context = require('../mud/context')
 const Motd = require('../mud/motd')
 const Prompt = require('../mud/prompt')
-const MessageProcessor = require('../mud/message-processor')
+const CommandProcessor = require('../mud/command-processor')
 
 describe("Session", function() {
   beforeEach(function() {
     sinon.stub(Context.prototype, 'start')
     sinon.stub(Motd.prototype, 'fetchMotd')
     sinon.stub(Prompt.prototype, 'fetchPrompt')
-    sinon.stub(MessageProcessor.prototype, 'processMessage')
+    sinon.stub(CommandProcessor.prototype, 'processMessage')
     this.websocket = sinon.createStubInstance(WebSocket)
 
     this.subject = new Session(this.websocket)
@@ -48,12 +48,12 @@ describe("Session", function() {
     describe("#processMessage", function() {
       beforeEach(async function() {
         this.websocket.send.resetHistory()
-        MessageProcessor.prototype.processMessage.returns("some response\nwith multiple line")
+        CommandProcessor.prototype.processMessage.returns("some response\nwith multiple line")
         await this.subject.processMessage("some message")
       })
 
       it("invokes the message processor", function() {
-        expect(MessageProcessor.prototype.processMessage)
+        expect(CommandProcessor.prototype.processMessage)
           .to.have.been.calledWith(this.subject.context, "some message")
       })
 
