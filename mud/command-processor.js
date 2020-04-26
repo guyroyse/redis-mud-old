@@ -15,15 +15,17 @@ const commandTable = {
 class CommandProcessor {
 
   async processMessage(context, message) {
+    let trimmed = message.trim()
+
     let clazz
-    if (this.isSlashCommand(message)) {
-      let slashCommand = this.extractSlashCommand(message)
+    if (this.isSlashCommand(trimmed)) {
+      let slashCommand = this.extractSlashCommand(trimmed)
       clazz = commandTable[slashCommand] || Error 
     } else {
       clazz = Say
     }
 
-    return await new clazz().execute(context, message)
+    return await new clazz().execute(context, trimmed)
   }
 
   isSlashCommand(slashCommand) {

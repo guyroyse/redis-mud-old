@@ -8,52 +8,43 @@ chai.use(sinonChai)
 
 const CommandProcessor = require('../mud/command-processor')
 
-const {
-  Say, Emote, Look, Describe, Rename, 
-  Create, List, Error, Teleport } = require('../mud/commands')
+const { Say, Error } = require('../mud/commands')
 
-
-describe("MessageProcessor", function() {
+describe("CommandProcessor", function() {
 
   beforeEach(function() {
     this.context = "some object"
     this.subject = new CommandProcessor()
   })
 
-  let scenarios = [
-    { clazz: Say, clazzName: 'Say', text: "I have a dream!" },
-    { clazz: Emote, clazzName: 'Emote', text: "/emote is eating food!" },
-    { clazz: Look, clazzName: 'Look', text: "/look" },
-    { clazz: Describe, clazzName: 'Describe', text: "/describe room It has a view." },
-    { clazz: Rename, clazzName: 'Rename', text: "/rename room Room with a View" },
-    { clazz: Create, clazzName: 'Create', text: "/create room The Back Room" },
-    { clazz: Error, clazzName: 'Error', text: "/error is not a valid command." },
-    { clazz: List, clazzName: 'List', text: "/list rooms"},
-    { clazz: Teleport, clazzName: 'Teleport', text: "/teleport room 42"}
-  ]
+  context("when processing a bare command", function() {
+    beforeEach(async function() {
+      sinon.stub(Say.prototype, 'execute')
+  
+      await this.subject.processMessage(this.context, "  This command has whitespace\t\t\n\n  ")
+    })
 
-  scenarios.forEach(scenario => {
-    let { clazz, clazzName, text } = scenario
+    afterEach(function() {
+      sinon.restore()
+    })
 
-    context(`when processing a ${clazzName} command`, function() {
-      beforeEach(async function() {
-        sinon.stub(clazz.prototype, 'execute')
-        clazz.prototype.execute.returns("The command did a thing!")
-    
-        this.response = await this.subject.processMessage(this.context, text)
-      })
-  
-      afterEach(function() {
-        sinon.restore()
-      })
-  
-      it("executes the command", function() {
-        expect(clazz.prototype.execute).to.have.been.calledWith(this.context, text)
-      })
-  
-      it("returns the response of the command", function() {
-        expect(this.response).to.equal("The command did a thing!")
-      })
+    it("trims the whitespace before executing the command", function() {
+      expect(Say.prototype.execute).to.have.been.calledWith(this.context, "This command has whitespace")
+    })
+  })
+
+  context("when processing a slash command", function() {
+    beforeEach(async function() {
+      sinon.stub(Error.prototype, 'execute')
+      await this.subject.processMessage(this.context, "  /foo is not a command\t\t\n\n  ")
+    })
+
+    afterEach(function() {
+      sinon.restore()
+    })
+
+    it("trims the whitespace before executing the command", function() {
+      expect(Error.prototype.execute).to.have.been.calledWith(this.context, "/foo is not a command")
     })
   })
 })
