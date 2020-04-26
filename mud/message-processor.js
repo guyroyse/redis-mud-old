@@ -1,12 +1,6 @@
-const Say = require('./commands/say')
-const Emote = require('./commands/emote')
-const Look = require('./commands/look')
-const Describe = require('./commands/describe')
-const Rename = require('./commands/rename')
-const Create = require('./commands/create')
-const List = require('./commands/list')
-const Error = require('./commands/error')
-const Teleport = require('./commands/teleport')
+const {
+  Say, Emote, Look, Describe, Rename, 
+  Create, List, Error, Teleport } = require('./commands')
 
 const commandTable = {
   '/emote': Emote,

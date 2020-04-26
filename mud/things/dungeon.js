@@ -4,8 +4,6 @@ const Queries = require('../data/queries')
 const Room = require('./room')
 const Door = require('./door')
 
-const NULL_UUID = '00000000-0000-0000-0000-000000000000'
-
 class Dungeon {
 
   open() {

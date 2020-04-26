@@ -6,7 +6,7 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-const Describe = require('../../mud/commands/describe')
+const { Describe } = require('../../mud/commands')
 
 const Dungeon = require('../../mud/things/dungeon')
 const Room = require('../../mud/things/room')

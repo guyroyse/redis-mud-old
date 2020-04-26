@@ -6,7 +6,7 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-const Teleport = require('../../mud/commands/teleport')
+const { Teleport } = require('../../mud/commands')
 
 const Dungeon = require('../../mud/things/dungeon')
 const Room = require('../../mud/things/room')
@@ -27,7 +27,7 @@ describe("Teleport", function() {
       this.returnedRoom = sinon.createStubInstance(Room)
       this.returnedRoom.name.returns('the room')
       this.context.dungeon.fetchRoom.returns(this.returnedRoom)
-      this.response = await this.subject.execute(this.context, "/teleport room 42")
+      this.response = await this.subject.execute(this.context, "/teleport 42")
     })
 
     it("fetches room 42", function() {

@@ -8,15 +8,10 @@ chai.use(sinonChai)
 
 const MessageProcessor = require('../mud/message-processor')
 
-const Say = require('../mud/commands/say')
-const Emote = require('../mud/commands/emote')
-const Look = require('../mud/commands/look')
-const Describe = require('../mud/commands/describe')
-const Rename = require('../mud/commands/rename')
-const Create = require('../mud/commands/create')
-const List = require('../mud/commands/list')
-const Error = require('../mud/commands/error')
-const Teleport = require('../mud/commands/teleport')
+const {
+  Say, Emote, Look, Describe, Rename, 
+  Create, List, Error, Teleport } = require('../mud/commands')
+
 
 describe("MessageProcessor", function() {
 
