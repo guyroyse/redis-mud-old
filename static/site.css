@@ -26,6 +26,10 @@ main > section, main > p, main > p > input {
   width: 100%;
 }
 
+.callback{
+  color: aqua;
+}
+
 main > section > p {
   margin: 15px;
   padding: 0px;

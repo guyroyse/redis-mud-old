@@ -37,6 +37,12 @@ class Dungeon {
     return this.roomFromValues(values)
   }
 
+  async createPortal(name) {
+    let values = await this.shim.executeAndReturnSingle(Queries.CREATE_PORTAL,
+      { name, description: 'This is a portal.' })
+    return this.roomFromValues(values)
+  }
+
   async createDoor({ name, from, to }) {
     let values = await this.shim.executeAndReturnSingle(Queries.CREATE_DOOR,
       { name, description: 'This is a door.', from, to })

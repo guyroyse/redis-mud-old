@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     input.addEventListener('keydown', event => {
 
       if (event.key === "Enter") {
+        display.innerHTML = `${display.innerHTML}<p class="callback"><b>&gt;${input.value}</b></p>`
         ws.send(input.value)
         input.value = ""
         return false

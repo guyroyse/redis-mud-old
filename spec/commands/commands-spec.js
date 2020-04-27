@@ -25,9 +25,56 @@ describe("Commands", function() {
     this.processor = new CommandProcessor()
   })
 
-  describe("Create: /create room The Blue Room", function() {
+  describe("Create: /create", function () {
+    beforeEach(
+      async function () {
+        this.response = await this.processor.processMessage(this.context, "/create")
+    })
+
+    it("doesn't know what yer talking about", function () {
+      expect(this.response).to.equal("If you need help, try 'create [TYPE_OF_THING] [NAME_OF_THING]'")
+    })  
+
+  })
+
+  describe("Create: /create room", function () {
+    beforeEach(
+      async function () {
+        this.response = await this.processor.processMessage(this.context, "/create room")
+    })
+
+    it("doesn't know what yer talking about", function () {
+      expect(this.response).to.equal("Things need names, there, bud!")
+    })  
+
+  })
+
+  describe("Create: /create window Rear Window", function () {
+    beforeEach(
+      async function () {
+        this.response = await this.processor.processMessage(this.context, "/create window Rear Window")
+    })
+
+    it("doesn't know what yer talking about", function () {
+      expect(this.response).to.equal("Sorry, I don't do windows :)!")
+    })  
+
+  })
+
+  describe("Create: /create macguffin Maltese Falcon", function () {
+    beforeEach(
+      async function () {
+        this.response = await this.processor.processMessage(this.context, "/create macguffin Maltese Falcon")
+    })
+
+    it("doesn't know what yer talking about", function () {
+      expect(this.response).to.equal("I don't know how to create a 'macguffin'.")
+    })  
+
+  })
+    describe("Create: /create room The Blue Room", function () {
     beforeEach(async function() {
-      this.context.dungeon.createRoom.returns(42)
+      this.context.dungeon.createRoom.returns({"id":()=>42})
       this.response = await this.processor.processMessage(this.context, "/create room The Blue Room")
     })
 

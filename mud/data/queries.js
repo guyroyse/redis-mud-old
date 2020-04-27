@@ -29,6 +29,12 @@ module.exports = {
     RETURN
       id(r), r.name, r.description`,
 
+  CREATE_PORTAL: `
+    CREATE
+      (r:portal { name: $name, description: $description })
+    RETURN
+      id(r), r.name, r.description`,
+  
   CREATE_DOOR: `
     MATCH (from:room) WHERE id(from) = $idFrom
     MATCH (to:room) WHERE id(to) = $idTo
