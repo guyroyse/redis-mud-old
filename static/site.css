@@ -31,7 +31,7 @@ main > section, main > p, main > p > input {
 }
 
 main > section > p {
-  margin: 15px;
+  margin: 0px;
   padding: 0px;
 }
 

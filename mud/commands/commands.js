@@ -1,26 +1,35 @@
 const Motd = require('../motd')
 
+class Utility{
+  static makeMessage(message){
+    return {messages:[message]}
+  }
+  static makeMessages(messages){
+    return {messages:[...messages]}
+  }
+}
+
 class Create {
   async createRoom(dungeon, name){
     let obj = await dungeon.createRoom(name)
-    return `Room '${name}' created with ID of ${obj.id()}.`
+    return Utility.makeMessage(`Room '${name}' created with ID of ${obj.id()}.`)
   }
   async createPortal(dungeon, name){
     let obj = await dungeon.createPortal(name);
-    return `Portal '${name}' created with ID of ${obj.id()}.`
+    return Utility.makeMessage(`Portal '${name}' created with ID of ${obj.id()}.`)
   }
   async createWindow(){
-    return `Sorry, I don't do windows :)!`
+    return Utility.makeMessage(`Sorry, I don't do windows :)!`)
   }
   async createUnknown(thing){
-    return `I don't know how to create a '${thing}'.`
+    return Utility.makeMessage(`I don't know how to create a '${thing}'.`)
   }
   async createThing(dungeon, thing, name){
     if(thing==null || thing=='')
     {
-      return `If you need help, try 'create [TYPE_OF_THING] [NAME_OF_THING]'`
+      return Utility.makeMessage(`If you need help, try 'create [TYPE_OF_THING] [NAME_OF_THING]'`)
     } else if(name==null || name=='') {
-      return `Things need names, there, bud!`
+      return Utility.makeMessage(`Things need names, there, bud!`)
     } else {
       switch(thing) {
         case "room":
@@ -34,35 +43,35 @@ class Create {
       }
     }
   }
-  async execute({ dungeon }, message) {
+  async execute({ dungeon }, user, message) {
     let [ , thing, name ] = message.match(/^\/create(?:\s+(\w+)\s*(.*))?$/)
     return await this.createThing(dungeon, thing, name)
   }
 }
 
 class Describe {
-  execute({ room }, message) {
+  execute({ players }, user, message) {
     let [ , description ] = message.match(/^\/describe\s+room\s+(.*)$/)
-    room.description(description)
-    return "Room description updated."
+    players[user.id()].room.description(description)
+    return Utility.makeMessage("Room description updated.")
   }
 }
 
 class Emote {
-  execute({}, message) {
+  execute({}, user, message) {
     let [ , emote ] = message.match(/^\/emote\s+(.*)$/)
-    return `Player ${emote}`
+    return Utility.makeMessage(`Player ${emote}`)
   }
 }
 
 class Error {
-  execute({}, message) {
-    return `Invalid command '${message}'`
+  execute({}, user, message) {
+    return Utility.makeMessage(`Invalid command '${message}'`)
   }
 }
 
 class List {
-  async execute({ dungeon }, message) {
+  async execute({ dungeon }, user, message) {
     let [ , things] = message.match(/^\/list(?:\s+(\w+))?$/)
     if(things==null || things=='') {
       things="rooms"
@@ -72,47 +81,48 @@ class List {
       case "rooms":
         {
           let rooms = await dungeon.fetchRoomList()
-          return rooms.map(room => `[${room.name()}] ${room.id()}`).join('\n')
+          return Utility.makeMessages(rooms.map(room => `[${room.name()}] ${room.id()}`))
         }
       default:
         {
-          return `I don't see a list of '${things}' anywhere....`
+          return Utility.makeMessage(`I don't see a list of '${things}' anywhere....`)
         }
     }
   }
 }
 
 class Look {
-  execute({ room }) {
-    return `[${room.name()}]: ${room.description()}`
+  execute({ players }, user) {
+    let room = players[user.id()].room
+    return Utility.makeMessage(`[${room.name()}]: ${room.description()}`)
   }
 }
 
 class Rename {
-  execute({ room }, message) {
+  execute({ players }, user, message) {
     let [ , name ] = message.match(/^\/rename\s+room\s+(.*)$/)
-    room.name(name)
-    return "Room renamed."
+    players[user.id()].room.name(name)
+    return Utility.makeMessage("Room renamed.")
   }
 }
 
 class Say {
-  execute({}, message) {
-    return `You said: ${message}`
+  execute({}, user, message) {
+    return Utility.makeMessage(`You said: ${message}`)
   }
 }
 
 class Teleport {
-  async execute(context, message) {
+  async execute(context, user, message) {
     let [ , id ] = message.match(/^\/teleport\s+(.*)$/)
     let room = await context.dungeon.fetchRoom(Number(id))
-    context.room = room
-    return `Teleported to [${room.name()}].`
+    context.players[user.id()].room = room
+    return Utility.makeMessage(`Teleported to [${room.name()}].`)
   }
 }
 
 class Hello {
-  async execute(context, message) {
+  async execute(context, user, message) {
     let motd = Motd.fetchMotd()
     return {'messages': [...motd]}
   }

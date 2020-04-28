@@ -34,7 +34,7 @@ class CommandProcessor {
       } else {
         clazz = Say
       }
-      return await new clazz().execute(context, trimmed)
+      return await new clazz().execute(context, user, trimmed)
     }
   }
 

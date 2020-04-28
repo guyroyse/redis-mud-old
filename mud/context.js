@@ -2,18 +2,26 @@ const Dungeon = require('./things/dungeon')
 
 class Context {
 
+  async spawnPlayer(user){
+    if(user!=null && this.players[user.id()]==null){
+      this.players[user.id()]={
+        room: await this.dungeon.fetchOrCreateHub()
+      }
+    }
+  }
+
   async authenticate(authToken){
     let userId = Number(authToken)
     if(!isNaN(userId) && userId!=0){
-      return await this.dungeon.fetchUser(userId)
+      let user = await this.dungeon.fetchUser(userId)
+      this.spawnPlayer(user)
+      return user
     }
     return null
   }
   async createPlayer(){
     let user = await this.dungeon.createUser()
-    this.players[user.id()]={
-      room: await this.dungeon.fetchOrCreateHub()
-    }
+    this.spawnPlayer(user)
     return user
   }
 
@@ -21,7 +29,6 @@ class Context {
     this.dungeon = new Dungeon()
     this.dungeon.open('dungeon')
     this.players = {}
-    this.room = await this.dungeon.fetchOrCreateHub()
   }
 
 }

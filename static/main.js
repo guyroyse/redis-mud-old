@@ -34,12 +34,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if(response.status!=null){
         switch(response.status){
           case AUTH_REQUEST:
-            console.log(authToken)
             ws.send(JSON.stringify({auth:authToken}))
             break;
           case AUTH_RESPONSE:
             authToken = response.auth
-            console.log(authToken)
             localStorage.setItem(AUTH_TOKEN_KEY, authToken)
             ws.send(JSON.stringify({auth:authToken,message:'/hello'}))
             break;
