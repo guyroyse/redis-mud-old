@@ -1,6 +1,6 @@
 const {
   Say, Emote, Look, Describe, Rename, 
-  Create, List, Error, Teleport } = require('./commands')
+  Create, List, Error, Teleport, Hello } = require('./commands')
 
 const commandTable = {
   '/emote': Emote,
@@ -9,23 +9,33 @@ const commandTable = {
   '/rename': Rename,
   '/create': Create,
   '/list': List,
-  '/teleport': Teleport
+  '/teleport': Teleport,
+  '/hello': Hello
 }
 
 class CommandProcessor {
 
   async processMessage(context, message) {
-    let trimmed = message.trim()
+    let request=JSON.parse(message)
 
-    let clazz
-    if (this.isSlashCommand(trimmed)) {
-      let slashCommand = this.extractSlashCommand(trimmed)
-      clazz = commandTable[slashCommand] || Error 
+    //check auth!
+    let user = await context.authenticate(request.auth)
+    if(user==null){
+      user = await context.createPlayer();
+      return {auth:`${user.id()}`,status:'newauth'}
+    } else if (request.message==null) {
+      return {auth:`${user.id()}`,status:'newauth'}
     } else {
-      clazz = Say
+      let trimmed = request.message.trim()
+      let clazz
+      if (this.isSlashCommand(trimmed)) {
+        let slashCommand = this.extractSlashCommand(trimmed)
+        clazz = commandTable[slashCommand] || Error 
+      } else {
+        clazz = Say
+      }
+      return await new clazz().execute(context, trimmed)
     }
-
-    return await new clazz().execute(context, trimmed)
   }
 
   isSlashCommand(slashCommand) {

@@ -1,3 +1,5 @@
+const Motd = require('../motd')
+
 class Create {
   async createRoom(dungeon, name){
     let obj = await dungeon.createRoom(name)
@@ -109,4 +111,11 @@ class Teleport {
   }
 }
 
-module.exports = { Describe, Create, Emote, List, Error, Look, Rename, Say, Teleport }
+class Hello {
+  async execute(context, message) {
+    let motd = Motd.fetchMotd()
+    return {'messages': [...motd]}
+  }
+}
+
+module.exports = { Describe, Create, Emote, List, Error, Look, Rename, Say, Teleport, Hello }

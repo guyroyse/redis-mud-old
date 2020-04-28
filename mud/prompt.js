@@ -1,6 +1,8 @@
 class Prompt {
   fetchPrompt({ room }) {
-    return `You are in [${room.name()}]`
+    return {'messages': [
+      `You are in [${room.name()}]`
+    ]}
   }
 }
 

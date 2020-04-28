@@ -3,6 +3,7 @@ const Queries = require('../data/queries')
 
 const Room = require('./room')
 const Door = require('./door')
+const User = require('./user')
 
 class Dungeon {
 
@@ -18,6 +19,16 @@ class Dungeon {
   async fetchRoomList() {
     let valueSet = await this.shim.executeAndReturnMany(Queries.FETCH_ALL_ROOMS)
     return valueSet.map(values => this.roomFromValues(values))
+  }
+
+  async fetchUser(id) {
+    let values = await this.shim.executeAndReturnSingle(Queries.FETCH_USER, {id})
+    return this.userFromValues(values)
+  }
+
+  async createUser(){
+    let values = await this.shim.executeAndReturnSingle(Queries.CREATE_USER)
+    return this.userFromValues(values)
   }
 
   async fetchRoom(id) {
@@ -59,6 +70,16 @@ class Dungeon {
       name: values[1],
       description: values[2]
     })
+  }
+
+  userFromValues(values) {
+    if(values!=null){
+      return new User(this, {
+        id: values[0]
+      })
+    } else {
+      return null
+    }
   }
 
   doorFromValues(values) {

@@ -1,9 +1,10 @@
 const RedisGraph = require('redisgraph.js').Graph
+const Host = require('./host.json')
 
 class RedisGraphShim {
 
   open(key) {
-    this.graph = new RedisGraph(key)
+    this.graph = new RedisGraph(key, Host.host)
   }
 
   close() {

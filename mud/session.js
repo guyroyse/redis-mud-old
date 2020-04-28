@@ -1,5 +1,4 @@
 const CommandProcessor = require('./commands/command-processor')
-const Motd = require('./motd')
 const Prompt = require('./prompt')
 const Context = require('./context')
 
@@ -8,35 +7,30 @@ class Session {
   constructor(ws) {
     this.ws = ws
     this.context = new Context()
-    this.motd = new Motd()
     this.prompt = new Prompt()
     this.commandProcessor = new CommandProcessor()
   }
 
   async start() {
     await this.context.start()
-    this.sendMotd()
-    this.sendPrompt()
+    this.sendAuthRequest();
+    // this.sendMotd()
   }
 
   async processMessage(message) {
-    let text = await this.commandProcessor.processMessage(this.context, message)
-    this.sendText(text)
-    this.sendPrompt()
+    let response = await this.commandProcessor.processMessage(this.context, message)
+    this.sendResponse(response)
   }
 
-  sendMotd() {
-    let text = this.motd.fetchMotd()
-    this.sendText(text)
-  }
-  
-  sendPrompt() {
-    let text = this.prompt.fetchPrompt(this.context)
-    this.sendText(text)
+  sendAuthRequest(){
+    this.sendResponse({
+      'status':'authRequest',
+      'messages':[]
+    });
   }
 
-  sendText(s) {
-    this.ws.send(s.split('\n').join('<br/>'))
+  sendResponse(r) {
+    this.ws.send(JSON.stringify(r))
   }
 
 }

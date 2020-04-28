@@ -1,5 +1,18 @@
 module.exports = {
 
+  FETCH_USER: `
+    MATCH
+      (u:user)
+    WHERE
+      id(u) = $id
+    RETURN id(u), u.name`,
+
+  CREATE_USER: `
+    CREATE
+      (u:user {name: 'Some Guy'})
+    RETURN 
+      id(u), u.name`,
+
   FETCH_ROOM: `
     MATCH
      (r:room)
