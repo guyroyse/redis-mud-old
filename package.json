@@ -19,6 +19,7 @@
     "sinon-chai": "^3.5.0"
   },
   "dependencies": {
+    "bluebird": "^3.7.2",
     "node-static": "^0.7.11",
     "redisgraph.js": "^2.1.0",
     "ws": "^7.2.3"

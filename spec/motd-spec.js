@@ -6,16 +6,16 @@ const Motd = require('../mud/motd')
 describe("Motd", function() {
 
   beforeEach(function() {
-    this.subject = new Motd()
   })
 
   describe("#fetchMotd", function() {
     beforeEach(function() {
-      this.result = this.subject.fetchMotd()
+      this.result = Motd.fetchMotd()
     })
 
     it("returns the prompt", function() {
-      expect(this.result).to.have.equal("Welcome to RedisMUD!\nBeware. You are likely to be eaten by a grue.")
+      expect(this.result[0]).to.have.equal("Welcome to RedisMUD!")
+      expect(this.result[1]).to.not.be.equal("")
     })
   })
 })

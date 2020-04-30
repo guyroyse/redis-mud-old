@@ -1,3 +1,4 @@
+const bluebird = require('bluebird')
 const chai = require('chai')
 let expect = chai.expect
 
@@ -9,30 +10,31 @@ chai.use(sinonChai)
 const CommandProcessor = require('../../mud/commands/command-processor')
 const Dungeon = require('../../mud/things/dungeon')
 const Room = require('../../mud/things/room')
+const User = require('../../mud/things/user')
+const Context = require('../../mud/context')
 
 describe("Commands", function() {
 
   beforeEach(function() {
-    this.context = {
-      dungeon: sinon.createStubInstance(Dungeon),
-      room: sinon.createStubInstance(Room)
-    }
-
-    this.context.room.id.returns(42)
-    this.context.room.name.returns('the room')
-    this.context.room.description.returns('the description')
-
+    this.context = new Context()
+    this.user = new User(null,{ id: '1', name: 'one'})
     this.processor = new CommandProcessor()
+    sinon.stub(Context.prototype, 'authenticate').usingPromise(bluebird.Promise).resolves(this.user)
+  })
+
+  this.afterEach(function(){
+    sinon.restore()
   })
 
   describe("Create: /create", function () {
     beforeEach(
       async function () {
-        this.response = await this.processor.processMessage(this.context, "/create")
+        let message = JSON.stringify({"auth":"1","message":"/create"})
+        this.response = await this.processor.processMessage(this.context, message)
     })
 
     it("doesn't know what yer talking about", function () {
-      expect(this.response).to.equal("If you need help, try 'create [TYPE_OF_THING] [NAME_OF_THING]'")
+      expect(this.response.messages[0]).to.equal("If you need help, try 'create [TYPE_OF_THING] [NAME_OF_THING]'")
     })  
 
   })
@@ -40,11 +42,12 @@ describe("Commands", function() {
   describe("Create: /create room", function () {
     beforeEach(
       async function () {
-        this.response = await this.processor.processMessage(this.context, "/create room")
+        let message = JSON.stringify({"auth":"1","message":"/create room"})
+        this.response = await this.processor.processMessage(this.context, message)
     })
 
     it("doesn't know what yer talking about", function () {
-      expect(this.response).to.equal("Things need names, there, bud!")
+      expect(this.response.messages[0]).to.equal("Things need names, there, bud!")
     })  
 
   })
@@ -52,11 +55,12 @@ describe("Commands", function() {
   describe("Create: /create window Rear Window", function () {
     beforeEach(
       async function () {
-        this.response = await this.processor.processMessage(this.context, "/create window Rear Window")
+        let message = JSON.stringify({"auth":"1","message":"/create window Rear Window"})
+        this.response = await this.processor.processMessage(this.context, message)
     })
 
     it("doesn't know what yer talking about", function () {
-      expect(this.response).to.equal("Sorry, I don't do windows :)!")
+      expect(this.response.messages[0]).to.equal("Sorry, I don't do windows :)!")
     })  
 
   })
@@ -64,18 +68,21 @@ describe("Commands", function() {
   describe("Create: /create macguffin Maltese Falcon", function () {
     beforeEach(
       async function () {
-        this.response = await this.processor.processMessage(this.context, "/create macguffin Maltese Falcon")
+        let message = JSON.stringify({"auth":"1","message":"/create macguffin Maltese Falcon"})
+        this.response = await this.processor.processMessage(this.context, message)
     })
 
     it("doesn't know what yer talking about", function () {
-      expect(this.response).to.equal("I don't know how to create a 'macguffin'.")
+      expect(this.response.messages[0]).to.equal("I don't know how to create a 'macguffin'.")
     })  
 
   })
     describe("Create: /create room The Blue Room", function () {
     beforeEach(async function() {
+      this.context.dungeon = sinon.createStubInstance(Dungeon)
       this.context.dungeon.createRoom.returns({"id":()=>42})
-      this.response = await this.processor.processMessage(this.context, "/create room The Blue Room")
+      let message = JSON.stringify({"auth":"1","message":"/create room The Blue Room"})
+      this.response = await this.processor.processMessage(this.context, message)
     })
 
     it("creates the room", function() {
@@ -83,35 +90,7 @@ describe("Commands", function() {
     })
 
     it("returns the expected response", function() {
-      expect(this.response).to.equal("Room 'The Blue Room' created with ID of 42.")
-    })
-  })
-
-  describe("Describe: /describe room This room is big and ugly.", function() {
-    beforeEach(async function() {
-      this.response = await this.processor.processMessage(this.context, "/describe room This room is big and ugly.")
-    })
-
-    it("redescribes the current room", function() {
-      expect(this.context.room.description).to.have.been.calledWith("This room is big and ugly.")
-    })
-
-    it("returns the expected response", function() {
-      expect(this.response).to.equal("Room description updated.")
-    })
-  })
-
-  context("Rename: /rename room The Fub", function() {
-    beforeEach(async function() {
-      this.response = await this.processor.processMessage(this.context, "/rename room The Fub")
-    })
-
-    it("renames the current room", function() {
-      expect(this.context.room.name).to.have.been.calledWith("The Fub")
-    })
-
-    it("returns the expected response", function() {
-      expect(this.response).to.equal("Room renamed.")
+      expect(this.response.messages[0]).to.equal("Room 'The Blue Room' created with ID of 42.")
     })
   })
 
@@ -131,14 +110,17 @@ describe("Commands", function() {
       rooms[1].id.returns(42)
       rooms[2].id.returns(13)
 
+      this.context.dungeon = sinon.createStubInstance(Dungeon)
       this.context.dungeon.fetchRoomList.returns(rooms)
-      this.context.room.description.returns('the description')
-  
-      this.response = await this.processor.processMessage(this.context, "/list")
+
+      let message = JSON.stringify({"auth":"1","message":"/list"})
+      this.response = await this.processor.processMessage(this.context, message)
     })
 
     it("returns the expected response", function() {
-      expect(this.response).to.equal("[the room] 23\n[the other room] 42\n[the back room] 13")
+      expect(this.response.messages[0]).to.equal("[the room] 23")
+      expect(this.response.messages[1]).to.equal("[the other room] 42")
+      expect(this.response.messages[2]).to.equal("[the back room] 13")
     })
   })
 
@@ -146,21 +128,19 @@ describe("Commands", function() {
     beforeEach(async function() {
       this.returnedRoom = sinon.createStubInstance(Room)
       this.returnedRoom.name.returns('the room')
+      this.context.dungeon = sinon.createStubInstance(Dungeon)
       this.context.dungeon.fetchRoom.returns(this.returnedRoom)
 
-      this.response = await this.processor.processMessage(this.context, "/teleport 42")
+      let message = JSON.stringify({"auth":"1","message":"/teleport 42"})
+      this.response = await this.processor.processMessage(this.context, message)
     })
 
     it("fetches room 42", function() {
       expect(this.context.dungeon.fetchRoom).to.have.been.calledWith(42)
     })
 
-    it("update the context with the new room", function() {
-      expect(this.context.room).to.equal(this.returnedRoom)
-    })
-
     it("returns the expected response", function() {
-      expect(this.response).to.equal("Teleported to [the room].")
+      expect(this.response.messages[0]).to.equal("Teleported to [the room].")
     })
   })
 
@@ -168,9 +148,6 @@ describe("Commands", function() {
     { commandName: "Say", 
       command: "the message",
       response: "You said: the message" },
-    { commandName: "Look",
-      command: "/look",
-      response: "[the room]: the description" },
     { commandName: "Emote",
       command: "/emote did a thing!",
       response: "Player did a thing!" },
@@ -184,11 +161,12 @@ describe("Commands", function() {
 
     describe(`${commandName}: ${command}`, function() {
       beforeEach(async function() {
-        this.response = await this.processor.processMessage(this.context, command)
+        let message = JSON.stringify({"auth":"1","message":command})
+        this.response = await this.processor.processMessage(this.context, message)
       })
 
       it("returns the expected response", function() {
-        expect(this.response).to.equal(response)
+        expect(this.response.messages[0]).to.equal(response)
       })
     })
   })

@@ -1,5 +1,13 @@
 const Motd = require('../motd')
 
+const USER_NOUN="user"
+const USERS_NOUN="users"
+const ROOM_NOUN="room"
+const ROOMS_NOUN="rooms"
+const PORTAL_NOUN="portal"
+const PORTALS_NOUN="portals"
+const WINDOW_NOUN="window"
+
 class Utility{
   static makeMessage(message){
     return {messages:[message]}
@@ -32,11 +40,11 @@ class Create {
       return Utility.makeMessage(`Things need names, there, bud!`)
     } else {
       switch(thing) {
-        case "room":
+        case ROOM_NOUN:
           return await this.createRoom(dungeon, name);
-        case "portal":
+        case PORTAL_NOUN:
           return await this.createPortal(dungeon, name);
-        case "window":
+        case WINDOW_NOUN:
           return await this.createWindow();
         default:
           return await this.createUnknown(thing);
@@ -49,11 +57,32 @@ class Create {
   }
 }
 
-class Describe {
-  execute({ players }, user, message) {
-    let [ , description ] = message.match(/^\/describe\s+room\s+(.*)$/)
-    players[user.id()].room.description(description)
-    return Utility.makeMessage("Room description updated.")
+class Delete {
+  async deleteUser(dungeon, which){
+    let id = Number(which)
+    if(isNaN(id)){
+      return Utility.makeMessage(`Invalid UserId '${userId}'`);
+    }else{
+      await dungeon.deleteUser(id)
+      return Utility.makeMessage(`Deleted user '${id}' (if they exist!)`)
+    }
+  }
+
+  async deleteThing(dungeon, noun, which) {
+    if(noun==null || which==null){
+      return Utility.makeMessage(`try 'delete [TYPE_OF_THING] [ID_OF_THING]`)
+    } else {
+      switch(noun){
+        case USER_NOUN:
+          return await this.deleteUser(dungeon, which)
+        default:
+          return Utility.makeMessage(`I don't how to delete a '${noun}'.`)
+      }
+    }
+  }
+  async execute({ dungeon }, user, message) {
+    let [ , noun, which] = message.match(/^\/delete(?:\s+(\w+)\s*(.*))?$/)
+    return await this.deleteThing(dungeon,noun, which)
   }
 }
 
@@ -78,10 +107,15 @@ class List {
     }
     switch(things)
     {
-      case "rooms":
+      case ROOMS_NOUN:
         {
           let rooms = await dungeon.fetchRoomList()
           return Utility.makeMessages(rooms.map(room => `[${room.name()}] ${room.id()}`))
+        }
+      case USERS_NOUN:
+        {
+          let users = await dungeon.fetchUserList()
+          return Utility.makeMessages(users.map(user => `[${user.name()}] ${user.id()}`))
         }
       default:
         {
@@ -92,17 +126,9 @@ class List {
 }
 
 class Look {
-  execute({ players }, user) {
-    let room = players[user.id()].room
+  async execute({ dungeon }, user) {
+    let room = await dungeon.fetchResidence(user.id())
     return Utility.makeMessage(`[${room.name()}]: ${room.description()}`)
-  }
-}
-
-class Rename {
-  execute({ players }, user, message) {
-    let [ , name ] = message.match(/^\/rename\s+room\s+(.*)$/)
-    players[user.id()].room.name(name)
-    return Utility.makeMessage("Room renamed.")
   }
 }
 
@@ -116,8 +142,12 @@ class Teleport {
   async execute(context, user, message) {
     let [ , id ] = message.match(/^\/teleport\s+(.*)$/)
     let room = await context.dungeon.fetchRoom(Number(id))
-    context.players[user.id()].room = room
-    return Utility.makeMessage(`Teleported to [${room.name()}].`)
+    if(room){
+      await context.dungeon.placeUserInRoom(user.id(),room.id())
+      return Utility.makeMessage(`Teleported to [${room.name()}].`)
+    }else{
+      return Utility.makeMessage(`You cannot teleport there.`)
+    }
   }
 }
 
@@ -128,4 +158,4 @@ class Hello {
   }
 }
 
-module.exports = { Describe, Create, Emote, List, Error, Look, Rename, Say, Teleport, Hello }
+module.exports = { Create, Emote, List, Error, Look, Say, Teleport, Hello, Delete }

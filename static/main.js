@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let ws = new WebSocket('ws://localhost:8081/')
 
   const AUTH_TOKEN_KEY = "authToken"
-  const AUTH_REQUEST = "authRequest"
-  const AUTH_RESPONSE = "newauth"
+  const AUTH_REQUEST = "identify"
+  const AUTH_RESPONSE = "identity"
 
   let authToken = localStorage.getItem(AUTH_TOKEN_KEY) || "";
 
@@ -16,12 +16,19 @@ document.addEventListener('DOMContentLoaded', () => {
     input.addEventListener('keydown', event => {
 
       if (event.key === "Enter") {
+        let command = input.value
+
         display.innerHTML += `<p class="callback"><b>&gt;${input.value}</b></p>`
-        let request=JSON.stringify({
-          "auth": authToken,
-          "message": input.value
-        })
-        ws.send(request)
+
+        if(command==='/id'){
+          display.innerHTML += `<p>Yer id is '${authToken}'</p>`
+        }else{
+          let request=JSON.stringify({
+            "auth": authToken,
+            "message": input.value
+          })
+          ws.send(request)
+        }
         input.value = ""
         return false
       }

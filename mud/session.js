@@ -14,7 +14,6 @@ class Session {
   async start() {
     await this.context.start()
     this.sendAuthRequest();
-    // this.sendMotd()
   }
 
   async processMessage(message) {
@@ -24,7 +23,7 @@ class Session {
 
   sendAuthRequest(){
     this.sendResponse({
-      'status':'authRequest',
+      'status':'identify',
       'messages':[]
     });
   }

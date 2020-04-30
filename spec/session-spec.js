@@ -10,16 +10,14 @@ const Session = require('../mud/session')
 
 const WebSocket = require('ws')
 const Context = require('../mud/context')
-const Motd = require('../mud/motd')
 const Prompt = require('../mud/prompt')
 const CommandProcessor = require('../mud/commands/command-processor')
 
 describe("Session", function() {
   beforeEach(function() {
     sinon.stub(Context.prototype, 'start')
-    sinon.stub(Motd.prototype, 'fetchMotd')
-    sinon.stub(Prompt.prototype, 'fetchPrompt')
     sinon.stub(CommandProcessor.prototype, 'processMessage')
+    sinon.stub(Prompt.prototype, 'fetchPrompt')
     this.websocket = sinon.createStubInstance(WebSocket)
 
     this.subject = new Session(this.websocket)
@@ -31,8 +29,7 @@ describe("Session", function() {
 
   context("when started", function() {
     beforeEach(function() {
-      Motd.prototype.fetchMotd.returns("some\nmotd")
-      Prompt.prototype.fetchPrompt.returns("some\nprompt")
+      Prompt.prototype.fetchPrompt.returns(["some", "prompt"])
       return this.subject.start()
     })
 
@@ -41,14 +38,13 @@ describe("Session", function() {
     })
 
     it("it sends the message of the day and the prompt", function() {
-      expect(this.websocket.send.firstCall).to.have.been.calledWith("some<br/>motd")
-      expect(this.websocket.send.secondCall).to.have.been.calledWith("some<br/>prompt")
+      expect(this.websocket.send.firstCall).to.have.been.calledWith("{\"status\":\"identify\",\"messages\":[]}")
     })
 
     describe("#processMessage", function() {
       beforeEach(async function() {
         this.websocket.send.resetHistory()
-        CommandProcessor.prototype.processMessage.returns("some response\nwith multiple line")
+        CommandProcessor.prototype.processMessage.returns("test")
         await this.subject.processMessage("some message")
       })
 
@@ -58,8 +54,7 @@ describe("Session", function() {
       })
 
       it("returns the response to the web socket", function() {
-        expect(this.websocket.send.firstCall).to.have.been.calledWith("some response<br/>with multiple line")
-        expect(this.websocket.send.secondCall).to.have.been.calledWith("some<br/>prompt")
+        expect(this.websocket.send.firstCall).to.have.been.calledWith("\"test\"")
       })
     })
   })

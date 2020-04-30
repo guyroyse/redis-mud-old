@@ -16,42 +16,61 @@ class Dungeon {
     this.shim.close()
   }
 
+  async placeUserInRoom(idOccupant, idResidence) {
+    await this.shim.execute(Queries.VACATE, { idOccupant })
+    await this.shim.execute(Queries.OCCUPY, { idOccupant, idResidence })
+  }
+
+  async fetchResidence(idOccupant){
+    let values = await this.shim.executeAndReturnSingle(Queries.FETCH_OCCUPANT_ROOM, {idOccupant})
+    return Room.fromValues(values)
+  }
+
   async fetchRoomList() {
     let valueSet = await this.shim.executeAndReturnMany(Queries.FETCH_ALL_ROOMS)
-    return valueSet.map(values => this.roomFromValues(values))
+    return valueSet.map(values => Room.fromValues(values))
+  }
+
+  async fetchUserList() {
+    let valueSet = await this.shim.executeAndReturnMany(Queries.FETCH_ALL_USERS)
+    return valueSet.map(values => User.fromValues(values))
   }
 
   async fetchUser(id) {
     let values = await this.shim.executeAndReturnSingle(Queries.FETCH_USER, {id})
-    return this.userFromValues(values)
+    return User.fromValues(values)
   }
 
-  async createUser(){
-    let values = await this.shim.executeAndReturnSingle(Queries.CREATE_USER)
-    return this.userFromValues(values)
+  async deleteUser(id) {
+    await this.shim.execute(Queries.DELETE_USER, { id })
+  }
+
+  async createUser(name){
+    let values = await this.shim.executeAndReturnSingle(Queries.CREATE_USER, { name })
+    return User.fromValues(values)
   }
 
   async fetchRoom(id) {
     let values = await this.shim.executeAndReturnSingle(Queries.FETCH_ROOM, {id})
-    return this.roomFromValues(values)
+    return Room.fromValues(values)
   }
 
   async fetchOrCreateHub() {
     let values = await this.shim.executeAndReturnSingle(Queries.FETCH_OR_CREATE_HUB,
       { name: 'The Hub', description: 'Huge hub is huge' })
-    return this.roomFromValues(values)
+    return Room.fromValues(values)
   }
 
   async createRoom(name) {
     let values = await this.shim.executeAndReturnSingle(Queries.CREATE_ROOM,
       { name, description: 'This is a room.' })
-    return this.roomFromValues(values)
+    return Room.fromValues(values)
   }
 
   async createPortal(name) {
     let values = await this.shim.executeAndReturnSingle(Queries.CREATE_PORTAL,
       { name, description: 'This is a portal.' })
-    return this.roomFromValues(values)
+    return Room.fromValues(values)
   }
 
   async createDoor({ name, from, to }) {
@@ -62,24 +81,6 @@ class Dungeon {
 
   async updateRoom(id, name, description) {
     await this.shim.execute(Queries.UPDATE_ROOM, { id, name, description })
-  }
-
-  roomFromValues(values) {
-    return new Room(this, {
-      id: values[0],
-      name: values[1],
-      description: values[2]
-    })
-  }
-
-  userFromValues(values) {
-    if(values!=null){
-      return new User(this, {
-        id: values[0]
-      })
-    } else {
-      return null
-    }
   }
 
   doorFromValues(values) {

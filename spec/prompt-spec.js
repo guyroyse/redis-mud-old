@@ -26,7 +26,7 @@ describe("Prompt", function() {
     })
 
     it("returns the prompt", function() {
-      expect(this.result).to.equal("You are in [some room]")
+      expect(this.result[0]).to.equal("You are in [some room]")
     })
   })
 })

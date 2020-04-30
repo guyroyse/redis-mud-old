@@ -1,8 +1,15 @@
+let messages=[
+  'Beware. You are likely to be eaten by a grue.',
+  'You can\'t get ye flask!',
+  'I used to be an adventurer like you, then I took and arrow in the knee.',
+  'I\'ll be here all week! Try the veal!'
+];
+
 class Motd {
   static fetchMotd() {
     return [
         'Welcome to RedisMUD!',
-        'Beware. You are likely to be eaten by a grue.'
+        messages[Math.floor(Math.random() * messages.length)]
       ]
   }
 }

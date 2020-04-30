@@ -28,6 +28,17 @@ class Room {
 
     return this._description
   }
+  
+  static fromValues(values) {
+    if(values!=null) {
+      return new Room(this, {
+        id: values[0],
+        name: values[1],
+        description: values[2]
+      })
+    }
+    return null;
+  }
 
 }
 
