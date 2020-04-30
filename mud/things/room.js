@@ -29,9 +29,9 @@ class Room {
     return this._description
   }
   
-  static fromValues(values) {
+  static fromValues(dungeon, values) {
     if(values!=null) {
-      return new Room(this, {
+      return new Room(dungeon, {
         id: values[0],
         name: values[1],
         description: values[2]

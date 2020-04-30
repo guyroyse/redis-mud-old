@@ -17,6 +17,18 @@ class Utility{
   }
 }
 
+class Help {
+  async execute({  }, user, message) {
+    return Utility.makeMessage(`Valid slash commands are '/help', '/create', '/delete', '/teleport', '/list', '/uname', '/emote', '/say', '/look', and '/hello' .`)
+  }
+}
+class Uname {
+  async execute({ dungeon }, user, message) {
+    let [ , username ] = message.match(/^\/uname(?:\s+(.*))?$/)
+    return Utility.makeMessage(`Your user name is '${await user.name(username)}'.`)
+  }
+}
+
 class Create {
   async createRoom(dungeon, name){
     let obj = await dungeon.createRoom(name)
@@ -61,20 +73,32 @@ class Delete {
   async deleteUser(dungeon, which){
     let id = Number(which)
     if(isNaN(id)){
-      return Utility.makeMessage(`Invalid UserId '${userId}'`);
+      return Utility.makeMessage(`Invalid UserId '${which}'`);
     }else{
       await dungeon.deleteUser(id)
       return Utility.makeMessage(`Deleted user '${id}' (if they exist!)`)
     }
   }
 
+  async deleteRoom(dungeon, which){
+    let id = Number(which)
+    if(isNaN(id)){
+      return Utility.makeMessage(`Invalid RoomId '${which}'`);
+    }else{
+      await dungeon.deleteRoom(id)
+      return Utility.makeMessage(`Deleted room '${id}' (if it every really existed!)`)
+    }
+  }
+
   async deleteThing(dungeon, noun, which) {
     if(noun==null || which==null){
-      return Utility.makeMessage(`try 'delete [TYPE_OF_THING] [ID_OF_THING]`)
+      return Utility.makeMessage(`try 'delete [TYPE_OF_THING] [ID_OF_THING]'`)
     } else {
       switch(noun){
         case USER_NOUN:
           return await this.deleteUser(dungeon, which)
+        case ROOM_NOUN:
+          return await this.deleteRoom(dungeon, which)
         default:
           return Utility.makeMessage(`I don't how to delete a '${noun}'.`)
       }
@@ -89,7 +113,7 @@ class Delete {
 class Emote {
   execute({}, user, message) {
     let [ , emote ] = message.match(/^\/emote\s+(.*)$/)
-    return Utility.makeMessage(`Player ${emote}`)
+    return Utility.makeMessage(`${user.name()} ${emote}`)
   }
 }
 
@@ -140,7 +164,7 @@ class Say {
 
 class Teleport {
   async execute(context, user, message) {
-    let [ , id ] = message.match(/^\/teleport\s+(.*)$/)
+    let [ , id ] = message.match(/^\/teleport(?:\s*(.*))$/)
     let room = await context.dungeon.fetchRoom(Number(id))
     if(room){
       await context.dungeon.placeUserInRoom(user.id(),room.id())
@@ -158,4 +182,4 @@ class Hello {
   }
 }
 
-module.exports = { Create, Emote, List, Error, Look, Say, Teleport, Hello, Delete }
+module.exports = { Create, Emote, List, Error, Look, Say, Teleport, Hello, Delete, Uname, Help }

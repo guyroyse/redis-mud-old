@@ -26,7 +26,7 @@ main > section, main > p, main > p > input {
   width: 100%;
 }
 
-.callback{
+.echo-command{
   color: aqua;
 }
 

@@ -21,6 +21,10 @@ module.exports = {
     MATCH (u:user) WHERE id(u) = $id
     DELETE u`,
 
+  DELETE_ROOM: `
+    MATCH (r:room) WHERE id(r) = $id
+    DELETE r`,
+
   FETCH_ROOM: `
     MATCH
      (r:room)
@@ -38,7 +42,7 @@ module.exports = {
     RETURN id(r), r.name, r.description`,
 
   
-    CREATE_ROOM: `
+  CREATE_ROOM: `
     CREATE
       (r:room { name: $name, description: $description })
     RETURN id(r), r.name, r.description`,
@@ -69,9 +73,15 @@ module.exports = {
     RETURN id(d), d.name, d.description, id(from), id(to)`,
 
   UPDATE_ROOM: `
-      MATCH (r:room)
-      WHERE id(r) = $id
-      MERGE (r)
-      ON MATCH SET r.name = $name, r.description = $description`,
+    MATCH (r:room)
+    WHERE id(r) = $id
+    MERGE (r)
+    ON MATCH SET r.name = $name, r.description = $description`,
+
+  UPDATE_USER: `
+    MATCH (u:user)
+    WHERE id(u) = $id
+    MERGE (u)
+    ON MATCH SET u.name = $name`,
 
 }

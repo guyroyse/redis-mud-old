@@ -4,7 +4,9 @@ const Host = require('./host.json')
 class RedisGraphShim {
 
   open(key) {
-    this.graph = new RedisGraph(key, Host.host)
+    //Host.host will have the IP address of the redis
+    //this.graph = new RedisGraph(key, Host.host)//if host.json is needed...
+    this.graph = new RedisGraph(key)
   }
 
   close() {

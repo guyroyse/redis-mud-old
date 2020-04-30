@@ -13,14 +13,14 @@ class User {
     name(name) {
       if(name){
         this._name = name
-        //TODO: persist name
+        this.dungeon.updateUser(this.id(), this.name())
       }
       return this._name
     }
 
-    static fromValues(values) {
+    static fromValues(dungeon, values) {
       if(values!=null){
-        return new User(this, {
+        return new User(dungeon, {
           id: values[0],
           name: values[1]
         })
