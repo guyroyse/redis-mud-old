@@ -30,7 +30,7 @@ describe("Commands", function() {
     beforeEach(
       async function () {
         let message = JSON.stringify({"auth":"1","message":"/create"})
-        this.response = await this.processor.processMessage(this.context, message)
+        this.response = await this.processor.processMessage(this.context, this.user, message)
     })
 
     it("doesn't know what yer talking about", function () {
@@ -43,7 +43,7 @@ describe("Commands", function() {
     beforeEach(
       async function () {
         let message = JSON.stringify({"auth":"1","message":"/create room"})
-        this.response = await this.processor.processMessage(this.context, message)
+        this.response = await this.processor.processMessage(this.context, this.user, message)
     })
 
     it("doesn't know what yer talking about", function () {
@@ -56,7 +56,7 @@ describe("Commands", function() {
     beforeEach(
       async function () {
         let message = JSON.stringify({"auth":"1","message":"/create window Rear Window"})
-        this.response = await this.processor.processMessage(this.context, message)
+        this.response = await this.processor.processMessage(this.context, this.user, message)
     })
 
     it("doesn't know what yer talking about", function () {
@@ -69,7 +69,7 @@ describe("Commands", function() {
     beforeEach(
       async function () {
         let message = JSON.stringify({"auth":"1","message":"/create macguffin Maltese Falcon"})
-        this.response = await this.processor.processMessage(this.context, message)
+        this.response = await this.processor.processMessage(this.context, this.user, message)
     })
 
     it("doesn't know what yer talking about", function () {
@@ -82,7 +82,7 @@ describe("Commands", function() {
       this.context.dungeon = sinon.createStubInstance(Dungeon)
       this.context.dungeon.createRoom.returns({"id":()=>42})
       let message = JSON.stringify({"auth":"1","message":"/create room The Blue Room"})
-      this.response = await this.processor.processMessage(this.context, message)
+      this.response = await this.processor.processMessage(this.context, this.user, message)
     })
 
     it("creates the room", function() {
@@ -114,7 +114,7 @@ describe("Commands", function() {
       this.context.dungeon.fetchRoomList.returns(rooms)
 
       let message = JSON.stringify({"auth":"1","message":"/list"})
-      this.response = await this.processor.processMessage(this.context, message)
+      this.response = await this.processor.processMessage(this.context, this.user, message)
     })
 
     it("returns the expected response", function() {
@@ -132,7 +132,7 @@ describe("Commands", function() {
       this.context.dungeon.fetchRoom.returns(this.returnedRoom)
 
       let message = JSON.stringify({"auth":"1","message":"/teleport 42"})
-      this.response = await this.processor.processMessage(this.context, message)
+      this.response = await this.processor.processMessage(this.context, this.user, message)
     })
 
     it("fetches room 42", function() {
@@ -150,7 +150,7 @@ describe("Commands", function() {
       response: "You said: the message" },
     { commandName: "Emote",
       command: "/emote did a thing!",
-      response: "Player did a thing!" },
+      response: "one did a thing!" },
     { commandName: "Error",
       command: "/foo is so wrong!",
       response: "Invalid command '/foo is so wrong!'" }
@@ -162,7 +162,7 @@ describe("Commands", function() {
     describe(`${commandName}: ${command}`, function() {
       beforeEach(async function() {
         let message = JSON.stringify({"auth":"1","message":command})
-        this.response = await this.processor.processMessage(this.context, message)
+        this.response = await this.processor.processMessage(this.context, this.user, message)
       })
 
       it("returns the expected response", function() {

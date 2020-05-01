@@ -1,4 +1,5 @@
 const chai = require('chai')
+const bluebird = require('bluebird')
 let expect = chai.expect
 
 const sinon = require('sinon')
@@ -11,6 +12,7 @@ const Session = require('../mud/session')
 const WebSocket = require('ws')
 const Context = require('../mud/context')
 const Prompt = require('../mud/prompt')
+const User = require('../mud/things/user')
 const CommandProcessor = require('../mud/commands/command-processor')
 
 describe("Session", function() {
@@ -38,19 +40,21 @@ describe("Session", function() {
     })
 
     it("it sends the message of the day and the prompt", function() {
-      expect(this.websocket.send.firstCall).to.have.been.calledWith("{\"status\":\"identify\",\"messages\":[]}")
+      expect(this.websocket.send.firstCall).to.have.been.calledWith("{\"status\":\"identify\"}")
     })
 
     describe("#processMessage", function() {
       beforeEach(async function() {
         this.websocket.send.resetHistory()
+        this.user = new User(null,{ id: '1', name: 'one'})
         CommandProcessor.prototype.processMessage.returns("test")
-        await this.subject.processMessage("some message")
+        sinon.stub(Context.prototype, 'authenticate').usingPromise(bluebird.Promise).resolves(this.user)
+        await this.subject.processMessage("{\"auth\":\"1\",\"message\":\"some message\"}")
       })
 
       it("invokes the message processor", function() {
         expect(CommandProcessor.prototype.processMessage)
-          .to.have.been.calledWith(this.subject.context, "some message")
+          .to.have.been.calledWith(this.subject.context, this.user, "{\"auth\":\"1\",\"message\":\"some message\"}")
       })
 
       it("returns the response to the web socket", function() {

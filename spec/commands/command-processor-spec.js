@@ -29,7 +29,7 @@ describe("CommandProcessor", function() {
 
       let message = JSON.stringify({"auth":"1","message":"     This command has whitespace\t\t\n\n       "})
   
-      await this.subject.processMessage(this.context, message)
+      await this.subject.processMessage(this.context, this.user, message)
     })
 
     afterEach(function() {
@@ -46,7 +46,7 @@ describe("CommandProcessor", function() {
       sinon.stub(Error.prototype, 'execute')
       sinon.stub(Context.prototype, 'authenticate').usingPromise(bluebird.Promise).resolves(this.user)
       let message = JSON.stringify({"auth":"1","message":"  /foo is not a command\t\t\n\n  "})
-      await this.subject.processMessage(this.context, message)
+      await this.subject.processMessage(this.context, this.user, message)
     })
 
     afterEach(function() {
