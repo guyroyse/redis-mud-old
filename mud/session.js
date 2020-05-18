@@ -19,9 +19,13 @@ class Session {
     this.sendPrompt()
   }
 
-  async processMessage(message) {
-    let text = await this.commandProcessor.processMessage(this.context, message)
-    this.sendText(text)
+  async processMessage(data) {
+    let request = JSON.parse(data)
+    let command = request.command
+
+    let message = await this.commandProcessor.processMessage(this.context, command)
+
+    this.sendText(message)
     this.sendPrompt()
   }
 
@@ -36,7 +40,8 @@ class Session {
   }
 
   sendText(s) {
-    this.ws.send(s.split('\n').join('<br/>'))
+    let response = { messages: s.split('\n') }
+    this.ws.send(JSON.stringify(response))
   }
 
 }

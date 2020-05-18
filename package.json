@@ -14,13 +14,13 @@
   "license": "CC-BY-SA-4.0",
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^7.1.1",
+    "mocha": "^7.1.2",
     "sinon": "^9.0.1",
     "sinon-chai": "^3.5.0"
   },
   "dependencies": {
     "node-static": "^0.7.11",
     "redisgraph.js": "^2.1.0",
-    "ws": "^7.2.3"
+    "ws": "^7.3.0"
   }
 }

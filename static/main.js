@@ -10,7 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
     input.addEventListener('keydown', event => {
 
       if (event.key === "Enter") {
-        ws.send(input.value)
+
+        let request = {
+          command: input.value
+        }
+
+        ws.send(JSON.stringify(request))
+
         input.value = ""
         return false
       }
@@ -18,8 +24,19 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     ws.onmessage = event => {
-      display.innerHTML = `${display.innerHTML}<p>${event.data}</p>`
-      display.scrollTop = display.scrollHeight
+
+      let response = JSON.parse(event.data)
+
+      if (response.messages) {
+        let addendum = response.messages
+          .map(message => `<p>${message}</p>`)
+          .join('')
+
+        display.innerHTML = `${display.innerHTML}${addendum}`
+        display.scrollTop = display.scrollHeight
+      }
+
+
     }
 
   }
