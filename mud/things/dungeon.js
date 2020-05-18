@@ -26,6 +26,8 @@ class Dungeon {
   }
 
   async fetchOrCreateHub() {
+    // TODO: FIX THIS!
+    //
     // let values = await this.shim.executeAndReturnSingle(Queries.FETCH_OR_CREATE_HUB,
     //   { name: 'The Hub', description: 'Huge hub is huge' })
     let values = await this.shim.executeAndReturnSingle(Queries.FETCH_OR_CREATE_HUB)

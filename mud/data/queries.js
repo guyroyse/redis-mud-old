@@ -7,6 +7,8 @@ module.exports = {
       id(r) = $id
     RETURN id(r), r.name, r.description`,
 
+  // TODO: FIX THIS!
+  //
   // FETCH_OR_CREATE_HUB: `
   //   MERGE
   //     (r:room { hub: 'true' })
