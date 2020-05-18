@@ -7,13 +7,19 @@ module.exports = {
       id(r) = $id
     RETURN id(r), r.name, r.description`,
 
+  // FETCH_OR_CREATE_HUB: `
+  //   MERGE
+  //     (r:room { hub: 'true' })
+  //   ON CREATE SET
+  //     r.name = $name,
+  //     r.description = $description,
+  //     r.hub = 'true'
+  //   RETURN
+  //     id(r), r.name, r.description`,
+
   FETCH_OR_CREATE_HUB: `
-    MERGE
+    MATCH
       (r:room { hub: 'true' })
-    ON CREATE SET
-      r.name = $name,
-      r.description = $description,
-      r.hub = 'true'
     RETURN
       id(r), r.name, r.description`,
 
@@ -38,14 +44,14 @@ module.exports = {
       id(d), d.name, d.description, id(from), id(to)`,
 
   UPDATE_ROOM: `
-      MATCH
-        (r:room)
-      WHERE
-        id(r) = $id
-      MERGE
-        (r)
-      ON MATCH SET
-        r.name = $name,
-        r.description = $description`,
+    MATCH
+      (r:room)
+    WHERE
+      id(r) = $id
+    MERGE
+      (r)
+    ON MATCH SET
+      r.name = $name,
+      r.description = $description`,
 
 }
