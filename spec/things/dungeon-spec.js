@@ -56,7 +56,7 @@ describe("Dungeon", function() {
 
     })
 
-    describe("#fetchOrCreateHub", function() {
+    xdescribe("#fetchOrCreateHub", function() {
 
       beforeEach(async function() {
         RedisShim.prototype.executeAndReturnSingle
