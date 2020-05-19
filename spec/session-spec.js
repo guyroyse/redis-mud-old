@@ -29,7 +29,7 @@ describe("Session", function() {
     sinon.restore()
   })
 
-  xcontext("when started", function() {
+  context("when started", function() {
     beforeEach(function() {
       Motd.prototype.fetchMotd.returns("some\nmotd")
       Prompt.prototype.fetchPrompt.returns("some\nprompt")
@@ -41,15 +41,17 @@ describe("Session", function() {
     })
 
     it("it sends the message of the day and the prompt", function() {
-      expect(this.websocket.send.firstCall).to.have.been.calledWith("some<br/>motd")
-      expect(this.websocket.send.secondCall).to.have.been.calledWith("some<br/>prompt")
+      expect(this.websocket.send.firstCall)
+        .to.have.been.calledWith(JSON.stringify({ messages: [ "some", "motd" ]}))
+      expect(this.websocket.send.secondCall)
+        .to.have.been.calledWith(JSON.stringify({ messages: [ "some", "prompt" ]}))
     })
 
     describe("#processMessage", function() {
       beforeEach(async function() {
         this.websocket.send.resetHistory()
         CommandProcessor.prototype.processMessage.returns("some response\nwith multiple line")
-        await this.subject.processMessage("some message")
+        await this.subject.processMessage(JSON.stringify({ command: "some message" }))
       })
 
       it("invokes the message processor", function() {
@@ -58,8 +60,12 @@ describe("Session", function() {
       })
 
       it("returns the response to the web socket", function() {
-        expect(this.websocket.send.firstCall).to.have.been.calledWith("some response<br/>with multiple line")
-        expect(this.websocket.send.secondCall).to.have.been.calledWith("some<br/>prompt")
+        expect(this.websocket.send.firstCall)
+          .to.have.been.calledWith(
+            JSON.stringify({ messages: [ "some response", "with multiple line" ] }))
+        expect(this.websocket.send.secondCall)
+          .to.have.been.calledWith(
+            JSON.stringify({ messages: [ "some", "prompt" ] }))
       })
     })
   })
