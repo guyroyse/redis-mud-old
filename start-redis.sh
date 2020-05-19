@@ -1,9 +1,9 @@
-docker image pull guyroyse/redismod
+docker image pull redislabs/redismod
 
 docker run \
   -p 6379:6379 \
   -v `pwd`/data:/data \
-  guyroyse/redismod \
+  redislabs/redismod \
   --loadmodule /usr/lib/redis/modules/redisgraph.so \
   --loadmodule /usr/lib/redis/modules/redisbloom.so \
   --loadmodule /usr/lib/redis/modules/redisai.so \

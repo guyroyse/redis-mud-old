@@ -7,21 +7,13 @@ module.exports = {
       id(r) = $id
     RETURN id(r), r.name, r.description`,
 
-  // TODO: FIX THIS!
-  //
-  // FETCH_OR_CREATE_HUB: `
-  //   MERGE
-  //     (r:room { hub: 'true' })
-  //   ON CREATE SET
-  //     r.name = $name,
-  //     r.description = $description,
-  //     r.hub = 'true'
-  //   RETURN
-  //     id(r), r.name, r.description`,
-
   FETCH_OR_CREATE_HUB: `
-    MATCH
+    MERGE
       (r:room { hub: 'true' })
+    ON CREATE SET
+      r.name = $name,
+      r.description = $description,
+      r.hub = 'true'
     RETURN
       id(r), r.name, r.description`,
 
