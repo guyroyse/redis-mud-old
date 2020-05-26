@@ -10,6 +10,8 @@ const CommandProcessor = require('../../mud/commands/command-processor')
 const Dungeon = require('../../mud/things/dungeon')
 const Room = require('../../mud/things/room')
 
+const ROOM_ID = 23
+
 describe("Commands", function() {
 
   beforeEach(function() {
@@ -18,7 +20,7 @@ describe("Commands", function() {
       room: sinon.createStubInstance(Room)
     }
 
-    this.context.room.id.returns(42)
+    this.context.room.id.returns(ROOM_ID)
     this.context.room.name.returns('the room')
     this.context.room.description.returns('the description')
 
@@ -47,11 +49,21 @@ describe("Commands", function() {
     })
 
     it("creates the door", function() {
-      expect(this.context.dungeon.createDoor).to.have.been.calledWith("The Big Door")
+      expect(this.context.dungeon.createDoor).to.have.been.calledWith("The Big Door", ROOM_ID)
     })
 
     it("returns the expected response", function() {
       expect(this.response).to.equal("Door 'The Big Door' created with ID of 42.")
+    })
+  })
+
+  describe("Create: /create unknown A Noun That Doesn't Exist", function() {
+    beforeEach(async function() {
+      this.response = await this.processor.processMessage(this.context, "/create unknown A Noun That Doesn't Exist")
+    })
+
+    it("return a reasonable error", function() {
+      expect(this.response).to.equal("INVALID COMMAND: Ye can't get ye flask.")
     })
   })
 

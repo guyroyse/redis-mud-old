@@ -1,13 +1,17 @@
 class Create {
-  async execute({ dungeon }, message) {
-    let [ , noun, name ] = message.match(/^\/create (door|room) (.*)$/)
-    if (noun === 'door') return await this.createDoor(dungeon, name)
+  async execute({ dungeon, room }, message) {
+    let match = message.match(/^\/create (door|room) (.*)$/)
+
+    if (!match) return "INVALID COMMAND: Ye can't get ye flask."
+
+    let [ , noun, name ] = match
+    if (noun === 'door') return await this.createDoor(dungeon, name, room.id())
     if (noun === 'room') return await this.createRoom(dungeon, name)
   }
 
-  async createDoor(dungeon, name) {
-    let id = await dungeon.createDoor(name)
-    return `Door '${name}' created with ID of ${id}.`
+  async createDoor(dungeon, name, room_id) {
+    let door_id = await dungeon.createDoor(name, room_id)
+    return `Door '${name}' created with ID of ${door_id}.`
   }
 
   async createRoom(dungeon, name) {

@@ -1,12 +1,10 @@
 class Door {
 
-  constructor(dungeon, {id, name, description, from, to}) {
+  constructor(dungeon, {id, name, description}) {
     this.dungeon = dungeon
     this._id = id
     this._name = name
     this._description = description
-    this._from = from
-    this._to = to
   }
 
   id() {
@@ -19,14 +17,6 @@ class Door {
 
   description() {
     return this._description
-  }
-
-  from() {
-    return this._from
-  }
-
-  to() {
-    return this._to
   }
 
 }

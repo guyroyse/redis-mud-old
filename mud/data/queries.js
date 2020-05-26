@@ -30,12 +30,10 @@ module.exports = {
       id(r), r.name, r.description`,
 
   CREATE_DOOR: `
-    MATCH (from:room) WHERE id(from) = $idFrom
-    MATCH (to:room) WHERE id(to) = $idTo
     CREATE
-      (from)-[d:door {name: $name, description: $description}]->(to)
+      (d:door {name: $name, description: $description})
     RETURN
-      id(d), d.name, d.description, id(from), id(to)`,
+      id(d), d.name, d.description`,
 
   UPDATE_ROOM: `
     MATCH
