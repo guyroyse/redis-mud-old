@@ -37,9 +37,9 @@ class Dungeon {
     return this.roomFromValues(values)
   }
 
-  async createDoor({ name }) {
+  async createDoor({ name, containingRoom }) {
     let values = await this.shim.executeAndReturnSingle(Queries.CREATE_DOOR,
-      { name, description: 'This is a door.' })
+      { name, description: 'This is a door.', containingRoom })
     return this.doorFromValues(values)
   }
 

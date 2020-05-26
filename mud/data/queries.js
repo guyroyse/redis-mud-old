@@ -30,8 +30,12 @@ module.exports = {
       id(r), r.name, r.description`,
 
   CREATE_DOOR: `
+    MATCH 
+      (r:room)
+    WHERE
+      id(r) = $containingRoom
     CREATE
-      (d:door {name: $name, description: $description})
+      (r)-[:contains]->(d:door {name: $name, description: $description})
     RETURN
       id(d), d.name, d.description`,
 

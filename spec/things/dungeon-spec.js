@@ -101,13 +101,13 @@ describe("Dungeon", function() {
     describe("#createDoor", function() {
       beforeEach(async function() {
         RedisShim.prototype.executeAndReturnSingle.returns([ 23, 'the name', 'the description' ])
-        this.result = await this.subject.createDoor({ name: "The Red Door" })
+        this.result = await this.subject.createDoor({ name: "The Red Door", containingRoom: 13 })
       })
 
       it("create the door", function() {
         expect(RedisShim.prototype.executeAndReturnSingle)
           .to.have.been.calledWith(Queries.CREATE_DOOR, 
-            { name: 'The Red Door', description: 'This is a door.' })
+            { name: 'The Red Door', description: 'This is a door.', containingRoom: 13 })
       })
 
       it("returns a door with expected properties", function() {
