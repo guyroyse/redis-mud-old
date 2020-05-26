@@ -40,6 +40,21 @@ describe("Commands", function() {
     })
   })
 
+  describe("Create: /create door The Big Door", function() {
+    beforeEach(async function() {
+      this.context.dungeon.createDoor.returns(42)
+      this.response = await this.processor.processMessage(this.context, "/create door The Big Door")
+    })
+
+    it("creates the door", function() {
+      expect(this.context.dungeon.createDoor).to.have.been.calledWith("The Big Door")
+    })
+
+    it("returns the expected response", function() {
+      expect(this.response).to.equal("Door 'The Big Door' created with ID of 42.")
+    })
+  })
+
   describe("Describe: /describe room This room is big and ugly.", function() {
     beforeEach(async function() {
       this.response = await this.processor.processMessage(this.context, "/describe room This room is big and ugly.")

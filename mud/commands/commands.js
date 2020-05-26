@@ -1,9 +1,20 @@
 class Create {
   async execute({ dungeon }, message) {
-    let [ , name ] = message.match(/^\/create room (.*)$/)
+    let [ , noun, name ] = message.match(/^\/create (door|room) (.*)$/)
+    if (noun === 'door') return await this.createDoor(dungeon, name)
+    if (noun === 'room') return await this.createRoom(dungeon, name)
+  }
+
+  async createDoor(dungeon, name) {
+    let id = await dungeon.createDoor(name)
+    return `Door '${name}' created with ID of ${id}.`
+  }
+
+  async createRoom(dungeon, name) {
     let id = await dungeon.createRoom(name)
     return `Room '${name}' created with ID of ${id}.`
   }
+
 }
 
 class Describe {
