@@ -9,8 +9,19 @@ chai.use(sinonChai)
 const CommandProcessor = require('../../mud/commands/command-processor')
 const Dungeon = require('../../mud/things/dungeon')
 const Room = require('../../mud/things/room')
+const Door = require('../../mud/things/door')
 
-const ROOM_ID = 23
+const CURRENT_ROOM_ID = 23
+const CURRENT_ROOM_NAME = 'The Red Room'
+const CURRENT_ROOM_DESCRIPTION = 'The Red Room is red.'
+
+const A_ROOM_ID = 42
+const A_ROOM_NAME = 'The Blue Room'
+const A_ROOM_DESCRIPTION = 'The Blue Room is blue.'
+
+const A_DOOR_ID = 13
+const A_DOOR_NAME = 'The Big Door'
+const A_DOOR_DESCRIPTION = 'The Big Door is big'
 
 describe("Commands", function() {
 
@@ -20,16 +31,26 @@ describe("Commands", function() {
       room: sinon.createStubInstance(Room)
     }
 
-    this.context.room.id.returns(ROOM_ID)
-    this.context.room.name.returns('the room')
-    this.context.room.description.returns('the description')
+    this.context.room.id.returns(CURRENT_ROOM_ID)
+    this.context.room.name.returns(CURRENT_ROOM_NAME)
+    this.context.room.description.returns(CURRENT_ROOM_DESCRIPTION)
+
+    this.aRoom = sinon.createStubInstance(Room)
+    this.aRoom.id.returns(A_ROOM_ID)
+    this.aRoom.name.returns(A_ROOM_NAME)
+    this.aRoom.description.returns(A_ROOM_DESCRIPTION)
+
+    this.aDoor = sinon.createStubInstance(Door)
+    this.aDoor.id.returns(A_DOOR_ID)
+    this.aDoor.name.returns(A_DOOR_NAME)
+    this.aDoor.description.returns(A_DOOR_DESCRIPTION)
 
     this.processor = new CommandProcessor()
   })
 
   describe("Create: /create room The Blue Room", function() {
     beforeEach(async function() {
-      this.context.dungeon.createRoom.returns(42)
+      this.context.dungeon.createRoom.returns(this.aRoom)
       this.response = await this.processor.processMessage(this.context, "/create room The Blue Room")
     })
 
@@ -38,22 +59,22 @@ describe("Commands", function() {
     })
 
     it("returns the expected response", function() {
-      expect(this.response).to.equal("Room 'The Blue Room' created with ID of 42.")
+      expect(this.response).to.equal(`Room '${A_ROOM_NAME}' created with ID of ${A_ROOM_ID}.`)
     })
   })
 
   describe("Create: /create door The Big Door", function() {
     beforeEach(async function() {
-      this.context.dungeon.createDoor.returns(42)
+      this.context.dungeon.createDoor.returns(this.aDoor)
       this.response = await this.processor.processMessage(this.context, "/create door The Big Door")
     })
 
     it("creates the door", function() {
-      expect(this.context.dungeon.createDoor).to.have.been.calledWith("The Big Door", ROOM_ID)
+      expect(this.context.dungeon.createDoor).to.have.been.calledWith("The Big Door", CURRENT_ROOM_ID)
     })
 
     it("returns the expected response", function() {
-      expect(this.response).to.equal("Door 'The Big Door' created with ID of 42.")
+      expect(this.response).to.equal(`Door '${A_DOOR_NAME}' created with ID of ${A_DOOR_ID}.`)
     })
   })
 
@@ -150,7 +171,7 @@ describe("Commands", function() {
       response: "You said: the message" },
     { commandName: "Look",
       command: "/look",
-      response: "[the room]: the description" },
+      response: `[${CURRENT_ROOM_NAME}]: ${CURRENT_ROOM_DESCRIPTION}` },
     { commandName: "Emote",
       command: "/emote did a thing!",
       response: "Player did a thing!" },
