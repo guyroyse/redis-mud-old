@@ -10,13 +10,13 @@ class Create {
   }
 
   async createDoor(dungeon, name, room_id) {
-    let door_id = await dungeon.createDoor(name, room_id)
-    return `Door '${name}' created with ID of ${door_id}.`
+    let door = await dungeon.createDoor(name, room_id)
+    return `Door '${name}' created with ID of ${door.id()}.`
   }
 
   async createRoom(dungeon, name) {
-    let id = await dungeon.createRoom(name)
-    return `Room '${name}' created with ID of ${id}.`
+    let room = await dungeon.createRoom(name)
+    return `Room '${name}' created with ID of ${room.id()}.`
   }
 
 }

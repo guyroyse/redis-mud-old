@@ -101,7 +101,7 @@ describe("Dungeon", function() {
     describe("#createDoor", function() {
       beforeEach(async function() {
         RedisShim.prototype.executeAndReturnSingle.returns([ 23, 'the name', 'the description' ])
-        this.result = await this.subject.createDoor({ name: "The Red Door", containingRoom: 13 })
+        this.result = await this.subject.createDoor("The Red Door", 13)
       })
 
       it("create the door", function() {
