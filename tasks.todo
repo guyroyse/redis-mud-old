@@ -28,7 +28,7 @@ Features:
     ☐ Deprecate rename and describe commands from room @created(2020-04-25)
 
   Doors:
-    ☐ Create door to nowhere @created(2020-04-25)
+    ✔ Create door to nowhere @created(2020-04-25) @done(2020-05-26)
     ☐ Create door with destinations @created(2020-04-25)
     ☐ Create door with sources and destination @created(2020-04-25)
     ☐ Edit door to set name, description, locations, destinations, and traversal message @created(2020-04-25)
