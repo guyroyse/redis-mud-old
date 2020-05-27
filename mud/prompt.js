@@ -1,8 +1,8 @@
-let Message = require('./ansi-string-builder')
+let AnsiStringBuilder = require('./ansi-string-builder')
 
 class Prompt {
   fetchPrompt({ room }) {
-    return new Message()
+    return new AnsiStringBuilder()
       .yellow('You are in').space()
       .magenta(`${room.name()} [${room.id()}]`)
       .reset()

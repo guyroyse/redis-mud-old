@@ -1,3 +1,5 @@
+// https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
+
 class AnsiStringBuilder {
   constructor() {
     this._message = ""
