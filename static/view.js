@@ -1,3 +1,5 @@
+const ansi_up = new AnsiUp()
+
 class PassiveView {
   constructor() {
     this.display = document.querySelector('#text-panel')
@@ -5,9 +7,8 @@ class PassiveView {
   }
 
   displayMessage(message) {
-    let textNode = document.createTextNode(message)
     let p = document.createElement('p')
-    p.appendChild(textNode)
+    p.innerHTML = ansi_up.ansi_to_html(message)
     this.display.appendChild(p)
     this.display.scrollTop = this.display.scrollHeight
   }
