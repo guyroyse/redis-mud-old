@@ -9,6 +9,8 @@ chai.use(sinonChai)
 const Prompt = require('../mud/prompt')
 const Room = require('../mud/things/room')
 
+const AnsiStringBuilder = require('../mud/ansi-string-builder')
+
 describe("Prompt", function() {
 
   beforeEach(function() {
@@ -19,6 +21,7 @@ describe("Prompt", function() {
     beforeEach(function() {
       this.room = sinon.createStubInstance(Room)
       this.room.name.returns('some room')
+      this.room.id.returns(23)
 
       this.context = { room: this.room }
 
@@ -26,7 +29,8 @@ describe("Prompt", function() {
     })
 
     it("returns the prompt", function() {
-      expect(this.result).to.equal("You are in [some room]")
+      let expected = new AnsiStringBuilder().yellow('You are in ').magenta('some room [23]').reset().build()
+      expect(this.result).to.equal(expected)
     })
   })
 })
