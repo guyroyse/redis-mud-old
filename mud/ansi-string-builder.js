@@ -14,8 +14,8 @@ class AnsiStringBuilder {
     return this.text(new Array(n).fill(' ').join(''))
   }
 
-  color(foreground, background, s) {
-    return this.foregroundColor(foreground).backgroundColor(background).text(s)
+  nl(n = 1) {
+    return this.text(new Array(n).fill('\n').join(''))
   }
 
   black(s)                    { return this.addCode('\x1b[30m', s) }
@@ -27,15 +27,6 @@ class AnsiStringBuilder {
   cyan(s)                     { return this.addCode('\x1b[36m', s) }
   white(s)                    { return this.addCode('\x1b[37m', s) }
 
-  brightBlack(s)              { return this.addCode('\x1b[30;1m', s)  }
-  brightRed(s)                { return this.addCode('\x1b[31;1m', s)  }
-  brightGreen(s)              { return this.addCode('\x1b[32;1m', s)  }
-  brightYellow(s)             { return this.addCode('\x1b[33;1m', s)  }
-  brightBlue(s)               { return this.addCode('\x1b[34;1m', s)  }
-  brightMagenta(s)            { return this.addCode('\x1b[35;1m', s)  }
-  brightCyan(s)               { return this.addCode('\x1b[36;1m', s)  }
-  brightWhite(s)              { return this.addCode('\x1b[37;1m', s)  }
-
   backgroundBlack(s)          { return this.addCode('\x1b[40m', s) }
   backgroundRed(s)            { return this.addCode('\x1b[41m', s) }
   backgroundGreen(s)          { return this.addCode('\x1b[42m', s) }
@@ -45,14 +36,12 @@ class AnsiStringBuilder {
   backgroundCyan(s)           { return this.addCode('\x1b[46m', s) }
   backgroundWhite(s)          { return this.addCode('\x1b[47m', s) }
   
-  backgroundBrightBlack(s)    { return this.addCode('\x1b[40;1m', s) }
-  backgroundBrightRed(s)      { return this.addCode('\x1b[41;1m', s) }
-  backgroundBrightGreen(s)    { return this.addCode('\x1b[42;1m', s) }
-  backgroundBrightYellow(s)   { return this.addCode('\x1b[43;1m', s) }
-  backgroundBrightBlue(s)     { return this.addCode('\x1b[44;1m', s) }
-  backgroundBrightMagenta(s)  { return this.addCode('\x1b[45;1m', s) }
-  backgroundBrightCyan(s)     { return this.addCode('\x1b[46;1m', s) }
-  backgroundBrightWhite(s)    { return this.addCode('\x1b[47;1m', s) }
+  bright(s)                   { return this.addCode('\x1b[1m', s) }
+  normal(s)                   { return this.addCode('\x1b[22m', s) }
+
+  color(foreground, background, s) {
+    return this.foregroundColor(foreground).backgroundColor(background).text(s)
+  }
 
   foregroundColor(n, s) { return this.addCode(`\x1b[38;5;${n}m`, s) }
   backgroundColor(n, s) { return this.addCode(`\x1b[48;5;${n}m`, s) }

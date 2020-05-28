@@ -16,7 +16,7 @@ header > * {
 main > section, main > p, main > p > input {
   font-family: 'Fira Code', monospace;
   font-size: 16px;
-  color: #0c0;
+  color: rgb(187, 187, 187);
   border-color: #070;
   border-width: 2px;
   border-style: solid;

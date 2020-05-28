@@ -25,51 +25,45 @@ describe("AnsiStringBuilder", function() {
     expect(this.subject.space(4).build()).to.equal('    ')
   })
 
-  let colorScenarios = [
-    { code: '\x1b[30m', color: 'black' },
-    { code: '\x1b[31m', color: 'red' },
-    { code: '\x1b[32m', color: 'green' },
-    { code: '\x1b[33m', color: 'yellow' },
-    { code: '\x1b[34m', color: 'blue' },
-    { code: '\x1b[35m', color: 'magenta' },
-    { code: '\x1b[36m', color: 'cyan' },
-    { code: '\x1b[37m', color: 'white' },
-    { code: '\x1b[30;1m', color: 'brightBlack' },
-    { code: '\x1b[31;1m', color: 'brightRed' },
-    { code: '\x1b[32;1m', color: 'brightGreen' },
-    { code: '\x1b[33;1m', color: 'brightYellow' },
-    { code: '\x1b[34;1m', color: 'brightBlue' },
-    { code: '\x1b[35;1m', color: 'brightMagenta' },
-    { code: '\x1b[36;1m', color: 'brightCyan' },
-    { code: '\x1b[37;1m', color: 'brightWhite' },
-    { code: '\x1b[40m',   color: 'backgroundBlack' },
-    { code: '\x1b[41m',   color: 'backgroundRed' },
-    { code: '\x1b[42m',   color: 'backgroundGreen' },
-    { code: '\x1b[43m',   color: 'backgroundYellow' },
-    { code: '\x1b[44m',   color: 'backgroundBlue' },
-    { code: '\x1b[45m',   color: 'backgroundMagenta' },
-    { code: '\x1b[46m',   color: 'backgroundCyan' },
-    { code: '\x1b[47m',   color: 'backgroundWhite' },
-    { code: '\x1b[40;1m', color: 'backgroundBrightBlack' },
-    { code: '\x1b[41;1m', color: 'backgroundBrightRed' },
-    { code: '\x1b[42;1m', color: 'backgroundBrightGreen' },
-    { code: '\x1b[43;1m', color: 'backgroundBrightYellow' },
-    { code: '\x1b[44;1m', color: 'backgroundBrightBlue' },
-    { code: '\x1b[45;1m', color: 'backgroundBrightMagenta' },
-    { code: '\x1b[46;1m', color: 'backgroundBrightCyan' },
-    { code: '\x1b[47;1m', color: 'backgroundBrightWhite' }
+  it("builds a newline", function() {
+    expect(this.subject.nl().build()).to.equal('\n')
+  })
+
+  it("builds multiple newline", function() {
+    expect(this.subject.nl(4).build()).to.equal('\n\n\n\n')
+  })
+
+  let codeScenarios = [
+    { code: '\x1b[30m', func: 'black' },
+    { code: '\x1b[31m', func: 'red' },
+    { code: '\x1b[32m', func: 'green' },
+    { code: '\x1b[33m', func: 'yellow' },
+    { code: '\x1b[34m', func: 'blue' },
+    { code: '\x1b[35m', func: 'magenta' },
+    { code: '\x1b[36m', func: 'cyan' },
+    { code: '\x1b[37m', func: 'white' },
+    { code: '\x1b[40m', func: 'backgroundBlack' },
+    { code: '\x1b[41m', func: 'backgroundRed' },
+    { code: '\x1b[42m', func: 'backgroundGreen' },
+    { code: '\x1b[43m', func: 'backgroundYellow' },
+    { code: '\x1b[44m', func: 'backgroundBlue' },
+    { code: '\x1b[45m', func: 'backgroundMagenta' },
+    { code: '\x1b[46m', func: 'backgroundCyan' },
+    { code: '\x1b[47m', func: 'backgroundWhite' },
+    { code: '\x1b[1m',  func: 'bright' },
+    { code: '\x1b[22m', func: 'normal' }
   ]
 
-  colorScenarios.forEach(scenario => {
+  codeScenarios.forEach(scenario => {
 
-    let { color, code } = scenario
+    let { func, code } = scenario
 
     it("builds ansi colors", function() {
-      expect(this.subject[color]().build()).to.equal(code)
+      expect(this.subject[func]().build()).to.equal(code)
     })
 
     it("builds ansi colors with text", function() {
-      expect(this.subject[color]('foo').build()).to.equal(`${code}foo`)
+      expect(this.subject[func]('foo').build()).to.equal(`${code}foo`)
     })
   
   })

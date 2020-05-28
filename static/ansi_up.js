@@ -85,7 +85,7 @@ var AnsiUp = (function () {
                     { rgb: [0, 0, 187], class_name: "ansi-blue" },
                     { rgb: [187, 0, 187], class_name: "ansi-magenta" },
                     { rgb: [0, 187, 187], class_name: "ansi-cyan" },
-                    { rgb: [255, 255, 255], class_name: "ansi-white" }
+                    { rgb: [187, 187, 187], class_name: "ansi-white" }
                 ],
                 [
                     { rgb: [85, 85, 85], class_name: "ansi-bright-black" },
@@ -349,8 +349,10 @@ var AnsiUp = (function () {
         var classes = [];
         var fg = fragment.fg;
         var bg = fragment.bg;
-        if (fragment.bold)
-            styles.push('font-weight:bold');
+        if (fragment.bold) {
+          styles.push('font-weight:bold');
+          styles.push('font-size:larger')
+        }
         if (!this._use_classes) {
             if (fg)
                 styles.push("color:rgb(" + fg.rgb.join(',') + ")");

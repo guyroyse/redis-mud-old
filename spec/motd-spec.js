@@ -33,7 +33,7 @@ describe("Motd", function() {
       it("returns the motd", function() {
         Math.random.returns(index / scenarios.length)
         this.result = this.subject.fetchMotd()
-        expect(this.result).to.have.equal(`Welcome to RedisMUD!\n${message}`)
+        expect(this.result).to.have.equal(`\u001b[1m\u001b[32mWelcome to \u001b[31mRedisMUD!\n\u001b[22m\u001b[37m${message}\u001b[0m`)
       })
     })
   })
