@@ -74,23 +74,29 @@ describe("AnsiStringBuilder", function() {
   
   })
 
-  for (let i = 0; i < 256; i++) {
-    it("builds a color by number", function() {
-      expect(this.subject.color(i).build()).to.equal(`\x1b[38;5;${i}m`)
-    })
+  it("builds a foreground color by number", function() {
+    expect(this.subject.foregroundColor(5).build()).to.equal(`\x1b[38;5;5m`)
+  })
 
-    it("builds a color by number with text", function() {
-      expect(this.subject.color(i, 'foo').build()).to.equal(`\x1b[38;5;${i}mfoo`)
-    })
+  it("builds a foreground color by number with text", function() {
+    expect(this.subject.foregroundColor(10, 'foo').build()).to.equal(`\x1b[38;5;10mfoo`)
+  })
 
-    it("builds a background color by number", function() {
-      expect(this.subject.backgroundColor(i).build()).to.equal(`\x1b[48;5;${i}m`)
-    })
+  it("builds a background color by number", function() {
+    expect(this.subject.backgroundColor(15).build()).to.equal(`\x1b[48;5;15m`)
+  })
 
-    it("builds a background color by number with text", function() {
-      expect(this.subject.backgroundColor(i, 'foo').build()).to.equal(`\x1b[48;5;${i}mfoo`)
-    })
-  }
+  it("builds a background color by number with text", function() {
+    expect(this.subject.backgroundColor(20, 'foo').build()).to.equal(`\x1b[48;5;20mfoo`)
+  })
+
+  it("builds a color by numbers", function() {
+    expect(this.subject.color(25, 30).build()).to.equal(`\x1b[38;5;25m\x1b[48;5;30m`)
+  })
+
+  it("builds a color by numbers with text", function() {
+    expect(this.subject.color(35, 40, 'foo').build()).to.equal(`\x1b[38;5;35m\x1b[48;5;40mfoo`)
+  })
 
   it("builds an ansi reset", function() {
     it("builds ansi colors", function() {
@@ -99,7 +105,7 @@ describe("AnsiStringBuilder", function() {
   })
 
   it("chains calls", function() {
-    expect(this.subject.text('foo').text('bar').build()).to.equal('foobar')
+    expect(this.subject.text('foo').space(4).red('bar').build()).to.equal('foo    \x1b[31mbar')
   })  
 
 })

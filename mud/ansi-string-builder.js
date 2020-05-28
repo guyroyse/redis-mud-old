@@ -5,14 +5,17 @@ class AnsiStringBuilder {
     this._message = ""
   }
 
-  text(s) {
+  text(s = '') {
     this._message += s
     return this
   }
 
   space(n = 1) {
-    this._message += new Array(n).fill(' ').join('')
-    return this
+    return this.text(new Array(n).fill(' ').join(''))
+  }
+
+  color(foreground, background, s) {
+    return this.foregroundColor(foreground).backgroundColor(background).text(s)
   }
 
   black(s)                    { return this.addCode('\x1b[30m', s) }
@@ -33,8 +36,6 @@ class AnsiStringBuilder {
   brightCyan(s)               { return this.addCode('\x1b[36;1m', s)  }
   brightWhite(s)              { return this.addCode('\x1b[37;1m', s)  }
 
-  color(n, s) { return this.addCode(`\x1b[38;5;${n}m`, s) }
-
   backgroundBlack(s)          { return this.addCode('\x1b[40m', s) }
   backgroundRed(s)            { return this.addCode('\x1b[41m', s) }
   backgroundGreen(s)          { return this.addCode('\x1b[42m', s) }
@@ -53,20 +54,14 @@ class AnsiStringBuilder {
   backgroundBrightCyan(s)     { return this.addCode('\x1b[46;1m', s) }
   backgroundBrightWhite(s)    { return this.addCode('\x1b[47;1m', s) }
 
+  foregroundColor(n, s) { return this.addCode(`\x1b[38;5;${n}m`, s) }
   backgroundColor(n, s) { return this.addCode(`\x1b[48;5;${n}m`, s) }
 
   reset() { return this.addCode('\x1b[0m') }
 
-  addCode(code, s) {
-    this._message += code
-    if (s) this._message += s
-    return this
-  }
+  addCode(code, s) { return this.text(code).text(s) }
 
-  build() {
-    return this._message
-  }
-
+  build() { return this._message }
 }
 
 module.exports = AnsiStringBuilder
