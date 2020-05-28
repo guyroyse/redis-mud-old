@@ -350,8 +350,9 @@ var AnsiUp = (function () {
         var fg = fragment.fg;
         var bg = fragment.bg;
         if (fragment.bold) {
-          styles.push('font-weight:bold');
-          styles.push('font-size:larger')
+          styles.push('font-weight:900');
+        } else {
+          styles.push('font-weight:100');
         }
         if (!this._use_classes) {
             if (fg)
