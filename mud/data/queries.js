@@ -7,6 +7,14 @@ module.exports = {
       id(r) = $id
     RETURN id(r), r.name, r.description`,
 
+  FETCH_DOORS_BY_ROOM: `
+    MATCH
+      (r:room)-[:contains]->(d:door)
+    WHERE
+      id(r) = $roomId
+    RETURN
+      id(d), d.name, d.description`,
+
   FETCH_OR_CREATE_HUB: `
     MERGE
       (r:room { hub: 'true' })

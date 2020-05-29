@@ -39,7 +39,7 @@ describe("Dungeon", function() {
     describe("#fetchRoom", function() {
       beforeEach(async function() {
         RedisShim.prototype.executeAndReturnSingle
-          .returns([ 42, 'the name', 'the description' ])
+          .resolves([ 42, 'the name', 'the description' ])
         this.result = await this.subject.fetchRoom(42)
       })
 
@@ -60,7 +60,7 @@ describe("Dungeon", function() {
 
       beforeEach(async function() {
         RedisShim.prototype.executeAndReturnSingle
-          .returns([ 42, 'the name', 'the description' ])
+          .resolves([ 42, 'the name', 'the description' ])
         this.result = await this.subject.fetchOrCreateHub()
       })
   
@@ -82,7 +82,7 @@ describe("Dungeon", function() {
 
       beforeEach(async function() {
         RedisShim.prototype.executeAndReturnSingle
-          .returns([ 42, 'the name', 'the description' ])
+          .resolves([ 42, 'the name', 'the description' ])
         this.result = await this.subject.createRoom("The Blue Room")
       })
 
@@ -98,9 +98,44 @@ describe("Dungeon", function() {
       })
     })
 
+    describe("#fetchDoorsByRoom", function() {
+      beforeEach(async function() {
+        RedisShim.prototype.executeAndReturnMany.resolves([
+          [ 23, 'the room', 'desc 1' ],
+          [ 42, 'the other room', 'desc 2' ],
+          [ 13, 'the back room', 'desc 3' ]
+        ])
+        this.doors = await this.subject.fetchDoorsByRoom(1)
+      })
+
+      it("fetches the doors for the room id", function() {
+        expect(RedisShim.prototype.executeAndReturnMany)
+          .to.have.been.calledWith(Queries.FETCH_DOORS_BY_ROOM, { roomId: 1 })
+      })
+
+      it("returns the doors with expected properties", function() {
+
+        expect(this.doors).to.have.lengthOf(3)
+
+        expect(this.doors[0].id()).to.equal(23)
+        expect(this.doors[0].name()).to.equal('the room')
+        expect(this.doors[0].description()).to.equal('desc 1')
+
+        expect(this.doors[1].id()).to.equal(42)
+        expect(this.doors[1].name()).to.equal('the other room')
+        expect(this.doors[1].description()).to.equal('desc 2')
+
+        expect(this.doors[2].id()).to.equal(13)
+        expect(this.doors[2].name()).to.equal('the back room')
+        expect(this.doors[2].description()).to.equal('desc 3')
+      })
+    })
+
     describe("#createDoor", function() {
       beforeEach(async function() {
-        RedisShim.prototype.executeAndReturnSingle.returns([ 23, 'the name', 'the description' ])
+        RedisShim.prototype.executeAndReturnSingle.resolves(
+          [ 23, 'the name', 'the description' ]
+        )
         this.result = await this.subject.createDoor("The Red Door", 13)
       })
 
@@ -131,7 +166,7 @@ describe("Dungeon", function() {
 
     describe("#fetchRoomList", function() {
       beforeEach(async function() {
-        RedisShim.prototype.executeAndReturnMany.returns([
+        RedisShim.prototype.executeAndReturnMany.resolves([
           [ 23, 'the room', 'desc 1' ],
           [ 42, 'the other room', 'desc 2' ],
           [ 13, 'the back room', 'desc 3' ]
