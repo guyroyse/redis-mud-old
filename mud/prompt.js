@@ -4,7 +4,7 @@ class Prompt {
   fetchPrompt({ room }) {
     return new AnsiStringBuilder()
       .yellow('You are in').space()
-      .magenta(`${room.name()} [${room.id()}]`)
+      .magenta(room.name()).space().text(`[${room.id()}]`)
       .reset()
       .build()
   }

@@ -29,6 +29,8 @@ class Room {
     return this._description
   }
 
+  async doors() { return [] }
+
 }
 
 module.exports = Room

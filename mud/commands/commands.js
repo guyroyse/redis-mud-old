@@ -1,3 +1,5 @@
+const AnsiStringBuilder = require('../ansi-string-builder')
+
 class Create {
   async execute({ dungeon, room }, message) {
     let match = message.match(/^\/create (door|room) (.*)$/)
@@ -50,8 +52,24 @@ class List {
 }
 
 class Look {
-  execute({ room }) {
-    return `[${room.name()}]: ${room.description()}`
+  async execute({ room }) {
+    let doors = await room.doors()
+
+    let roomBuilder = new AnsiStringBuilder()
+    roomBuilder.text(room.description())
+
+    if (doors) {
+      roomBuilder.nl().bright().yellow("Doors: ").normal()
+
+      let doorsText = doors.map(door => {
+        return new AnsiStringBuilder()
+          .cyan(`${door.name()} [${door.id()}]`).white().build()
+      }).join(', ')
+
+      roomBuilder.text(doorsText)
+    }
+
+    return roomBuilder.build()
   }
 }
 
