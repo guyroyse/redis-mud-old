@@ -59,7 +59,7 @@ class Look {
     roomBuilder.text(room.description())
 
     if (doors) {
-      roomBuilder.nl().bright().yellow("Doors: ").normal()
+      roomBuilder.nl().bright().green("Doors: ").normal()
 
       let doorsText = doors.map(door => {
         return new AnsiStringBuilder()

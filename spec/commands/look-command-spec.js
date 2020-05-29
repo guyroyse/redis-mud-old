@@ -71,7 +71,7 @@ describe("Commands", function() {
       it("returns the expected response", function() {
         let expected = new AnsiStringBuilder()
           .text(CURRENT_ROOM_DESCRIPTION).nl()
-          .bright().yellow("Doors:").space().normal()
+          .bright().green("Doors:").space().normal()
           .cyan(`${A_DOOR_NAME} [${A_DOOR_ID}]`).white().text(',').space()
           .cyan(`${ANOTHER_DOOR_NAME} [${ANOTHER_DOOR_ID}]`).white().build()
         expect(this.response).to.equal(expected)
