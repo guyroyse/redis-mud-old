@@ -29,7 +29,9 @@ class Room {
     return this._description
   }
 
-  async doors() { return [] }
+  async doors() { 
+    return await this.dungeon.fetchDoorsByRoom(this._id)
+  }
 
 }
 
