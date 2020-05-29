@@ -24,7 +24,7 @@ Features:
   Rooms:
     ☐ Edit room to set name, description, and greeting message @created(2020-04-25)
     ☐ Display greeting message when arriving in room @created(2020-04-25)
-    ☐ Display doors in the room @created(2020-04-25)
+    ✔ Display doors in the room @created(2020-04-25) @done(2020-05-29)
     ☐ Deprecate rename and describe commands from room @created(2020-04-25)
 
   Doors:

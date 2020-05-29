@@ -53,6 +53,7 @@ describe("Commands", function() {
   describe("Look: /look", function() {
     context("when there are no doors", function() {
       beforeEach(async function() {
+        this.context.room.doors.resolves([])
         this.response = await this.processor.processMessage(this.context, "/look")
       })
   
@@ -64,7 +65,6 @@ describe("Commands", function() {
     context("when there are doors", function() {
       beforeEach(async function() {
         this.context.room.doors.resolves([this.aDoor, this.anotherDoor])
-        console.log(this.context.room.doors())
         this.response = await this.processor.processMessage(this.context, "/look")
       })
   
