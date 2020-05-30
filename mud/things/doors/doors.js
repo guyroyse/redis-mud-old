@@ -19,6 +19,10 @@ class Doors {
     return this.fromValues(values)
   }
 
+  async update(id, name, description) {
+    await this._shim.execute(Queries.UPDATE, { id, name, description })
+  }
+
   fromValues(values) {
     return new Door(this._dungeon, {
       id: values[0],

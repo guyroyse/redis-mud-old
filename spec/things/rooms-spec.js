@@ -9,7 +9,6 @@ describe("Rooms", function() {
   })
 
   describe("#fetchOrCreateHub", function() {
-
     beforeEach(async function() {
       RedisGraphShim.prototype.executeAndReturnSingle
         .resolves([ HUB_ID, HUB_NAME, HUB_DESCRIPTION ])
@@ -28,7 +27,6 @@ describe("Rooms", function() {
       expect(this.result.name).to.equal(HUB_NAME)
       expect(this.result.description).to.equal(HUB_DESCRIPTION)
     })
-
   })
 
   describe("#all", function() {
@@ -84,7 +82,6 @@ describe("Rooms", function() {
   })
 
   describe("#create", function() {
-
     beforeEach(async function() {
       RedisGraphShim.prototype.executeAndReturnSingle
         .resolves([ A_ROOM_ID, A_ROOM_NAME, A_ROOM_DESCRIPTION ])
@@ -118,5 +115,4 @@ describe("Rooms", function() {
           description: A_ROOM_DESCRIPTION })
     })
   })
-
 })

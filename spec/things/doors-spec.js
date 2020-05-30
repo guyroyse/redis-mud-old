@@ -63,4 +63,18 @@ describe("Doors", function() {
       expect(this.result.description).to.equal(A_DOOR_DESCRIPTION)
     })
   })
+
+  describe("#update", function() {
+    beforeEach(async function() {
+      await this.subject.update(A_DOOR_ID, A_DOOR_NAME, A_DOOR_DESCRIPTION)
+    })
+
+    it("updates the room", function() {
+      expect(RedisGraphShim.prototype.execute)
+        .to.have.been.calledWith(Queries.UPDATE, {
+          id: A_DOOR_ID,
+          name: A_DOOR_NAME,
+          description: A_DOOR_DESCRIPTION })
+    })
+  })
 })

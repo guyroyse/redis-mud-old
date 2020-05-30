@@ -21,7 +21,9 @@ class Door {
     this.update()
   }
 
-  update() {}
+  update() {
+    this._dungeon.doors.update(this.id, this.name, this.description)
+  }
 
 }
 

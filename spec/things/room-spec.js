@@ -1,82 +1,75 @@
 const Room = require('../../mud/things/rooms/room')
 
-const Dungeon = require('../../mud/things/dungeon')
-const Door = require('../../mud/things/doors/door')
-
-const ROOM_ID = 42
-
-
-
-xdescribe("Room", function() {
-
+describe("Room", function() {
   beforeEach(function() {
-    this.dungeon = sinon.createStubInstance(Dungeon)
-    this.subject = new Room(this.dungeon, { id: ROOM_ID, name: 'name', description: 'description' })
+    this.dungeon = createStubDungeon()
+    this.subject = new Room(this.dungeon, {
+      id: A_ROOM_ID,
+      name: A_ROOM_NAME,
+      description: A_ROOM_DESCRIPTION })
   })
 
-  it("has expected ID", function() {
-    expect(this.subject.id()).to.equal(ROOM_ID)
+  it("has expected id", function() {
+    expect(this.subject.id).to.equal(A_ROOM_ID)
   })
 
   it("has expected name", function() {
-    expect(this.subject.name()).to.equal('name')
+    expect(this.subject.name).to.equal(A_ROOM_NAME)
   })
 
   it("has expected description", function() {
-    expect(this.subject.description()).to.equal('description')
+    expect(this.subject.description).to.equal(A_ROOM_DESCRIPTION)
   })
 
-  context("when fetching doors", function() {
-    beforeEach(async function() {
-      this.doorA = new Door(this.dungeon, { id: 1, name: 'Alpha', description: 'A Door'})
-      this.doorB = new Door(this.dungeon, { id: 2, name: 'Bravo', description: 'B Door'})
-      this.doorC = new Door(this.dungeon, { id: 3, name: 'Charlie', description: 'C Door'})
-
-      this.dungeon.fetchDoorsByRoom.resolves([ this.doorA, this.doorB, this.doorC ])
-      this.doors = await this.subject.doors()
+  context("when renamed", function() {
+    beforeEach(function() {
+      this.subject.name = ANOTHER_ROOM_NAME
     })
 
-    it("fetches the doors from the dungeon", function() {
-      expect(this.dungeon.fetchDoorsByRoom).to.have.been.calledWith(42)
+    it("has the new name", function() {
+      expect(this.subject.name).to.equal(ANOTHER_ROOM_NAME)
     })
 
-    it("returns the expected doors", function() {
-      expect(this.doors).to.have.lengthOf(3)
-      expect(this.doors[0]).to.equal(this.doorA)
-      expect(this.doors[1]).to.equal(this.doorB)
-      expect(this.doors[2]).to.equal(this.doorC)
+    it("renames the room", function() {
+      expect(this.dungeon.rooms.update)
+        .to.have.been.calledWith(A_ROOM_ID, ANOTHER_ROOM_NAME, A_ROOM_DESCRIPTION)
     })
   })
 
   context("when redescribed", function() {
-
     beforeEach(function() {
-      this.subject.description('new description')
+      this.subject.description = ANOTHER_ROOM_DESCRIPTION
     })
 
     it("has the new description", function() {
-      expect(this.subject.description()).to.equal('new description')
+      expect(this.subject.description).to.equal(ANOTHER_ROOM_DESCRIPTION)
     })
 
     it("updates the room", function() {
-      expect(this.dungeon.updateRoom).to.have.been.calledWith(42, 'name', 'new description')
+      expect(this.dungeon.rooms.update)
+        .to.have.been.calledWith(A_ROOM_ID, A_ROOM_NAME, ANOTHER_ROOM_DESCRIPTION)
     })
-
   })
 
-  context("when renamed", function() {
+  context("when fetching doors in the room", function() {
+    beforeEach(async function() {
+      this.aDoor = createADoor()
+      this.anotherDoor = createAnotherDoor()
+      this.aThirdDoor = createAThirdDoor()
 
-    beforeEach(function() {
-      this.subject.name('new name')
+      this.dungeon.doors.inRoom.resolves([this.aDoor, this.anotherDoor, this.aThirdDoor])
+      this.doors = await this.subject.doors()
     })
 
-    it("has the new name", function() {
-      expect(this.subject.name()).to.equal('new name')
+    it("fetches the doors from the dungeon", function() {
+      expect(this.dungeon.doors.inRoom).to.have.been.calledWith(A_ROOM_ID)
     })
 
-    it("renames the room", function() {
-      expect(this.dungeon.updateRoom).to.have.been.calledWith(42, 'new name', 'description')
+    it("returns the expected doors", function() {
+      expect(this.doors).to.have.lengthOf(3)
+      expect(this.doors[0]).to.equal(this.aDoor)
+      expect(this.doors[1]).to.equal(this.anotherDoor)
+      expect(this.doors[2]).to.equal(this.aThirdDoor)
     })
-
   })
 })
