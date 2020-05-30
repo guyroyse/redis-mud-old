@@ -1,11 +1,3 @@
-const chai = require('chai')
-let expect = chai.expect
-
-const sinon = require('sinon')
-const sinonChai = require('sinon-chai')
-
-chai.use(sinonChai)
-
 const CommandProcessor = require('../../mud/text/text-controller')
 const Dungeon = require('../../mud/things/dungeon')
 const Room = require('../../mud/things/rooms/room')

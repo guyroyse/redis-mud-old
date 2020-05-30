@@ -21,6 +21,8 @@ class Door {
     this.update()
   }
 
+  update() {}
+
 }
 
 module.exports = Door

@@ -52,11 +52,11 @@ class List {
 }
 
 class Look {
-  async execute({ room }) {
-    let doors = await room.doors()
+  async execute(context) {
+    let doors = await context.room.doors()
 
     let roomBuilder = new AnsiStringBuilder()
-    roomBuilder.text(room.description)
+    roomBuilder.text(context.room.description)
 
     if (doors.length > 0) {
       roomBuilder.nl().bright().green("Doors: ").normal()

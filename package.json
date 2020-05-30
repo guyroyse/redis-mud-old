@@ -10,7 +10,7 @@
     "spec": "spec/**/*-spec.js",
     "ui": "bdd",
     "reporter": "min",
-    "watcher": true,
+    "watch": true,
     "file": [
       "spec/globals.js"
     ]

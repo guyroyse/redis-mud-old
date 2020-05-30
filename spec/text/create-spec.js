@@ -1,11 +1,3 @@
-const chai = require('chai')
-let expect = chai.expect
-
-const sinon = require('sinon')
-const sinonChai = require('sinon-chai')
-
-chai.use(sinonChai)
-
 const CommandProcessor = require('../../mud/text/text-controller')
 const Dungeon = require('../../mud/things/dungeon')
 const Room = require('../../mud/things/rooms/room')
@@ -23,7 +15,7 @@ const A_DOOR_ID = 13
 const A_DOOR_NAME = 'The Big Door'
 const A_DOOR_DESCRIPTION = 'The Big Door is big'
 
-xdescribe("Commands", function() {
+describe("Commands", function() {
 
   beforeEach(function() {
     this.context = {

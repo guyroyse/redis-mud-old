@@ -15,16 +15,16 @@ const commandTable = {
   '/teleport': Teleport
 }
 
-class CommandProcessor {
+class TextController {
   constructor() {
-    this.motd = new Motd()
-    this.prompt = new Prompt()
+    this._motd = new Motd()
+    this._prompt = new Prompt()
   }
 
   processStart(context) {
     return [
-      this.motd.fetchMotd(),
-      this.prompt.fetchPrompt(context)
+      this._motd.fetchMotd(),
+      this._prompt.fetchPrompt(context)
     ].join('\n')
   }
 
@@ -41,7 +41,7 @@ class CommandProcessor {
 
     return [
       await new clazz().execute(context, trimmed),
-      this.prompt.fetchPrompt(context)
+      this._prompt.fetchPrompt(context)
     ].join('\n')
   }
 
@@ -55,4 +55,4 @@ class CommandProcessor {
 
 }
 
-module.exports = CommandProcessor
+module.exports = TextController
