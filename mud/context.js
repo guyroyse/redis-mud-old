@@ -1,15 +1,16 @@
 const Dungeon = require('./things/dungeon')
 
 class Context {
-
-  async start() {
+  constructor() {
     this._dungeon = new Dungeon()
-    this._room = await this.dungeon.rooms.fetchOrCreateHub()
+  }
+
+  async load() {
+    this._room = await this._dungeon.rooms.fetchOrCreateHub()
   }
 
   get dungeon() { return this._dungeon }
   get room() { return this._room }
-
 }
 
 module.exports = Context

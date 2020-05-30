@@ -6,7 +6,7 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-const CommandProcessor = require('../../mud/commands/command-processor')
+const CommandProcessor = require('../../mud/text/text-controller')
 const Dungeon = require('../../mud/things/dungeon')
 const Room = require('../../mud/things/rooms/room')
 const Door = require('../../mud/things/doors/door')

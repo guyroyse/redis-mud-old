@@ -1,4 +1,4 @@
-const AnsiStringBuilder = require('../ansi-string-builder')
+const AnsiStringBuilder = require('./builder')
 
 class Create {
   async execute({ dungeon, room }, message) {

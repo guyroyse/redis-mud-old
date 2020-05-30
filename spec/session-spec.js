@@ -10,16 +10,13 @@ const Session = require('../mud/session')
 
 const WebSocket = require('ws')
 const Context = require('../mud/context')
-const Motd = require('../mud/motd')
-const Prompt = require('../mud/prompt')
-const CommandProcessor = require('../mud/commands/command-processor')
+const TextController = require('../mud/text/text-controller')
 
-xdescribe("Session", function() {
+describe("Session", function() {
   beforeEach(function() {
-    sinon.stub(Context.prototype, 'start')
-    sinon.stub(Motd.prototype, 'fetchMotd')
-    sinon.stub(Prompt.prototype, 'fetchPrompt')
-    sinon.stub(CommandProcessor.prototype, 'processMessage')
+    sinon.stub(Context.prototype, 'load')
+    sinon.stub(TextController.prototype, 'processStart')
+    sinon.stub(TextController.prototype, 'processMessage')
     this.websocket = sinon.createStubInstance(WebSocket)
 
     this.subject = new Session(this.websocket)
@@ -31,41 +28,37 @@ xdescribe("Session", function() {
 
   context("when started", function() {
     beforeEach(function() {
-      Motd.prototype.fetchMotd.returns("some\nmotd")
-      Prompt.prototype.fetchPrompt.returns("some\nprompt")
+      TextController.prototype.processStart.returns("some\nwelcome\nmessage")
       return this.subject.start()
     })
 
-    it("starts the context", function() {
-      expect(Context.prototype.start).to.have.been.called
+    it("loads the context", function() {
+      expect(Context.prototype.load).to.have.been.called
     })
 
-    it("it sends the message of the day and the prompt", function() {
-      expect(this.websocket.send.firstCall)
-        .to.have.been.calledWith(JSON.stringify({ messages: [ "some", "motd" ]}))
-      expect(this.websocket.send.secondCall)
-        .to.have.been.calledWith(JSON.stringify({ messages: [ "some", "prompt" ]}))
+    it("starts the controller", function() {
+      expect(TextController.prototype.processStart).to.have.been.calledWith(this.subject.context)
+    })
+
+    it("sends the start message to the websocker", function() {
+      let expected = JSON.stringify({ messages: [ "some", "welcome", "message" ]})
+      expect(this.websocket.send).to.have.been.calledWith(expected)
     })
 
     describe("#processMessage", function() {
       beforeEach(async function() {
-        this.websocket.send.resetHistory()
-        CommandProcessor.prototype.processMessage.returns("some response\nwith multiple line")
+        TextController.prototype.processMessage.returns("some response\nwith multiple lines")
         await this.subject.processMessage(JSON.stringify({ command: "some message" }))
       })
 
-      it("invokes the message processor", function() {
-        expect(CommandProcessor.prototype.processMessage)
+      it("processes the message", function() {
+        expect(TextController.prototype.processMessage)
           .to.have.been.calledWith(this.subject.context, "some message")
       })
 
-      it("returns the response to the web socket", function() {
-        expect(this.websocket.send.firstCall)
-          .to.have.been.calledWith(
-            JSON.stringify({ messages: [ "some response", "with multiple line" ] }))
-        expect(this.websocket.send.secondCall)
-          .to.have.been.calledWith(
-            JSON.stringify({ messages: [ "some", "prompt" ] }))
+      it("sends the message response to the websocket", function() {
+        let expected = JSON.stringify({ messages: [ "some response", "with multiple lines" ] })
+        expect(this.websocket.send).to.have.been.calledWith(expected)
       })
     })
   })

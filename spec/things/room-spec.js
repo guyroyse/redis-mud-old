@@ -7,6 +7,7 @@ const sinonChai = require('sinon-chai')
 chai.use(sinonChai)
 
 const Room = require('../../mud/things/rooms/room')
+
 const Dungeon = require('../../mud/things/dungeon')
 const Door = require('../../mud/things/doors/door')
 

@@ -1,7 +1,7 @@
 class Room {
 
   constructor(dungeon, {id, name, description}) {
-    this.dungeon = dungeon
+    this._dungeon = dungeon
     this._id = id
     this._name = name
     this._description = description
@@ -22,11 +22,11 @@ class Room {
   }
 
   async doors() {
-    return await this.dungeon.doors.inRoom(this.id)
+    return await this._dungeon.doors.inRoom(this.id)
   }
 
   update() {
-    this.dungeon.rooms.update(this.id, this.name, this.description)
+    this._dungeon.rooms.update(this.id, this.name, this.description)
   }
 
 }

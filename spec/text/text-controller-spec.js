@@ -6,9 +6,9 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-const CommandProcessor = require('../../mud/commands/command-processor')
+const CommandProcessor = require('../../mud/text/text-controller')
 
-const { Say, Error } = require('../../mud/commands/commands')
+const { Say, Error } = require('../../mud/text/commands')
 
 xdescribe("CommandProcessor", function() {
 

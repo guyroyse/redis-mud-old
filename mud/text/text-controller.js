@@ -1,3 +1,6 @@
+const Motd = require('./motd')
+const Prompt = require('./prompt')
+
 const {
   Say, Emote, Look, Describe, Rename, 
   Create, List, Error, Teleport } = require('./commands')
@@ -13,6 +16,17 @@ const commandTable = {
 }
 
 class CommandProcessor {
+  constructor() {
+    this.motd = new Motd()
+    this.prompt = new Prompt()
+  }
+
+  processStart(context) {
+    return [
+      this.motd.fetchMotd(),
+      this.prompt.fetchPrompt(context)
+    ].join('\n')
+  }
 
   async processMessage(context, message) {
     let trimmed = message.trim()
@@ -25,7 +39,10 @@ class CommandProcessor {
       clazz = Say
     }
 
-    return await new clazz().execute(context, trimmed)
+    return [
+      await new clazz().execute(context, trimmed),
+      this.prompt.fetchPrompt(context)
+    ].join('\n')
   }
 
   isSlashCommand(slashCommand) {

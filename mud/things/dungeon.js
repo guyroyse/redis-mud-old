@@ -1,10 +1,12 @@
-const Rooms = require('./rooms/rooms')
+const RedisGraphShim = require('../data/redis-graph-shim')
 const Doors = require('./doors/doors')
+const Rooms = require('./rooms/rooms')
 
 class Dungeon {
   constructor() {
-    this._doors = new Doors(this)
-    this._rooms = new Rooms(this)
+    let shim = new RedisGraphShim()
+    this._doors = new Doors(this, shim)
+    this._rooms = new Rooms(this, shim)
   }
 
   get doors() { return this._doors }

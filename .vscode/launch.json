@@ -15,7 +15,9 @@
         "--timeout",
         "999999",
         "--colors",
-        "${workspaceFolder}/spec/**/*-spec.js"
+        "${workspaceFolder}/spec/**/*-spec.js",
+        "--file",
+        "spec/globals.js"
       ],
       "internalConsoleOptions": "openOnSessionStart",
       "skipFiles": [

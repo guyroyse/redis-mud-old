@@ -1,4 +1,4 @@
-let AnsiStringBuilder = require('./ansi-string-builder')
+let AnsiStringBuilder = require('./builder')
 
 let messages = [
   "Beware. You are likely to be eaten by a grue.",

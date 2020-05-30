@@ -6,7 +6,7 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-const Motd = require('../mud/motd')
+const Motd = require('../../mud/text/motd')
 
 describe("Motd", function() {
 
@@ -32,8 +32,8 @@ describe("Motd", function() {
     scenarios.forEach((message, index) => {
       it("returns the motd", function() {
         Math.random.returns(index / scenarios.length)
-        this.result = this.subject.fetchMotd()
-        expect(this.result).to.have.equal(`\u001b[1m\u001b[32mWelcome to \u001b[31mRedisMUD!\n\u001b[22m\u001b[37m${message}\u001b[0m`)
+        let actual = stripAnsi(this.subject.fetchMotd())
+        expect(actual).to.equal(`Welcome to RedisMUD!\n${message}`)
       })
     })
   })

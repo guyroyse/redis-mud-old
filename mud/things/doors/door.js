@@ -1,7 +1,7 @@
 class Door {
 
   constructor(dungeon, {id, name, description}) {
-    this.dungeon = dungeon
+    this._dungeon = dungeon
     this._id = id
     this._name = name
     this._description = description

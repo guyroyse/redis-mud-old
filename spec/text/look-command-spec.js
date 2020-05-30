@@ -6,12 +6,10 @@ const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 
-const CommandProcessor = require('../../mud/commands/command-processor')
+const CommandProcessor = require('../../mud/text/text-controller')
 const Dungeon = require('../../mud/things/dungeon')
 const Room = require('../../mud/things/rooms/room')
 const Door = require('../../mud/things/doors/door')
-
-const AnsiStringBuilder = require('../../mud/ansi-string-builder')
 
 const CURRENT_ROOM_ID = 23
 const CURRENT_ROOM_NAME = 'The Red Room'
@@ -69,12 +67,7 @@ xdescribe("Commands", function() {
       })
   
       it("returns the expected response", function() {
-        let expected = new AnsiStringBuilder()
-          .text(CURRENT_ROOM_DESCRIPTION).nl()
-          .bright().green("Doors:").space().normal()
-          .cyan(`${A_DOOR_NAME} [${A_DOOR_ID}]`).white().text(',').space()
-          .cyan(`${ANOTHER_DOOR_NAME} [${ANOTHER_DOOR_ID}]`).white().build()
-        expect(this.response).to.equal(expected)
+        expect(ansiStrip(this.response)).to.equal(`${CURRENT_ROOM_DESCRIPTION}\nDoors: ${A_DOOR_NAME} [${A_DOOR_ID}], ${ANOTHER_DOOR_NAME} [${ANOTHER_DOOR_ID}]`)
       })  
     })
   })

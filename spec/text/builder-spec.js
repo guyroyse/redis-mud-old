@@ -1,7 +1,7 @@
 const chai = require('chai')
 let expect = chai.expect
 
-const AnsiStringBuilder = require('../mud/ansi-string-builder')
+const AnsiStringBuilder = require('../../mud/text/builder')
 
 describe("AnsiStringBuilder", function() {
 

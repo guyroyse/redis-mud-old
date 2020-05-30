@@ -1,6 +1,4 @@
-const CommandProcessor = require('./commands/command-processor')
-const Motd = require('./motd')
-const Prompt = require('./prompt')
+const TextController = require('./text/text-controller')
 const Context = require('./context')
 
 class Session {
@@ -8,38 +6,25 @@ class Session {
   constructor(ws) {
     this.ws = ws
     this.context = new Context()
-    this.motd = new Motd()
-    this.prompt = new Prompt()
-    this.commandProcessor = new CommandProcessor()
+    this.controller = new TextController()
   }
 
   async start() {
-    await this.context.start()
-    this.sendMotd()
-    this.sendPrompt()
+    await this.context.load()
+
+    let message = this.controller.processStart(this.context)
+    this.sendMessage(message)
   }
 
   async processMessage(data) {
     let request = JSON.parse(data)
     let command = request.command
 
-    let message = await this.commandProcessor.processMessage(this.context, command)
-
-    this.sendText(message)
-    this.sendPrompt()
+    let message = await this.controller.processMessage(this.context, command)
+    this.sendMessage(message)
   }
 
-  sendMotd() {
-    let text = this.motd.fetchMotd()
-    this.sendText(text)
-  }
-  
-  sendPrompt() {
-    let text = this.prompt.fetchPrompt(this.context)
-    this.sendText(text)
-  }
-
-  sendText(s) {
+  sendMessage(s) {
     let response = { messages: s.split('\n') }
     this.ws.send(JSON.stringify(response))
   }

@@ -5,12 +5,12 @@ const Config = require('../config')
 
 class RedisConnector {
   fetchConnection() {
-    if (!this.connection) this.connection = redis.createClient({
+    if (!this._connection) this._connection = redis.createClient({
       host: Config.host,
       port: Config.port,
       password: Config.password
     })
-    return this.connection
+    return this._connection
   }
   
   fetchGraphConnection() {
@@ -19,7 +19,7 @@ class RedisConnector {
   }
 
   close() {
-    this.connection.close()
+    this._connection.close()
   }
 }
 
