@@ -3,7 +3,7 @@ const Doors = require('./doors/doors')
 const Rooms = require('./rooms/rooms')
 
 class Dungeon {
-  constructor() {
+  open() {
     let shim = new RedisGraphShim()
     this._doors = new Doors(this, shim)
     this._rooms = new Rooms(this, shim)
@@ -11,8 +11,6 @@ class Dungeon {
 
   get doors() { return this._doors }
   get rooms() { return this._rooms }
-
-  noop() {} // exists so that createStubInstance will work
 }
 
 module.exports = Dungeon

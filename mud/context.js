@@ -1,11 +1,12 @@
 const Dungeon = require('./things/dungeon')
 
 class Context {
-  constructor(dungeon) {
-    this._dungeon = dungeon || new Dungeon()
+  constructor() {
+    this._dungeon = new Dungeon()
   }
 
   async load() {
+    this._dungeon.open()
     this._room = await this._dungeon.rooms.fetchOrCreateHub()
   }
 

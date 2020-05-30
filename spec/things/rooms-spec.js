@@ -5,6 +5,7 @@ const Queries = require('../../mud/things/rooms/room-queries')
 describe("Rooms", function() {
   beforeEach(function() {
     this.dungeon = new Dungeon()
+    this.dungeon.open()
     this.subject = this.dungeon.rooms
   })
 

@@ -5,6 +5,7 @@ const Queries = require('../../mud/things/doors/door-queries')
 describe("Doors", function() {
   beforeEach(function() {
     this.dungeon = new Dungeon()
+    this.dungeon.open()
     this.subject = this.dungeon.doors
   })
 
