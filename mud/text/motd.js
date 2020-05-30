@@ -1,4 +1,4 @@
-let AnsiStringBuilder = require('./builder')
+let Builder = require('./builder')
 
 let messages = [
   "Beware. You are likely to be eaten by a grue.",
@@ -11,7 +11,7 @@ let messages = [
 class Motd {
   fetchMotd() {
     let message = messages[Math.floor(Math.random() * messages.length)]
-    return new AnsiStringBuilder()
+    return new Builder()
       .bright().green('Welcome to').space().red('RedisMUD!').nl()
       .normal().white(message).reset().build()
   }

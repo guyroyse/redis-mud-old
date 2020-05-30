@@ -1,4 +1,4 @@
-class AnsiStringBuilder {
+class Builder {
   constructor() {
     this._message = ""
   }
@@ -51,4 +51,4 @@ class AnsiStringBuilder {
   build() { return this._message }
 }
 
-module.exports = AnsiStringBuilder
+module.exports = Builder

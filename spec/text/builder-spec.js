@@ -1,9 +1,9 @@
-const AnsiStringBuilder = require('../../mud/text/builder')
+const Builder = require('../../mud/text/builder')
 
-describe("AnsiStringBuilder", function() {
+describe("Builder", function() {
 
   beforeEach(function() {
-    this.subject = new AnsiStringBuilder()
+    this.subject = new Builder()
   })
 
   it("builds and empty string", function() {

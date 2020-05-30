@@ -1,5 +1,4 @@
-const CommandProcessor = require('../../mud/text/text-controller')
-const Dungeon = require('../../mud/things/dungeon')
+const TextController = require('../../mud/text/text-controller')
 const Room = require('../../mud/things/rooms/room')
 
 const CURRENT_ROOM_ID = 23
@@ -9,71 +8,10 @@ const CURRENT_ROOM_DESCRIPTION = 'The Red Room is red.'
 xdescribe("Commands", function() {
 
   beforeEach(function() {
-    this.context = {
-      dungeon: sinon.createStubInstance(Dungeon),
-      room: sinon.createStubInstance(Room)
-    }
+    this.currentRoom = createStubRoom(CURRENT_ROOM_ID, CURRENT_ROOM_NAME, CURRENT_ROOM_DESCRIPTION)
+    this.context = createStubContext(null, this.currentRoom)
 
-    this.context.room.id.returns(CURRENT_ROOM_ID)
-    this.context.room.name.returns(CURRENT_ROOM_NAME)
-    this.context.room.description.returns(CURRENT_ROOM_DESCRIPTION)
-
-    this.processor = new CommandProcessor()
-  })
-
-  describe("Describe: /describe room This room is big and ugly.", function() {
-    beforeEach(async function() {
-      this.response = await this.processor.processMessage(this.context, "/describe room This room is big and ugly.")
-    })
-
-    it("redescribes the current room", function() {
-      expect(this.context.room.description).to.have.been.calledWith("This room is big and ugly.")
-    })
-
-    it("returns the expected response", function() {
-      expect(this.response).to.equal("Room description updated.")
-    })
-  })
-
-  context("Rename: /rename room The Fub", function() {
-    beforeEach(async function() {
-      this.response = await this.processor.processMessage(this.context, "/rename room The Fub")
-    })
-
-    it("renames the current room", function() {
-      expect(this.context.room.name).to.have.been.calledWith("The Fub")
-    })
-
-    it("returns the expected response", function() {
-      expect(this.response).to.equal("Room renamed.")
-    })
-  })
-
-  describe("List: /list", function() {
-    beforeEach(async function() {
-      let rooms = [
-        sinon.createStubInstance(Room),
-        sinon.createStubInstance(Room),
-        sinon.createStubInstance(Room)
-      ]
-
-      rooms[0].name.returns('the room')
-      rooms[1].name.returns('the other room')
-      rooms[2].name.returns('the back room')
-
-      rooms[0].id.returns(23)
-      rooms[1].id.returns(42)
-      rooms[2].id.returns(13)
-
-      this.context.dungeon.fetchRoomList.returns(rooms)
-      this.context.room.description.returns('the description')
-  
-      this.response = await this.processor.processMessage(this.context, "/list")
-    })
-
-    it("returns the expected response", function() {
-      expect(this.response).to.equal("[the room] 23\n[the other room] 42\n[the back room] 13")
-    })
+    this.processor = new TextController()
   })
 
   describe("Teleport: /teleport 42", function() {

@@ -11,6 +11,8 @@ class Dungeon {
 
   get doors() { return this._doors }
   get rooms() { return this._rooms }
+
+  noop() {}
 }
 
 module.exports = Dungeon

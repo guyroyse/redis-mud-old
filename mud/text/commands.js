@@ -1,13 +1,13 @@
-const AnsiStringBuilder = require('./builder')
+const Builder = require('./builder')
 
 class Create {
   async execute({ dungeon, room }, message) {
     let match = message.match(/^\/create (door|room) (.*)$/)
 
-    if (!match) return "INVALID COMMAND: Ye can't get ye flask."
+    if (!match) return new Builder().red("INVALID COMMAND").white(":").space().green("Ye can't get ye flask.").build()
 
     let [ , noun, name ] = match
-    if (noun === 'door') return await this.createDoor(dungeon, name, room.id())
+    if (noun === 'door') return await this.createDoor(dungeon, name, room.id)
     if (noun === 'room') return await this.createRoom(dungeon, name)
   }
 
@@ -45,8 +45,8 @@ class Error {
 }
 
 class List {
-  async execute({ dungeon }) {
-    let rooms = await dungeon.rooms.all()
+  async execute(context) {
+    let rooms = await context.dungeon.rooms.all()
     return rooms.map(room => `[${room.name}] ${room.id}`).join('\n')
   }
 }
@@ -55,14 +55,14 @@ class Look {
   async execute(context) {
     let doors = await context.room.doors()
 
-    let roomBuilder = new AnsiStringBuilder()
+    let roomBuilder = new Builder()
     roomBuilder.text(context.room.description)
 
     if (doors.length > 0) {
       roomBuilder.nl().bright().green("Doors: ").normal()
 
       let doorsText = doors.map(door => {
-        return new AnsiStringBuilder()
+        return new Builder()
           .cyan(`${door.name} [${door.id}]`).white().build()
       }).join(', ')
 

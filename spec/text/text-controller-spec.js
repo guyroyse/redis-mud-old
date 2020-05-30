@@ -45,6 +45,9 @@ describe("TextController", function() {
       it("trims the whitespace before executing the command", function() {
         expect(Say.prototype.execute).to.have.been.calledWith(this.context, "This command has whitespace")
       })
+
+      it("returns the command response")
+      it("returns the prompt")
     })
   
     context("when processing a slash command", function() {
@@ -53,9 +56,14 @@ describe("TextController", function() {
         await this.subject.processMessage(this.context, "  /foo is not a command\t\t\n\n  ")
       })
   
+      it("maps to correct commands")
+
       it("trims the whitespace before executing the command", function() {
         expect(Error.prototype.execute).to.have.been.calledWith(this.context, "/foo is not a command")
       })
+
+      it("returns the command response")
+      it("returns the prompt")
     })
   })
 })

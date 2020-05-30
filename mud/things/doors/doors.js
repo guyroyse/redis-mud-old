@@ -13,7 +13,7 @@ class Doors {
     return valueSet.map(values => this.fromValues(values))
   }
 
-  async createDoor(name, containingRoom) {
+  async create(name, containingRoom) {
     let description = "This is a door."
     let values = await this._shim.executeAndReturnSingle(Queries.CREATE, { name, description, containingRoom })
     return this.fromValues(values)
