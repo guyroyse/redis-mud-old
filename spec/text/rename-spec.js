@@ -1,7 +1,6 @@
 const { Rename } = require('../../mud/text/commands')
 
 describe("Rename", function() {
-
   beforeEach(function() {
     this.currentRoom = createCurrentRoom()
     this.context = createStubContext(null, this.currentRoom)
@@ -22,5 +21,4 @@ describe("Rename", function() {
       expect(this.response).to.equal("Room renamed.")
     })
   })
-
 })

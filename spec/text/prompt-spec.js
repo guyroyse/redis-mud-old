@@ -1,7 +1,6 @@
 const Prompt = require('../../mud/text/prompt')
 
 describe("Prompt", function() {
-
   beforeEach(function() {
     this.subject = new Prompt()
   })

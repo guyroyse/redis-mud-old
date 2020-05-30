@@ -1,7 +1,6 @@
 const { Say, Emote, Error } = require('../../mud/text/commands')
 
 describe("Commands", function() {
-
   beforeEach(function() {
     this.context = createStubContext()
   })

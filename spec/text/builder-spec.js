@@ -1,7 +1,6 @@
 const Builder = require('../../mud/text/builder')
 
 describe("Builder", function() {
-
   beforeEach(function() {
     this.subject = new Builder()
   })
@@ -97,6 +96,5 @@ describe("Builder", function() {
 
   it("chains calls", function() {
     expect(this.subject.text('foo').space(4).red('bar').build()).to.equal('foo    \x1b[31mbar')
-  })  
-
+  })
 })

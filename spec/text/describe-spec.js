@@ -1,7 +1,6 @@
 const { Describe } = require('../../mud/text/commands')
 
 describe("Describe", function() {
-
   beforeEach(function() {
     this.currentRoom = createCurrentRoom()
     this.context = createStubContext(null, this.currentRoom)

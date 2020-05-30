@@ -1,7 +1,6 @@
 const { Teleport } = require('../../mud/text/commands')
 
 describe("Teleport", function() {
-
   beforeEach(function() {
     this.dungeon = createStubDungeon()
     this.currentRoom = createCurrentRoom()

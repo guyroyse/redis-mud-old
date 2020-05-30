@@ -1,7 +1,6 @@
 const { Create } = require('../../mud/text/commands')
 
 describe("Create", function() {
-
   beforeEach(function() {
     this.dungeon = createStubDungeon()
     this.currentRoom = createCurrentRoom()

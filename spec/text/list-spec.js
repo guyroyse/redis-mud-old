@@ -1,7 +1,6 @@
 const { List } = require('../../mud/text/commands')
 
 describe("List", function() {
-
   beforeEach(function() {
     this.dungeon = createStubDungeon()
     this.context = createStubContext(this.dungeon, null)

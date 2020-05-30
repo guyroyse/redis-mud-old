@@ -1,7 +1,6 @@
 const Motd = require('../../mud/text/motd')
 
 describe("Motd", function() {
-
   beforeEach(function() {
     sinon.stub(Math, 'random')
     this.subject = new Motd()
