@@ -1,13 +1,9 @@
-const RedisGraph = require('redisgraph.js').Graph
+const RedisConnector = require('./redis-connector')
 
-class RedisShim {
-
-  open(key) {
-    this.graph = new RedisGraph(key)
-  }
-
-  close() {
-    this.graph.close();
+class RedisGraphShim {
+  constructor() {
+    this.redisConnector = new RedisConnector()
+    this.graph = this.redisConnector.fetchGraphConnection()
   }
 
   async execute(query, parameters) {
@@ -40,4 +36,4 @@ class RedisShim {
 
 }
 
-module.exports = RedisShim
+module.exports = RedisGraphShim

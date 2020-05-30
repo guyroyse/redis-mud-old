@@ -12,13 +12,13 @@ class Create {
   }
 
   async createDoor(dungeon, name, room_id) {
-    let door = await dungeon.createDoor(name, room_id)
-    return `Door '${door.name()}' created with ID of ${door.id()}.`
+    let door = await dungeon.doors.create(name, room_id)
+    return `Door '${door.name}' created with ID of ${door.id}.`
   }
 
   async createRoom(dungeon, name) {
-    let room = await dungeon.createRoom(name)
-    return `Room '${room.name()}' created with ID of ${room.id()}.`
+    let room = await dungeon.rooms.create(name)
+    return `Room '${room.name}' created with ID of ${room.id}.`
   }
 
 }
@@ -26,7 +26,7 @@ class Create {
 class Describe {
   execute({ room }, message) {
     let [ , description ] = message.match(/^\/describe room (.*)$/)
-    room.description(description)
+    room.description = description
     return "Room description updated."
   }
 }
@@ -46,8 +46,8 @@ class Error {
 
 class List {
   async execute({ dungeon }) {
-    let rooms = await dungeon.fetchRoomList()
-    return rooms.map(room => `[${room.name()}] ${room.id()}`).join('\n')
+    let rooms = await dungeon.rooms.all()
+    return rooms.map(room => `[${room.name}] ${room.id}`).join('\n')
   }
 }
 
@@ -56,14 +56,14 @@ class Look {
     let doors = await room.doors()
 
     let roomBuilder = new AnsiStringBuilder()
-    roomBuilder.text(room.description())
+    roomBuilder.text(room.description)
 
     if (doors.length > 0) {
       roomBuilder.nl().bright().green("Doors: ").normal()
 
       let doorsText = doors.map(door => {
         return new AnsiStringBuilder()
-          .cyan(`${door.name()} [${door.id()}]`).white().build()
+          .cyan(`${door.name} [${door.id}]`).white().build()
       }).join(', ')
 
       roomBuilder.text(doorsText)
@@ -76,7 +76,7 @@ class Look {
 class Rename {
   execute({ room }, message) {
     let [ , name ] = message.match(/^\/rename room (.*)$/)
-    room.name(name)
+    room.name = name
     return "Room renamed."
   }
 }
@@ -90,9 +90,9 @@ class Say {
 class Teleport {
   async execute(context, message) {
     let [ , id ] = message.match(/^\/teleport (.*)$/)
-    let room = await context.dungeon.fetchRoom(Number(id))
+    let room = await context.dungeon.rooms.byId(Number(id))
     context.room = room
-    return `Teleported to [${room.name()}].`
+    return `Teleported to [${room.name}].`
   }
 }
 

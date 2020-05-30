@@ -4,8 +4,7 @@ class Context {
 
   async start() {
     this.dungeon = new Dungeon()
-    this.dungeon.open('dungeon')
-    this.room = await this.dungeon.fetchOrCreateHub()
+    this.room = await this.dungeon.rooms.fetchOrCreateHub()
   }
 
 }
