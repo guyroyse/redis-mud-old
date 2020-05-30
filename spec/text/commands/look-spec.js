@@ -1,4 +1,4 @@
-const { Look } = require('../../mud/text/commands')
+const { Look } = require('../../../mud/text/commands')
 
 describe("Look", function() {
   beforeEach(function() {

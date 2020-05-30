@@ -1,4 +1,4 @@
-const { List } = require('../../mud/text/commands')
+const { List } = require('../../../mud/text/commands')
 
 describe("List", function() {
   beforeEach(function() {

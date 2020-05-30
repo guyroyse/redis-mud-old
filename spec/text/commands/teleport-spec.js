@@ -1,4 +1,4 @@
-const { Teleport } = require('../../mud/text/commands')
+const { Teleport } = require('../../../mud/text/commands')
 
 describe("Teleport", function() {
   beforeEach(function() {

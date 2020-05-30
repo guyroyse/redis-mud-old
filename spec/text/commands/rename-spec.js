@@ -1,4 +1,4 @@
-const { Rename } = require('../../mud/text/commands')
+const { Rename } = require('../../../mud/text/commands')
 
 describe("Rename", function() {
   beforeEach(function() {
