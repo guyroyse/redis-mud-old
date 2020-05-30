@@ -1,7 +1,5 @@
 Technical Debt:
-  ✔ Doors should be nodes @created(2020-04-25) @done(2020-05-29)
-  ☐ Need context spec @created(2020-05-29)
-  ☐ Need config spec @created(2020-05-29)
+  ☐ Need to extract command parsing for more complex commands @created(2020-05-30)
 
 Bugs:
   ☐ Some commands fail dramatically when parsing unexpected strings @created(2020-04-19)
@@ -14,7 +12,8 @@ Features:
   ☐ Command aliases
 
   Access Control:
-    ☐ Use OAuth to determine player id @created(2020-04-25)
+    ☐ Use Passport.js to authenticate users @created(2020-04-25)
+    ☐ Add admin role to allow use of admin commands @created(2020-05-30)
 
   Multiplayer:
     ☐ Add multiple connections @created(2020-04-25)
@@ -26,11 +25,9 @@ Features:
   Rooms:
     ☐ Edit room to set name, description, and greeting message @created(2020-04-25)
     ☐ Display greeting message when arriving in room @created(2020-04-25)
-    ✔ Display doors in the room @created(2020-04-25) @done(2020-05-29)
     ☐ Deprecate rename and describe commands from room @created(2020-04-25)
 
   Doors:
-    ✔ Create door to nowhere @created(2020-04-25) @done(2020-05-26)
     ☐ Create door with destinations @created(2020-04-25)
     ☐ Create door with sources and destination @created(2020-04-25)
     ☐ Edit door to set name, description, locations, destinations, and traversal message @created(2020-04-25)
@@ -49,6 +46,11 @@ Features:
     ☐ Use objects by ID @created(2020-04-25)
 
 Archive:
+  ✔ Need config spec @created(2020-05-29) @done(2020-05-30) @project(Technical Debt)
+  ✔ Doors should be nodes @created(2020-04-25) @done(2020-05-29) @project(Technical Debt)
+  ✔ Need context spec @created(2020-05-29) @done(2020-05-30) @project(Technical Debt)
+  ✔ Display doors in the room @created(2020-04-25) @done(2020-05-29) @project(Features.Rooms)
+  ✔ Create door to nowhere @created(2020-04-25) @done(2020-05-26) @project(Features.Doors)
   ✔ /teleport room {id} @created(2020-04-19) @done(2020-04-24)
   ✔ Switch to use RedisGraph.close()
   ✔ Change Hub to be marked by property rather than ID (data has no meaning violation)
