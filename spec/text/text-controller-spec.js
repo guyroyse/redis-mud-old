@@ -2,7 +2,9 @@ const TextController = require('../../mud/text/text-controller')
 
 const Motd = require('../../mud/text/motd')
 const Prompt = require('../../mud/text/prompt')
-const { Say, Error } = require('../../mud/text/commands')
+
+const { Say, Emote, Look, Describe, Rename, Create, List, Error, Teleport } =
+  require('../../mud/text/commands')
 
 describe("TextController", function() {
   beforeEach(function() {
@@ -35,35 +37,73 @@ describe("TextController", function() {
   })
 
   describe("#processMessage", function() {
-    context("when processing a bare command", function() {
-      beforeEach(async function() {
-        sinon.stub(Say.prototype, 'execute')
+    context("when processing commands", function() {
+
+      let scenarios = [
+        { command: 'say what?', clazz: Say },
+        { command: '/emote', clazz: Emote }, 
+        { command: '/look', clazz: Look }, 
+        { command: '/describe', clazz: Describe }, 
+        { command: '/rename', clazz: Rename }, 
+        { command: '/create', clazz: Create }, 
+        { command: '/list', clazz: List }, 
+        { command: '/teleport', clazz: Teleport },
+        { command: '/foo bar', clazz: Error }
+      ]
+
+      scenarios.forEach(scenario => {
+        let { command, clazz } = scenario 
+
+        beforeEach(async function() {
+          sinon.stub(clazz.prototype, 'execute')
+          clazz.prototype.execute.resolves('a message')
+          this.response = await this.subject.processMessage(this.context, command)
+        })
+
+        it("executes the command on the expected class", function() {
+          expect(clazz.prototype.execute).to.have.been.calledWith(this.context, command)
+        })
+
+        it("returns the message and the prompt", function() {
+          expect(this.response).to.equal('a message\na prompt')
+        })
+      })
+    })
+
+    context("when processing command with whitespace", function() {
+      context("when processing a bare command", function() {
+        beforeEach(async function() {
+          sinon.stub(Say.prototype, 'execute')
+          Say.prototype.execute.resolves('a message')
+      
+          this.response = await this.subject.processMessage(this.context, "  This command has whitespace\t\t\n\n  ")
+        })
     
-        await this.subject.processMessage(this.context, "  This command has whitespace\t\t\n\n  ")
-      })
+        it("trims the whitespace before executing the command", function() {
+          expect(Say.prototype.execute).to.have.been.calledWith(this.context, "This command has whitespace")
+        })
   
-      it("trims the whitespace before executing the command", function() {
-        expect(Say.prototype.execute).to.have.been.calledWith(this.context, "This command has whitespace")
+        it("returns the message and the prompt", function() {
+          expect(this.response).to.equal('a message\na prompt')
+        })
       })
-
-      it("returns the command response")
-      it("returns the prompt")
-    })
+    
+      context("when processing a slash command", function() {
+        beforeEach(async function() {
+          sinon.stub(Error.prototype, 'execute')
+          Error.prototype.execute.resolves('an error')
   
-    context("when processing a slash command", function() {
-      beforeEach(async function() {
-        sinon.stub(Error.prototype, 'execute')
-        await this.subject.processMessage(this.context, "  /foo is not a command\t\t\n\n  ")
-      })
-  
-      it("maps to correct commands")
+          this.response = await this.subject.processMessage(this.context, "  /foo is not a command\t\t\n\n  ")
+        })
+    
+        it("trims the whitespace before executing the command", function() {
+          expect(Error.prototype.execute).to.have.been.calledWith(this.context, "/foo is not a command")
+        })
 
-      it("trims the whitespace before executing the command", function() {
-        expect(Error.prototype.execute).to.have.been.calledWith(this.context, "/foo is not a command")
+        it("returns the message and the prompt", function() {
+          expect(this.response).to.equal('an error\na prompt')
+        })
       })
-
-      it("returns the command response")
-      it("returns the prompt")
-    })
+    })  
   })
 })
