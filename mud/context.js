@@ -1,8 +1,8 @@
 const Dungeon = require('./things/dungeon')
 
 class Context {
-  constructor() {
-    this._dungeon = new Dungeon()
+  constructor(dungeon) {
+    this._dungeon = dungeon || new Dungeon()
   }
 
   async load() {

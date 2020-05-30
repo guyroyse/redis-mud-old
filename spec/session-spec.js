@@ -32,7 +32,7 @@ describe("Session", function() {
       expect(TextController.prototype.processStart).to.have.been.calledWith(this.subject.context)
     })
 
-    it("sends the start message to the websocker", function() {
+    it("sends the start message to the websocket", function() {
       let expected = JSON.stringify({ messages: [ "some", "welcome", "message" ]})
       expect(this.websocket.send).to.have.been.calledWith(expected)
     })
