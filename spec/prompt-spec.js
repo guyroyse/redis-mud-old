@@ -7,7 +7,8 @@ const sinonChai = require('sinon-chai')
 chai.use(sinonChai)
 
 const Prompt = require('../mud/prompt')
-const Room = require('../mud/things/room')
+const Room = require('../mud/things/rooms/room')
+const Context = require('../mud/context')
 
 const AnsiStringBuilder = require('../mud/ansi-string-builder')
 
@@ -19,11 +20,12 @@ describe("Prompt", function() {
 
   describe("#fetchPrompt", function() {
     beforeEach(function() {
+      this.context = sinon.createStubInstance(Context)
       this.room = sinon.createStubInstance(Room)
-      this.room.name.returns('some room')
-      this.room.id.returns(23)
 
-      this.context = { room: this.room }
+      sinon.stub(this.context, 'room').get(() => this.room)
+      sinon.stub(this.room, 'id').get(() => 23)
+      sinon.stub(this.room, 'name').get(() => 'some room')
 
       this.result = this.subject.fetchPrompt(this.context)
     })

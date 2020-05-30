@@ -14,7 +14,7 @@ const Motd = require('../mud/motd')
 const Prompt = require('../mud/prompt')
 const CommandProcessor = require('../mud/commands/command-processor')
 
-describe("Session", function() {
+xdescribe("Session", function() {
   beforeEach(function() {
     sinon.stub(Context.prototype, 'start')
     sinon.stub(Motd.prototype, 'fetchMotd')

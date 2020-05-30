@@ -10,7 +10,7 @@ const CommandProcessor = require('../../mud/commands/command-processor')
 
 const { Say, Error } = require('../../mud/commands/commands')
 
-describe("CommandProcessor", function() {
+xdescribe("CommandProcessor", function() {
 
   beforeEach(function() {
     this.context = "some object"

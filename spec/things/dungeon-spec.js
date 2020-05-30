@@ -7,10 +7,9 @@ const sinonChai = require('sinon-chai')
 chai.use(sinonChai)
 
 const Dungeon = require('../../mud/things/dungeon')
-const RedisShim = require('../../mud/data/redis-shim')
-const Queries = require('../../mud/data/queries')
+const RedisShim = require('../../mud/data/redis-graph-shim')
 
-describe("Dungeon", function() {
+xdescribe("Dungeon", function() {
 
   beforeEach(function() {
     sinon.stub(RedisShim.prototype, 'open')

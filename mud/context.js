@@ -3,9 +3,12 @@ const Dungeon = require('./things/dungeon')
 class Context {
 
   async start() {
-    this.dungeon = new Dungeon()
-    this.room = await this.dungeon.rooms.fetchOrCreateHub()
+    this._dungeon = new Dungeon()
+    this._room = await this.dungeon.rooms.fetchOrCreateHub()
   }
+
+  get dungeon() { return this._dungeon }
+  get room() { return this._room }
 
 }
 
