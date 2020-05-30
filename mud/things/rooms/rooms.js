@@ -32,7 +32,7 @@ class Rooms {
   }
 
   async update(id, name, description) {
-    await this._shim.execute(Queries.UPDATE_ROOM, { id, name, description })
+    await this._shim.execute(Queries.UPDATE, { id, name, description })
   }
 
   fromValues(values) {

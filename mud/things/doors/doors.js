@@ -3,13 +3,13 @@ const Queries = require('./door-queries')
 const Door = require('./door')
 
 class Doors {
-  constructor(dungeon) {
+  constructor(dungeon, shim) {
     this._dungeon = dungeon
-    this._shim = new RedisGraphShim()
+    this._shim = shim
   }
 
   async inRoom(roomId) {
-    let valueSet = await this._shim.executeAndReturnMany(Queries.IN_ROOM, {roomId})
+    let valueSet = await this._shim.executeAndReturnMany(Queries.IN_ROOM, { roomId })
     return valueSet.map(values => this.fromValues(values))
   }
 

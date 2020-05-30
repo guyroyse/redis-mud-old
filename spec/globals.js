@@ -19,8 +19,8 @@ global.stripAnsi = stripAnsi
 const Context = require('../mud/context')
 global.createStubContext = (dungeon, room) => {
   let context = sinon.createStubInstance(Context)
+  context.room = room
   sinon.stub(context, 'dungeon').get(() => dungeon)
-  sinon.stub(context, 'room').get(() => room)
   return context
 }
 
@@ -55,6 +55,10 @@ global.createStubRoom = (id, name, description) => {
   sinon.spy(room, 'description', ['get', 'set'])
   return room
 }
+
+global.HUB_ID = 0
+global.HUB_NAME = 'The Hub'
+global.HUB_DESCRIPTION = 'Huge hub is huge'
 
 global.CURRENT_ROOM_ID = 1
 global.CURRENT_ROOM_NAME = 'The Red Room'

@@ -11,6 +11,7 @@ class Context {
 
   get dungeon() { return this._dungeon }
   get room() { return this._room }
+  set room(room) { this._room = room }
 }
 
 module.exports = Context
