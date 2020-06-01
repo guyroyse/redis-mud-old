@@ -4,6 +4,7 @@ docker run \
   -p 6379:6379 \
   -v `pwd`/data:/data \
   redislabs/redismod \
+  --save 60 1 \
   --loadmodule /usr/lib/redis/modules/redisgraph.so \
   --loadmodule /usr/lib/redis/modules/redisbloom.so \
   --loadmodule /usr/lib/redis/modules/redisai.so \
