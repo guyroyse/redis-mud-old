@@ -1,5 +1,7 @@
 const { Create } = require('../../../mud/text/commands')
 
+const DESTINATION_ROOM_ID = 23
+
 describe("Create", function() {
   beforeEach(function() {
     this.dungeon = createStubDungeon()
@@ -16,11 +18,27 @@ describe("Create", function() {
     })
 
     it("creates the door", function() {
-      expect(this.context.dungeon.doors.create).to.have.been.calledWith("The Big Door", CURRENT_ROOM_ID)
+      expect(this.context.dungeon.doors.create).to.have.been.calledWithExactly("The Big Door", CURRENT_ROOM_ID)
     })
 
     it("returns the expected response", function() {
       expect(this.response).to.equal(`Door '${A_DOOR_NAME}' created with ID of ${A_DOOR_ID}.`)
+    })
+  })
+
+  describe("/create door The Big Door to=23", function() {
+
+    beforeEach(async function() {
+      this.context.dungeon.doors.createTo.resolves(createADoor())
+      this.response = stripAnsi(await this.subject.execute(this.context, "/create door The Big Door to=23"))
+    })
+
+    it("creates the door", function() {
+      expect(this.context.dungeon.doors.createTo).to.have.been.calledWithExactly("The Big Door", CURRENT_ROOM_ID, DESTINATION_ROOM_ID)
+    })
+
+    it("returns the expected response", function() {
+      expect(this.response).to.equal(`Door '${A_DOOR_NAME}' to room ${DESTINATION_ROOM_ID} created with ID of ${A_DOOR_ID}.`)
     })
   })
 

@@ -28,13 +28,14 @@ Features:
     ☐ Deprecate rename and describe commands from room @created(2020-04-25)
 
   Doors:
-    ☐ Create door with destinations @created(2020-04-25)
-    ☐ Create door with sources and destination @created(2020-04-25)
+    ☐ Create door with destination @created(2020-04-25) @started(2020-06-01)
+    ☐ Create door with source and destination @created(2020-04-25)
+    ☐ Create door with sources and destinations @created(2020-04-25)
     ☐ Edit door to set name, description, locations, destinations, and traversal message @created(2020-04-25)
     ☐ Look at doors by name @created(2020-04-25)
     ☐ Look at doors by ID @created(2020-04-25)
     ☐ Use doors by name @created(2020-04-25)
-    ☐ Use doors by ID @created(2020-04-25)
+    ☐ Use doors by ID @created(2020-04-25) @started(2020-06-01)
     ☐ Display description of door when looked at @created(2020-04-25)
     ☐ Display traversal message when using a door @created(2020-04-25)
     ☐ Select random destination when using door if there are multiple @created(2020-04-25)

@@ -37,7 +37,7 @@ global.createStubDungeon = () => {
 }
 
 const Door = require('../mud/things/doors/door')
-global.createStubDoor = (id, name, description) => {
+global.createStubDoor = (id, name, description, destination) => {
   let door = sinon.createStubInstance(Door)
   sinon.stub(door, 'id').get(() => id)
   sinon.stub(door, 'name').get(() => name)
@@ -83,14 +83,17 @@ global.createAThirdRoom = () => createStubRoom(A_THIRD_ROOM_ID, A_THIRD_ROOM_NAM
 global.A_DOOR_ID = 130
 global.A_DOOR_NAME = 'The Big Door'
 global.A_DOOR_DESCRIPTION = 'The Big Door is big'
-global.createADoor = () => createStubDoor(A_DOOR_ID, A_DOOR_NAME, A_DOOR_DESCRIPTION)
+global.A_DOOR_DESTINATION = 13
+global.createADoor = () => createStubDoor(A_DOOR_ID, A_DOOR_NAME, A_DOOR_DESCRIPTION, A_DOOR_DESTINATION)
 
 global.ANOTHER_DOOR_ID = 230
 global.ANOTHER_DOOR_NAME = 'The Bigger Door'
 global.ANOTHER_DOOR_DESCRIPTION = "It's even bigger"
-global.createAnotherDoor = () => createStubDoor(ANOTHER_DOOR_ID, ANOTHER_DOOR_NAME, ANOTHER_DOOR_DESCRIPTION)
+global.ANOTHER_DOOR_DESTINATION = 23
+global.createAnotherDoor = () => createStubDoor(ANOTHER_DOOR_ID, ANOTHER_DOOR_NAME, ANOTHER_DOOR_DESCRIPTION, ANOTHER_DOOR_DESTINATION)
 
 global.A_THIRD_DOOR_ID = 420
 global.A_THIRD_DOOR_NAME = 'The Biggest Door'
 global.A_THIRD_DOOR_DESCRIPTION = "It's the biggest"
-global.createAThirdDoor = () => createStubDoor(A_THIRD_DOOR_ID, A_THIRD_DOOR_NAME, A_THIRD_DOOR_DESCRIPTION)
+global.A_THIRD_DOOR_DESTINATION = 23
+global.createAThirdDoor = () => createStubDoor(A_THIRD_DOOR_ID, A_THIRD_DOOR_NAME, A_THIRD_DOOR_DESCRIPTION, A_THIRD_DOOR_DESTINATION)

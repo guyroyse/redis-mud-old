@@ -1,19 +1,30 @@
 const Builder = require('./builder')
 
 class Create {
-  async execute({ dungeon, room }, message) {
+  async execute(context, message) {
     let match = message.match(/^\/create (door|room) (.*)$/)
 
     if (!match) return new Builder().red("INVALID COMMAND").white(":").space().green("Ye can't get ye flask.").build()
 
     let [ , noun, name ] = match
-    if (noun === 'door') return await this.createDoor(dungeon, name, room.id)
-    if (noun === 'room') return await this.createRoom(dungeon, name)
+    if (noun === 'door') return await this.createDoor(context.dungeon, name, context.room.id)
+    if (noun === 'room') return await this.createRoom(context.dungeon, name)
   }
 
-  async createDoor(dungeon, name, room_id) {
-    let door = await dungeon.doors.create(name, room_id)
-    return `Door '${door.name}' created with ID of ${door.id}.`
+  async createDoor(dungeon, args, roomId) {
+    let match = args.match(/^(.*) to=(\d+)$/)
+    if (!match) match = args.match(/^(.*)$/)
+
+    let [ , name, destination] = match
+
+    if (destination) {
+      let destinationRoomId = Number(destination)
+      let door = await dungeon.doors.createTo(name, roomId, destinationRoomId)
+      return `Door '${door.name}' to room ${destinationRoomId} created with ID of ${door.id}.`
+    } else {
+      let door = await dungeon.doors.create(name, roomId)
+      return `Door '${door.name}' created with ID of ${door.id}.`
+    }
   }
 
   async createRoom(dungeon, name) {

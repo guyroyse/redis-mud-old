@@ -19,6 +19,12 @@ class Doors {
     return this.fromValues(values)
   }
 
+  async createTo(name, containingRoom, destinationRoom) {
+    let description = "This is a door."
+    let values = await this._shim.executeAndReturnSingle(Queries.CREATE_TO, { name, description, containingRoom, destinationRoom })
+    return this.fromValues(values)
+  }
+
   async update(id, name, description) {
     await this._shim.execute(Queries.UPDATE, { id, name, description })
   }

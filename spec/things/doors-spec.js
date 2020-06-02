@@ -65,6 +65,30 @@ describe("Doors", function() {
     })
   })
 
+  describe("#createTo", function() {
+    beforeEach(async function() {
+      RedisGraphShim.prototype.executeAndReturnSingle.resolves(
+        [ A_DOOR_ID, A_DOOR_NAME, A_DOOR_DESCRIPTION, A_DOOR_DESTINATION ],
+      )
+      this.result = await this.subject.createTo(A_DOOR_NAME, CURRENT_ROOM_ID, A_DOOR_DESTINATION)
+    })
+
+    it("create the door", function() {
+      expect(RedisGraphShim.prototype.executeAndReturnSingle)
+        .to.have.been.calledWith(Queries.CREATE_TO, { 
+          name: A_DOOR_NAME,
+          description: 'This is a door.',
+          containingRoom: CURRENT_ROOM_ID,
+          destinationRoom: A_DOOR_DESTINATION })
+    })
+
+    it("returns a door with expected properties", function() {
+      expect(this.result.id).to.equal(A_DOOR_ID)
+      expect(this.result.name).to.equal(A_DOOR_NAME)
+      expect(this.result.description).to.equal(A_DOOR_DESCRIPTION)
+    })
+  })
+
   describe("#update", function() {
     beforeEach(async function() {
       await this.subject.update(A_DOOR_ID, A_DOOR_NAME, A_DOOR_DESCRIPTION)
