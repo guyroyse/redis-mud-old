@@ -3,7 +3,7 @@ const Prompt = require('./prompt')
 
 const {
   Say, Emote, Look, Describe, Rename, 
-  Create, List, Error, Teleport } = require('./commands')
+  Create, List, Error, Teleport, Use } = require('./commands')
 
 const commandTable = {
   '/emote': Emote,
@@ -12,7 +12,8 @@ const commandTable = {
   '/rename': Rename,
   '/create': Create,
   '/list': List,
-  '/teleport': Teleport
+  '/teleport': Teleport,
+  '/use': Use
 }
 
 class TextController {

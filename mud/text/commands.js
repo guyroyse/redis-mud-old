@@ -107,4 +107,16 @@ class Teleport {
   }
 }
 
-module.exports = { Describe, Create, Emote, List, Error, Look, Rename, Say, Teleport }
+class Use {
+  async execute(context, message) {
+    let [ , id ] = message.match(/^\/use (.*)$/)
+
+    let doors = await context.room.doors()
+    let door = doors.find(door => door.id === Number(id))
+    let room = await door.destination()
+    context.room = room
+    return `You moved.`
+  }
+}
+
+module.exports = { Describe, Create, Emote, List, Error, Look, Rename, Say, Teleport, Use }
