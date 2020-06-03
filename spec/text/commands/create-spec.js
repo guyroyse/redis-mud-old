@@ -18,7 +18,11 @@ describe("Create", function() {
     })
 
     it("creates the door", function() {
-      expect(this.context.dungeon.doors.create).to.have.been.calledWithExactly("The Big Door", CURRENT_ROOM_ID)
+      expect(this.context.dungeon.doors.create).to.have.been.calledWithExactly("The Big Door")
+    })
+
+    it("places the door in the current room", function() {
+      expect(this.context.dungeon.doors.placeIn).to.have.been.calledWithExactly(A_DOOR_ID, CURRENT_ROOM_ID)
     })
 
     it("returns the expected response", function() {
@@ -26,19 +30,27 @@ describe("Create", function() {
     })
   })
 
-  describe("/create door The Big Door to=23", function() {
+  describe(`/create door The Big Door to=${A_ROOM_ID}`, function() {
 
     beforeEach(async function() {
-      this.context.dungeon.doors.createTo.resolves(createADoor())
-      this.response = stripAnsi(await this.subject.execute(this.context, "/create door The Big Door to=23"))
+      this.context.dungeon.doors.create.resolves(createADoor())
+      this.response = stripAnsi(await this.subject.execute(this.context, `/create door The Big Door to=${A_ROOM_ID}`))
     })
 
     it("creates the door", function() {
-      expect(this.context.dungeon.doors.createTo).to.have.been.calledWithExactly("The Big Door", CURRENT_ROOM_ID, DESTINATION_ROOM_ID)
+      expect(this.context.dungeon.doors.create).to.have.been.calledWithExactly("The Big Door")
+    })
+
+    it("places the door in the current room", function() {
+      expect(this.context.dungeon.doors.placeIn).to.have.been.calledWithExactly(A_DOOR_ID, CURRENT_ROOM_ID)
+    })
+
+    it("add the destination room to the door", function() {
+      expect(this.context.dungeon.doors.addDestination).to.have.been.calledWithExactly(A_DOOR_ID, A_ROOM_ID)
     })
 
     it("returns the expected response", function() {
-      expect(this.response).to.equal(`Door '${A_DOOR_NAME}' to room ${DESTINATION_ROOM_ID} created with ID of ${A_DOOR_ID}.`)
+      expect(this.response).to.equal(`Door '${A_DOOR_NAME}' created with ID of ${A_DOOR_ID}.`)
     })
   })
 

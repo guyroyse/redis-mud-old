@@ -82,6 +82,38 @@ describe("Rooms", function() {
 
   })
 
+  describe("#asDoorDestination", function() {
+    beforeEach(async function() {
+      RedisGraphShim.prototype.executeAndReturnMany.resolves([
+        [ A_ROOM_ID, A_ROOM_NAME, A_ROOM_DESCRIPTION ],
+        [ ANOTHER_ROOM_ID, ANOTHER_ROOM_NAME, ANOTHER_ROOM_DESCRIPTION ],
+        [ A_THIRD_ROOM_ID, A_THIRD_ROOM_NAME, A_THIRD_ROOM_DESCRIPTION ]
+      ])
+      this.result = await this.subject.asDoorDestination()
+    })
+
+    it("fetches the rooms", function() {
+      expect(RedisGraphShim.prototype.executeAndReturnMany)
+        .to.have.been.calledWith(Queries.FETCH_AS_DOOR_DESTINATION)
+    })
+
+    it("returns all the rooms", function() {
+      expect(this.result).to.have.lengthOf(3)
+
+      expect(this.result[0].id).to.equal(A_ROOM_ID)
+      expect(this.result[0].name).to.equal(A_ROOM_NAME)
+      expect(this.result[0].description).to.equal(A_ROOM_DESCRIPTION)
+
+      expect(this.result[1].id).to.equal(ANOTHER_ROOM_ID)
+      expect(this.result[1].name).to.equal(ANOTHER_ROOM_NAME)
+      expect(this.result[1].description).to.equal(ANOTHER_ROOM_DESCRIPTION)
+
+      expect(this.result[2].id).to.equal(A_THIRD_ROOM_ID)
+      expect(this.result[2].name).to.equal(A_THIRD_ROOM_NAME)
+      expect(this.result[2].description).to.equal(A_THIRD_ROOM_DESCRIPTION)
+    })
+  })
+
   describe("#create", function() {
     beforeEach(async function() {
       RedisGraphShim.prototype.executeAndReturnSingle

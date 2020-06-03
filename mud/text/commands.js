@@ -17,14 +17,15 @@ class Create {
 
     let [ , name, destination] = match
 
+    let door = await dungeon.doors.create(name)
+    await dungeon.doors.placeIn(door.id, roomId)
+
     if (destination) {
       let destinationRoomId = Number(destination)
-      let door = await dungeon.doors.createTo(name, roomId, destinationRoomId)
-      return `Door '${door.name}' to room ${destinationRoomId} created with ID of ${door.id}.`
-    } else {
-      let door = await dungeon.doors.create(name, roomId)
-      return `Door '${door.name}' created with ID of ${door.id}.`
+      await dungeon.doors.addDestination(door.id, destinationRoomId)
     }
+    
+    return `Door '${door.name}' created with ID of ${door.id}.`
   }
 
   async createRoom(dungeon, name) {

@@ -5,16 +5,18 @@ module.exports = {
     RETURN id(d), d.name, d.description`,
 
   CREATE: `
-    MATCH (r:room)
-    WHERE id(r) = $containingRoom
-    CREATE (r)-[:contains]->(d:door {name: $name, description: $description})
+    CREATE (d:door { name: $name, description: $description })
     RETURN id(d), d.name, d.description`,
 
-  CREATE_TO: `
-    MATCH (from:room) WHERE id(from) = $containingRoom
-    MATCH (to:room) WHERE id(to) = $destinationRoom
-    CREATE (from)-[:contains]->(d:door {name: $name, description: $description})-[:leads_to]->(to)
-    RETURN id(d), d.name, d.description`,
+  PLACE_IN: `
+    MATCH (d:door) WHERE id(d) = $id
+    MATCH (r:room) WHERE id(r) = $roomId
+    CREATE (r)-[:contains]->(d)`,
+
+  ADD_DESTINATION: `
+    MATCH (d:door) WHERE id(d) = $id
+    MATCH (r:room) WHERE id(r) = $roomId
+    CREATE (d)-[:leads_to]->(r)`,
 
   UPDATE: `
     MATCH (d:door)

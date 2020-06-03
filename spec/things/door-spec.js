@@ -52,10 +52,10 @@ describe("Door", function() {
     })
   })
 
-  context("when fetching destination of the door", function() {
+  context("when fetching destinations of the door", function() {
     beforeEach(async function() {
       this.aRoom = createARoom()
-      this.dungeon.rooms.asDoorDestination.resolves([this.aRoom])
+      this.dungeon.rooms.asDoorDestination.resolves([this.aRoom, this.anotherRoom, this.aThirdRoom])
       this.rooms = await this.subject.destinations()
     })
 
@@ -63,9 +63,11 @@ describe("Door", function() {
       expect(this.dungeon.rooms.asDoorDestination).to.have.been.calledWith(A_DOOR_ID)
     })
 
-    it("returns the expected room", function() {
-      expect(this.rooms).to.have.length(1)
+    it("returns the expected rooms", function() {
+      expect(this.rooms).to.have.length(3)
       expect(this.rooms[0]).to.deep.equal(this.aRoom)
+      expect(this.rooms[1]).to.deep.equal(this.anotherRoom)
+      expect(this.rooms[2]).to.deep.equal(this.aThirdRoom)
     })
   })
 })

@@ -47,15 +47,14 @@ describe("Doors", function() {
       RedisGraphShim.prototype.executeAndReturnSingle.resolves(
         [ A_DOOR_ID, A_DOOR_NAME, A_DOOR_DESCRIPTION ],
       )
-      this.result = await this.subject.create(A_DOOR_NAME, CURRENT_ROOM_ID)
+      this.result = await this.subject.create(A_DOOR_NAME)
     })
 
     it("create the door", function() {
       expect(RedisGraphShim.prototype.executeAndReturnSingle)
         .to.have.been.calledWith(Queries.CREATE, { 
           name: A_DOOR_NAME,
-          description: 'This is a door.', 
-          containingRoom: CURRENT_ROOM_ID })
+          description: 'This is a door.' })
     })
 
     it("returns a door with expected properties", function() {
@@ -65,27 +64,29 @@ describe("Doors", function() {
     })
   })
 
-  describe("#createTo", function() {
+  describe("#placeIn", function() {
     beforeEach(async function() {
-      RedisGraphShim.prototype.executeAndReturnSingle.resolves(
-        [ A_DOOR_ID, A_DOOR_NAME, A_DOOR_DESCRIPTION, A_DOOR_DESTINATION ],
-      )
-      this.result = await this.subject.createTo(A_DOOR_NAME, CURRENT_ROOM_ID, A_DOOR_DESTINATION)
+      await this.subject.placeIn(A_DOOR_ID, A_ROOM_ID)
     })
 
-    it("create the door", function() {
-      expect(RedisGraphShim.prototype.executeAndReturnSingle)
-        .to.have.been.calledWith(Queries.CREATE_TO, { 
-          name: A_DOOR_NAME,
-          description: 'This is a door.',
-          containingRoom: CURRENT_ROOM_ID,
-          destinationRoom: A_DOOR_DESTINATION })
+    it("places the door in the room", function() {
+      expect(RedisGraphShim.prototype.execute)
+        .to.have.been.calledWith(Queries.PLACE_IN, {
+          id: A_DOOR_ID,
+          roomId: A_ROOM_ID })
+    })
+  })
+
+  describe("#addDestination", function() {
+    beforeEach(async function() {
+      await this.subject.addDestination(A_DOOR_ID, A_ROOM_ID)
     })
 
-    it("returns a door with expected properties", function() {
-      expect(this.result.id).to.equal(A_DOOR_ID)
-      expect(this.result.name).to.equal(A_DOOR_NAME)
-      expect(this.result.description).to.equal(A_DOOR_DESCRIPTION)
+    it("adds the destination to the door", function() {
+      expect(RedisGraphShim.prototype.execute)
+        .to.have.been.calledWith(Queries.ADD_DESTINATION, {
+          id: A_DOOR_ID,
+          roomId: A_ROOM_ID })
     })
   })
 

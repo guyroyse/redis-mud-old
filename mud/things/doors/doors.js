@@ -12,16 +12,18 @@ class Doors {
     return valueSet.map(values => this.fromValues(values))
   }
 
-  async create(name, containingRoom) {
+  async create(name) {
     let description = "This is a door."
-    let values = await this._shim.executeAndReturnSingle(Queries.CREATE, { name, description, containingRoom })
+    let values = await this._shim.executeAndReturnSingle(Queries.CREATE, { name, description })
     return this.fromValues(values)
   }
 
-  async createTo(name, containingRoom, destinationRoom) {
-    let description = "This is a door."
-    let values = await this._shim.executeAndReturnSingle(Queries.CREATE_TO, { name, description, containingRoom, destinationRoom })
-    return this.fromValues(values)
+  async placeIn(id, roomId) {
+    await this._shim.execute(Queries.PLACE_IN, { id, roomId })
+  }
+
+  async addDestination(id, roomId) {
+    await this._shim.execute(Queries.ADD_DESTINATION, { id, roomId })
   }
 
   async update(id, name, description) {
