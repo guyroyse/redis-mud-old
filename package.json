@@ -11,6 +11,7 @@
     "ui": "bdd",
     "reporter": "min",
     "watch": true,
+    "colors": true,
     "file": [
       "spec/globals.js"
     ]

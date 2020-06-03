@@ -7,7 +7,7 @@ describe("Door", function() {
       id: A_DOOR_ID,
       name: A_DOOR_NAME,
       description: A_DOOR_DESCRIPTION,
-    destination: A_DOOR_DESTINATION })
+      destination: A_DOOR_DESTINATION })
   })
 
   it("has expected id", function() {
