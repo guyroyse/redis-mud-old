@@ -1,11 +1,10 @@
 class Door {
 
-  constructor(dungeon, {id, name, description, destination}) {
+  constructor(dungeon, {id, name, description}) {
     this._dungeon = dungeon
     this._id = id
     this._name = name
     this._description = description
-    this._destination = destination
   }
 
   get id() { return this._id }
@@ -22,8 +21,8 @@ class Door {
     this.update()
   }
 
-  async destination() {
-    return await this._dungeon.rooms.byId(this._destination)
+  async destinations() {
+    return await this._dungeon.rooms.asDoorDestination(this.id)
   }
 
   update() {

@@ -1,4 +1,3 @@
-const RedisGraphShim = require('../../data/redis-graph-shim')
 const Queries = require('./door-queries')
 const Door = require('./door')
 
@@ -33,8 +32,7 @@ class Doors {
     return new Door(this._dungeon, {
       id: values[0],
       name: values[1],
-      description: values[2],
-      destination: values[3]
+      description: values[2]
     })
   }
 }

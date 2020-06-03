@@ -55,16 +55,17 @@ describe("Door", function() {
   context("when fetching destination of the door", function() {
     beforeEach(async function() {
       this.aRoom = createARoom()
-      this.dungeon.rooms.byId.resolves(this.aRoom)
-      this.room = await this.subject.destination()
+      this.dungeon.rooms.asDoorDestination.resolves([this.aRoom])
+      this.rooms = await this.subject.destinations()
     })
 
     it("fetches the destination room from the dungeon", function() {
-      expect(this.dungeon.rooms.byId).to.have.been.calledWith(A_ROOM_ID)
+      expect(this.dungeon.rooms.asDoorDestination).to.have.been.calledWith(A_DOOR_ID)
     })
 
     it("returns the expected room", function() {
-      expect(this.room).to.deep.equal(this.aRoom)
+      expect(this.rooms).to.have.length(1)
+      expect(this.rooms[0]).to.deep.equal(this.aRoom)
     })
   })
 })

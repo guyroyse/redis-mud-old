@@ -16,6 +16,11 @@ module.exports = {
     WHERE id(r) = $id
     RETURN id(r), r.name, r.description`,
 
+  FETCH_AS_DOOR_DESTINATION: `
+    MATCH (d:door)-[:leads_to]->(r:room)
+    WHERE id(d) = $doorId
+    RETURN id(r), r.name, r.description`,
+
   CREATE: `
     CREATE (r:room { name: $name, description: $description })
     RETURN id(r), r.name, r.description`,

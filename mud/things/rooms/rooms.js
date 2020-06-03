@@ -1,4 +1,3 @@
-const RedisGraphShim = require('../../data/redis-graph-shim')
 const Queries = require('./room-queries')
 const Room = require('./room')
 
@@ -23,6 +22,11 @@ class Rooms {
   async byId(id) {
     let values = await this._shim.executeAndReturnSingle(Queries.FETCH_BY_ID, {id})
     return this.fromValues(values)
+  }
+
+  async asDoorDestination(doorId) {
+    let valueSet = await this._shim.executeAndReturnMany(Queries.FETCH_AS_DOOR_DESTINATION, { doorId })
+    return valueSet.map(values => this.fromValues(values))
   }
 
   async create(name) {
