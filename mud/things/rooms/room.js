@@ -60,7 +60,6 @@ class Room {
     let graph = new RedisGraphShim()
     await graph.execute(Queries.UPDATE, { id: this.id, name: this.name, description: this.description })
   }
-
 }
 
 module.exports = Room

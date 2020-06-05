@@ -135,10 +135,6 @@ describe("Room", function() {
         this.doors = await this.subject.doors()
       })
   
-      it("fetches the doors from the dungeon", function() {
-        expect(Doors.inRoom).to.have.been.calledWith(A_ROOM_ID)
-      })
-  
       it("returns the expected doors", function() {
         expect(this.doors).to.have.lengthOf(3)
         expect(this.doors[0]).to.equal(this.aDoor)

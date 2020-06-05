@@ -1,16 +1,29 @@
-class Door {
+const RedisGraphShim = require('../../data/redis-graph-shim')
+const Queries = require('./door-queries')
+const Rooms = require('../rooms/rooms')
 
-  constructor(dungeon, {id, name, description}) {
-    this._dungeon = dungeon
+class Door {
+  constructor({id, name, description}) {
     this._id = id
     this._name = name
     this._description = description
   }
 
-  static create() {}
+  static fromValues(values) {
+    return new Door({
+      id: values[0],
+      name: values[1],
+      description: values[2]
+    })
+  }
 
-  async placeIn() {}
-  async addDestination() {}
+  static async create(name) {
+    let graph = new RedisGraphShim()
+
+    let description = "This is a door."
+    let values = await graph.executeAndReturnSingle(Queries.CREATE, { name, description })
+    return this.fromValues(values)
+  }
 
   get id() { return this._id }
 
@@ -27,13 +40,23 @@ class Door {
   }
 
   async destinations() {
-    return await this._dungeon.rooms.asDoorDestination(this.id)
+    return await Rooms.asDoorDestination(this.id)
   }
 
-  update() {
-    this._dungeon.doors.update(this.id, this.name, this.description)
+  async placeIn(roomId) {
+    let graph = new RedisGraphShim()
+    await graph.execute(Queries.PLACE_IN, { id: this.id, roomId })
   }
 
+  async addDestination(roomId) {
+    let graph = new RedisGraphShim()
+    await graph.execute(Queries.ADD_DESTINATION, { id: this.id, roomId })
+  }
+
+  async update() {
+    let graph = new RedisGraphShim()
+    await graph.execute(Queries.UPDATE, { id: this.id, name: this.name, description: this.description })
+  }
 }
 
 module.exports = Door
