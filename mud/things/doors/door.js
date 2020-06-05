@@ -7,6 +7,11 @@ class Door {
     this._description = description
   }
 
+  static create() {}
+
+  async placeIn() {}
+  async addDestination() {}
+
   get id() { return this._id }
 
   get name() { return this._name }

@@ -3,7 +3,7 @@ const { Describe } = require('../../../mud/text/commands')
 describe("Describe", function() {
   beforeEach(function() {
     this.currentRoom = createCurrentRoom()
-    this.context = createStubContext(null, this.currentRoom)
+    this.context = createStubContext(this.currentRoom)
     this.subject = new Describe()
   })
 
@@ -13,7 +13,6 @@ describe("Describe", function() {
     })
 
     it("redescribes the current room", function() {
-      expect(this.context.room.description).to.not.equal(CURRENT_ROOM_DESCRIPTION)
       expect(this.context.room.description).to.equal("This room is big and ugly.")
     })
 

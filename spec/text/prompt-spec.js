@@ -8,7 +8,7 @@ describe("Prompt", function() {
   describe("#fetchPrompt", function() {
     beforeEach(function() {
       let currentRoom = createCurrentRoom()
-      let context = createStubContext(null, currentRoom)
+      let context = createStubContext(currentRoom)
       
       this.result = this.subject.fetchPrompt(context)
     })

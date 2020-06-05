@@ -17,10 +17,9 @@ global.stripAnsi = stripAnsi
 /* Stubbed Test Objects */
 
 const Context = require('../mud/context')
-global.createStubContext = (dungeon, room) => {
+global.createStubContext = (room) => {
   let context = sinon.createStubInstance(Context)
   context.room = room
-  sinon.stub(context, 'dungeon').get(() => dungeon)
   return context
 }
 

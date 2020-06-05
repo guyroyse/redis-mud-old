@@ -7,8 +7,6 @@ class Context {
 
   get room() { return this._room }
   set room(room) { this._room = room }
-
-  get dungeon() { throw "Delete me!" }
 }
 
 module.exports = Context

@@ -3,7 +3,7 @@ const { Rename } = require('../../../mud/text/commands')
 describe("Rename", function() {
   beforeEach(function() {
     this.currentRoom = createCurrentRoom()
-    this.context = createStubContext(null, this.currentRoom)
+    this.context = createStubContext(this.currentRoom)
     this.subject = new Rename()
   })
 
@@ -13,7 +13,6 @@ describe("Rename", function() {
     })
 
     it("renames the current room", function() {
-      expect(this.context.room.name).to.not.equal(CURRENT_ROOM_NAME)
       expect(this.context.room.name).to.equal("The Fub")
     })
 

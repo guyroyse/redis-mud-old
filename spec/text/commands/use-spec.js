@@ -2,9 +2,8 @@ const { Use } = require('../../../mud/text/commands')
 
 describe("Use", function() {
   beforeEach(function() {
-    this.dungeon = createStubDungeon()
     this.currentRoom = createCurrentRoom()
-    this.context = createStubContext(this.dungeon, this.currentRoom)
+    this.context = createStubContext(this.currentRoom)
 
     this.aDoor = createADoor()
     this.anotherDoor = createAnotherDoor()

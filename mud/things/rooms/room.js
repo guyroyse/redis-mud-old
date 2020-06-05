@@ -8,6 +8,8 @@ class Room {
   }
 
   static hub() {}
+  static byId() {}
+  static create() {}
 
   get id() { return this._id }
 

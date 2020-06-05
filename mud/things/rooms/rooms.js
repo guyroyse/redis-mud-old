@@ -7,6 +7,8 @@ class Rooms {
     this._dungeon = dungeon
   }
 
+  static all() {}
+
   async fetchOrCreateHub() {
     let name = 'The Hub'
     let description = 'Huge hub is huge'

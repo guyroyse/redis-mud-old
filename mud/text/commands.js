@@ -1,4 +1,7 @@
 const Builder = require('./builder')
+const Rooms = require('../things/rooms/rooms')
+const Room = require('../things/rooms/room')
+const Door = require('../things/doors/door')
 
 class Create {
   async execute(context, message) {
@@ -17,19 +20,19 @@ class Create {
 
     let [ , name, destination] = match
 
-    let door = await dungeon.doors.create(name)
-    await dungeon.doors.placeIn(door.id, roomId)
+    let door = await Door.create(name)
+    await door.placeIn(roomId)
 
     if (destination) {
       let destinationRoomId = Number(destination)
-      await dungeon.doors.addDestination(door.id, destinationRoomId)
+      await door.addDestination(destinationRoomId)
     }
     
     return `Door '${door.name}' created with ID of ${door.id}.`
   }
 
   async createRoom(dungeon, name) {
-    let room = await dungeon.rooms.create(name)
+    let room = await Room.create(name)
     return `Room '${room.name}' created with ID of ${room.id}.`
   }
 
@@ -58,7 +61,7 @@ class Error {
 
 class List {
   async execute(context) {
-    let rooms = await context.dungeon.rooms.all()
+    let rooms = await Rooms.all()
     return rooms.map(room => `[${room.name}] ${room.id}`).join('\n')
   }
 }
@@ -102,7 +105,7 @@ class Say {
 class Teleport {
   async execute(context, message) {
     let [ , id ] = message.match(/^\/teleport (.*)$/)
-    let room = await context.dungeon.rooms.byId(Number(id))
+    let room = await Room.byId(Number(id))
     context.room = room
     return `Teleported to [${room.name}].`
   }

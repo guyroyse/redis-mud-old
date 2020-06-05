@@ -3,7 +3,7 @@ const { Look } = require('../../../mud/text/commands')
 describe("Look", function() {
   beforeEach(function() {
     this.currentRoom = createCurrentRoom()
-    this.context = createStubContext(null, this.currentRoom)
+    this.context = createStubContext(this.currentRoom)
     this.subject = new Look()
   })
 
@@ -15,23 +15,26 @@ describe("Look", function() {
       })
   
       it("returns the room description", function() {
-        expect(this.response).to.equal(CURRENT_ROOM_DESCRIPTION)
+        expect(this.response).to.equal(this.currentRoom.description)
       })  
     })
 
     context("when there are doors", function() {
       beforeEach(async function() {
-        this.currentRoom.doors.resolves([createADoor(), createAnotherDoor(), createAThirdDoor()])
+        this.aRoom = createARoom()
+        this.anotherRoom = createAnotherRoom()
+        this.aThirdRoom = createAThirdRoom()
+        this.currentRoom.doors.resolves([this.aRoom, this.anotherRoom, this.aThirdRoom])
         this.response = stripAnsi(await this.subject.execute(this.context, "/look"))
       })
   
       it("returns the description and all the doors", function() {
         let expected =
-          `${CURRENT_ROOM_DESCRIPTION}\n` +
+          `${this.currentRoom.description}\n` +
           `Doors: ` +
-            `${A_DOOR_NAME} [${A_DOOR_ID}], ` +
-            `${ANOTHER_DOOR_NAME} [${ANOTHER_DOOR_ID}], ` +
-            `${A_THIRD_DOOR_NAME} [${A_THIRD_DOOR_ID}]`
+            `${this.aRoom.name} [${this.aRoom.id}], ` +
+            `${this.anotherRoom.name} [${this.anotherRoom.id}], ` +
+            `${this.aThirdRoom.name} [${this.aThirdRoom.id}]`
         expect(this.response).to.equal(expected)
       })  
     })
