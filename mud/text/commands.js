@@ -10,11 +10,11 @@ class Create {
     if (!match) return new Builder().red("INVALID COMMAND").white(":").space().green("Ye can't get ye flask.").build()
 
     let [ , noun, name ] = match
-    if (noun === 'door') return await this.createDoor(context.dungeon, name, context.room.id)
-    if (noun === 'room') return await this.createRoom(context.dungeon, name)
+    if (noun === 'door') return await this.createDoor(name, context.room.id)
+    if (noun === 'room') return await this.createRoom(name)
   }
 
-  async createDoor(dungeon, args, roomId) {
+  async createDoor(args, roomId) {
     let match = args.match(/^(.*) to=(\d+)$/)
     if (!match) match = args.match(/^(.*)$/)
 
@@ -31,7 +31,7 @@ class Create {
     return `Door '${door.name}' created with ID of ${door.id}.`
   }
 
-  async createRoom(dungeon, name) {
+  async createRoom(name) {
     let room = await Room.create(name)
     return `Room '${room.name}' created with ID of ${room.id}.`
   }
