@@ -1,6 +1,6 @@
 const Door = require('../../mud/things/doors/door')
 
-describe("Door", function() {
+xdescribe("Door", function() {
   beforeEach(function() {
     this.dungeon = createStubDungeon()
     this.subject = new Door(this.dungeon, {

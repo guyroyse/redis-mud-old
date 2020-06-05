@@ -23,20 +23,8 @@ global.createStubContext = (room) => {
   return context
 }
 
-const Dungeon = require('../mud/things/dungeon')
-const Doors = require('../mud/things/doors/doors')
-const Rooms = require('../mud/things/rooms/rooms')
-global.createStubDungeon = () => {
-  let doors = sinon.createStubInstance(Doors)
-  let rooms = sinon.createStubInstance(Rooms)
-  let dungeon = sinon.createStubInstance(Dungeon)
-  sinon.stub(dungeon, 'doors').get(() => doors)
-  sinon.stub(dungeon, 'rooms').get(() => rooms)
-  return dungeon
-}
-
 const Door = require('../mud/things/doors/door')
-global.createStubDoor = (id, name, description, destination) => {
+global.createStubDoor = (id, name, description) => {
   let door = sinon.createStubInstance(Door)
   sinon.stub(door, 'id').get(() => id)
   sinon.stub(door, 'name').get(() => name)

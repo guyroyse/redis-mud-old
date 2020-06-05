@@ -7,6 +7,8 @@ class Doors {
     this._shim = shim
   }
 
+  static async inRoom() {}
+
   async inRoom(roomId) {
     let valueSet = await this._shim.executeAndReturnMany(Queries.IN_ROOM, { roomId })
     return valueSet.map(values => this.fromValues(values))

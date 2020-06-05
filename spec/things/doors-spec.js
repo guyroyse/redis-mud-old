@@ -1,8 +1,7 @@
-const Dungeon = require('../../mud/things/dungeon')
 const RedisGraphShim = require('../../mud/data/redis-graph-shim')
 const Queries = require('../../mud/things/doors/door-queries')
 
-describe("Doors", function() {
+xdescribe("Doors", function() {
   beforeEach(function() {
     this.dungeon = new Dungeon()
     this.dungeon.open()
