@@ -17,21 +17,31 @@ class RedisGraphShim {
     let record = result.next()
     if (record.size() <= 0) return null
 
-    return record.values()
+    return this.recordToMap(record)
   }
 
   async executeAndReturnMany(query, parameters) {
     let result = await this.graph.query(query, parameters)
 
-    let valueSet = []
+    let set = new Set()
     while (result.hasNext()) {
       let record = result.next()
       if (record.size() > 0) {
-        valueSet.push(record.values())
+        let map = this.recordToMap(record)
+        set.add(map)
       }
     }
 
-    return valueSet
+    return set
+  }
+
+  recordToMap(record) {
+    let values = record.values()
+    let keys = record.keys()
+
+    let map = new Map()
+    keys.forEach((key, index) => map.set(key, values[index]))
+    return map
   }
 
 }

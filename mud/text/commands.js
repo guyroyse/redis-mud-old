@@ -59,7 +59,8 @@ class Error {
 class List {
   async execute(context) {
     let rooms = await context.dungeon.rooms.all()
-    return rooms.map(room => `[${room.name}] ${room.id}`).join('\n')
+    return Array.from(rooms)
+      .map(room => `[${room.name}] ${room.id}`).join('\n')
   }
 }
 

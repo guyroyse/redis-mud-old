@@ -10,43 +10,50 @@ class Rooms {
   async fetchOrCreateHub() {
     let name = 'The Hub'
     let description = 'Huge hub is huge'
-    let values = await this._shim.executeAndReturnSingle(Queries.FETCH_OR_CREATE_HUB, { name, description })
-    return this.fromValues(values)
+    let map = await this._shim.executeAndReturnSingle(Queries.FETCH_OR_CREATE_HUB, { name, description })
+    return this.fromMap(map)
   }
 
   async all() {
-    let valueSet = await this._shim.executeAndReturnMany(Queries.FETCH_ALL)
-    return valueSet.map(values => this.fromValues(values))
+    let set = await this._shim.executeAndReturnMany(Queries.FETCH_ALL)
+    return this.fromSet(set)
   }
 
   async byId(id) {
-    let values = await this._shim.executeAndReturnSingle(Queries.FETCH_BY_ID, {id})
-    return this.fromValues(values)
+    let map = await this._shim.executeAndReturnSingle(Queries.FETCH_BY_ID, {id})
+    return this.fromMap(map)
   }
 
   async asDoorDestination(doorId) {
-    let valueSet = await this._shim.executeAndReturnMany(Queries.FETCH_AS_DOOR_DESTINATION, { doorId })
-    return valueSet.map(values => this.fromValues(values))
+    let set = await this._shim.executeAndReturnMany(Queries.FETCH_AS_DOOR_DESTINATION, { doorId })
+    this.fromSet(set)
   }
 
   async create(name) {
     let description = "This is a room."
-    let values = await this._shim.executeAndReturnSingle(Queries.CREATE, { name, description })
-    return this.fromValues(values)
+    let map = await this._shim.executeAndReturnSingle(Queries.CREATE, { name, description })
+    return this.fromMap(map)
   }
 
-  async update(id, name, description) {
-    await this._shim.execute(Queries.UPDATE, { id, name, description })
+  async update(map) {
+    let params = Array.from(map)
+      .reduce((params, [k, v]) => {
+        params[k] = v
+        return params
+      }, {})
+    await this._shim.execute(Queries.UPDATE, params)
   }
 
-  fromValues(values) {
-    return new Room(this._dungeon, {
-      id: values[0],
-      name: values[1],
-      description: values[2]
-    })
+  fromSet(set) {
+    return Array.from(set)
+      .reduce((newSet, map) => {
+        return newSet.add(this.fromMap(map))
+      }, new Set())
   }
 
+  fromMap(map) {
+    return Room.proxy(this._dungeon, map)
+  }
 }
 
 module.exports = Rooms
