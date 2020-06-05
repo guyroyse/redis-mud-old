@@ -1,7 +1,5 @@
 const { Create } = require('../../../mud/text/commands')
 
-const DESTINATION_ROOM_ID = 23
-
 describe("Create", function() {
   beforeEach(function() {
     this.dungeon = createStubDungeon()
@@ -31,7 +29,6 @@ describe("Create", function() {
   })
 
   describe(`/create door The Big Door to=${A_ROOM_ID}`, function() {
-
     beforeEach(async function() {
       this.context.dungeon.doors.create.resolves(createADoor())
       this.response = stripAnsi(await this.subject.execute(this.context, `/create door The Big Door to=${A_ROOM_ID}`))
