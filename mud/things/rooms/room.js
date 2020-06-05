@@ -7,6 +7,8 @@ class Room {
     this._description = description
   }
 
+  static hub() {}
+
   get id() { return this._id }
 
   get name() { return this._name }
