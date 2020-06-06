@@ -3,15 +3,14 @@ const RedisConnector = require('./redis-connector')
 class RedisGraphShim {
   constructor() {
     this.redisConnector = new RedisConnector()
-    this.graph = this.redisConnector.fetchGraphConnection()
   }
 
   async execute(query, parameters) {
-    await this.graph.query(query, parameters)
+    await this.connection.query(query, parameters)
   }
 
   async executeAndReturnSingle(query, parameters) {
-    let result = await this.graph.query(query, parameters)
+    let result = await this.connection.query(query, parameters)
     if (result.hasNext() === false) return null
     
     let record = result.next()
@@ -21,7 +20,7 @@ class RedisGraphShim {
   }
 
   async executeAndReturnMany(query, parameters) {
-    let result = await this.graph.query(query, parameters)
+    let result = await this.connection.query(query, parameters)
 
     let valueSet = []
     while (result.hasNext()) {
@@ -34,6 +33,9 @@ class RedisGraphShim {
     return valueSet
   }
 
+  get connection() {
+    return this.redisConnector.fetchGraphConnection()
+  }
 }
 
 module.exports = RedisGraphShim
