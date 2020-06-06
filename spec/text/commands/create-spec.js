@@ -1,4 +1,4 @@
-const { Create } = require('../../../mud/text/commands')
+const Create = require('../../../mud/text/commands/create')
 const { Room, Door } = require('../../../mud/things/things')
 
 describe("Create", function() {

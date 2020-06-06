@@ -1,9 +1,11 @@
 const Motd = require('./motd')
 const Prompt = require('./prompt')
 
-const {
-  Say, Emote, Look, Describe, Rename, 
-  Create, List, Error, Teleport, Use } = require('./commands')
+const { Say, Emote, Describe, Rename, List, Error, Teleport } = require('./commands')
+
+const Create = require('./commands/create')
+const Look = require('./commands/look')
+const Use = require('./commands/use')
 
 const commandTable = {
   '/emote': Emote,

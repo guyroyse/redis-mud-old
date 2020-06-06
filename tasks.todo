@@ -1,11 +1,9 @@
 Technical Debt:
   ☐ Need to extract command parsing for more complex commands @created(2020-05-30)
+  ☐ Use Proxy objects to reduce duplicated code in Things @created(2020-06-05)
 
 Bugs:
-  ☐ Some commands fail dramatically when parsing unexpected strings @created(2020-04-19)
-    ☐ /describe room @created(2020-04-19)
-    ☐ /rename room @created(2020-04-19)
-    ☐ /create room @created(2020-04-19)
+  ☐ Most commands fail dramatically when parsing unexpected strings @created(2020-04-19)
 
 Features:
   ☐ Command history for WebSocket client
@@ -28,14 +26,12 @@ Features:
     ☐ Deprecate rename and describe commands from room @created(2020-04-25)
 
   Doors:
-    ☐ Create door with destination @created(2020-04-25) @started(2020-06-01)
     ☐ Create door with source and destination @created(2020-04-25)
     ☐ Create door with sources and destinations @created(2020-04-25)
     ☐ Edit door to set name, description, locations, destinations, and traversal message @created(2020-04-25)
     ☐ Look at doors by name @created(2020-04-25)
     ☐ Look at doors by ID @created(2020-04-25)
     ☐ Use doors by name @created(2020-04-25)
-    ☐ Use doors by ID @created(2020-04-25) @started(2020-06-01)
     ☐ Display description of door when looked at @created(2020-04-25)
     ☐ Display traversal message when using a door @created(2020-04-25)
     ☐ Select random destination when using door if there are multiple @created(2020-04-25)
@@ -47,6 +43,10 @@ Features:
     ☐ Use objects by ID @created(2020-04-25)
 
 Archive:
+  ✔ Lay foundation for Redis connections to be pooled @created(2020-06-05) @done(2020-06-05) @project(Technical Debt)
+  ✔ Eliminate dungeon @created(2020-06-05) @done(2020-06-05) @project(Technical Debt)
+  ✔ Create door with destination @created(2020-04-25) @started(2020-06-01) @done(2020-06-05) @project(Features.Doors)
+  ✔ Use doors by ID @created(2020-04-25) @started(2020-06-01) @done(2020-06-05) @project(Features.Doors)
   ✔ Need config spec @created(2020-05-29) @done(2020-05-30) @project(Technical Debt)
   ✔ Doors should be nodes @created(2020-04-25) @done(2020-05-29) @project(Technical Debt)
   ✔ Need context spec @created(2020-05-29) @done(2020-05-30) @project(Technical Debt)

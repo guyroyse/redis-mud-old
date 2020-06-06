@@ -3,8 +3,11 @@ const TextController = require('../../mud/text/text-controller')
 const Motd = require('../../mud/text/motd')
 const Prompt = require('../../mud/text/prompt')
 
-const { Say, Emote, Look, Describe, Rename, Create, List, Error, Teleport } =
-  require('../../mud/text/commands')
+const { Say, Emote, Describe, Rename, List, Error, Teleport } = require('../../mud/text/commands')
+
+const Create = require('../../mud/text/commands/create')
+const Use = require('../../mud/text/commands/use')
+const Look = require('../../mud/text/commands/look')
 
 describe("TextController", function() {
   beforeEach(function() {
@@ -14,7 +17,7 @@ describe("TextController", function() {
     Motd.prototype.fetchMotd.returns("a message")
     Prompt.prototype.fetchPrompt.returns("a prompt")
 
-    this.context = "some object"
+    this.context = createStubContext()
     this.subject = new TextController()
   })
 
@@ -48,6 +51,7 @@ describe("TextController", function() {
         { command: '/create', clazz: Create }, 
         { command: '/list', clazz: List }, 
         { command: '/teleport', clazz: Teleport },
+        { command: '/use', clazz: Use },
         { command: '/foo bar', clazz: Error }
       ]
 
