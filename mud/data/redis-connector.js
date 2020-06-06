@@ -12,7 +12,7 @@ function createRedisConnection() {
 }
 
 function createGraphConnection() {
-  return new RedisGraph(Config.graphKey, this.createRedisConnection())
+  return new RedisGraph(Config.graphKey, createRedisConnection())
 }
 
 let redisConnection, graphConnection
