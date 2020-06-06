@@ -1,6 +1,6 @@
 const { Teleport } = require('../../../mud/text/commands')
 
-const Room = require('../../../mud/things/rooms/room')
+const { Room }  = require('../../../mud/things/things')
 
 describe("Teleport", function() {
   beforeEach(function() {

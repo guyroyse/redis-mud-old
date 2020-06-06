@@ -1,5 +1,5 @@
 const { List } = require('../../../mud/text/commands')
-const Rooms = require('../../../mud/things/rooms/rooms')
+const { Rooms } = require('../../../mud/things/things')
 
 describe("List", function() {
   beforeEach(function() {

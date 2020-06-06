@@ -1,7 +1,6 @@
 const RedisGraphShim = require('../../mud/data/redis-graph-shim')
-const Queries = require('../../mud/things/rooms/room-queries')
-const Room = require('../../mud/things/rooms/room')
-const Doors = require('../../mud/things/doors/doors')
+const RoomQueries = require('../../mud/things/room-queries')
+const { Room, Doors } = require('../../mud/things/things')
 
 describe("Room", function() {
 
@@ -13,7 +12,7 @@ describe("Room", function() {
 
     it("askes the graph for the hub", function() {
       expect(RedisGraphShim.prototype.executeAndReturnSingle)
-        .to.have.been.calledWith(Queries.FETCH_OR_CREATE_HUB, {
+        .to.have.been.calledWith(RoomQueries.FETCH_OR_CREATE_HUB, {
           name: HUB_NAME,
           description: HUB_DESCRIPTION })
     })
@@ -34,7 +33,7 @@ describe("Room", function() {
 
     it("askes the graph for the room", function() {
       expect(RedisGraphShim.prototype.executeAndReturnSingle)
-        .to.have.been.calledWith(Queries.FETCH_BY_ID, { id: A_ROOM_ID })
+        .to.have.been.calledWith(RoomQueries.FETCH_BY_ID, { id: A_ROOM_ID })
     })
 
     it("returns a room with expected properties", function() {
@@ -53,7 +52,7 @@ describe("Room", function() {
 
     it("creates the room", function() {
       expect(RedisGraphShim.prototype.executeAndReturnSingle)
-        .to.have.been.calledWith(Queries.CREATE, { 
+        .to.have.been.calledWith(RoomQueries.CREATE, { 
           name: A_ROOM_NAME,
           description: 'This is a room.' })
     })
@@ -96,7 +95,7 @@ describe("Room", function() {
   
       it("updates the graph", function() {
         expect(RedisGraphShim.prototype.execute)
-          .to.have.been.calledWith(Queries.UPDATE, {
+          .to.have.been.calledWith(RoomQueries.UPDATE, {
             id: A_ROOM_ID,
             name: ANOTHER_ROOM_NAME,
             description: A_ROOM_DESCRIPTION
@@ -115,7 +114,7 @@ describe("Room", function() {
   
       it("updates the graph", function() {
         expect(RedisGraphShim.prototype.execute)
-          .to.have.been.calledWith(Queries.UPDATE, {
+          .to.have.been.calledWith(RoomQueries.UPDATE, {
             id: A_ROOM_ID,
             name: A_ROOM_NAME,
             description: ANOTHER_ROOM_DESCRIPTION

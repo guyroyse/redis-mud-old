@@ -1,7 +1,5 @@
 const Builder = require('./builder')
-const Rooms = require('../things/rooms/rooms')
-const Room = require('../things/rooms/room')
-const Door = require('../things/doors/door')
+const { Room, Rooms, Door } = require('../things/things')
 
 class Create {
   async execute(context, message) {

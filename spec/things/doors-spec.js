@@ -1,6 +1,6 @@
 const RedisGraphShim = require('../../mud/data/redis-graph-shim')
-const Queries = require('../../mud/things/doors/door-queries')
-const Doors = require('../../mud/things/doors/doors')
+const DoorQueries = require('../../mud/things/door-queries')
+const { Doors } = require('../../mud/things/things')
 
 describe("Doors", function() {
   describe("#inRoom", function() {
@@ -15,7 +15,7 @@ describe("Doors", function() {
 
     it("fetches the doors for the room id", function() {
       expect(RedisGraphShim.prototype.executeAndReturnMany)
-        .to.have.been.calledWith(Queries.IN_ROOM, { roomId: CURRENT_ROOM_ID })
+        .to.have.been.calledWith(DoorQueries.IN_ROOM, { roomId: CURRENT_ROOM_ID })
     })
 
     it("returns the doors with expected properties", function() {

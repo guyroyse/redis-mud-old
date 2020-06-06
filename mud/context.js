@@ -1,4 +1,4 @@
-const Room = require('./things/rooms/room')
+const { Room } = require('./things/things')
 
 class Context {
   async load() {

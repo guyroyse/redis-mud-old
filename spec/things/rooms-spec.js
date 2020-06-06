@@ -1,9 +1,9 @@
 const RedisGraphShim = require('../../mud/data/redis-graph-shim')
-const Queries = require('../../mud/things/rooms/room-queries')
-const Rooms = require('../../mud/things/rooms/rooms')
+const RoomQueries = require('../../mud/things/room-queries')
+const { Rooms } = require('../../mud/things/things')
 
 describe("Rooms", function() {
-  xdescribe("#all", function() {
+  describe("#all", function() {
     beforeEach(async function() {
       RedisGraphShim.prototype.executeAndReturnMany.resolves([
         [ A_ROOM_ID, A_ROOM_NAME, A_ROOM_DESCRIPTION ],
@@ -15,7 +15,7 @@ describe("Rooms", function() {
 
     it("fetches the rooms", function() {
       expect(RedisGraphShim.prototype.executeAndReturnMany)
-        .to.have.been.calledWith(Queries.FETCH_ALL)
+        .to.have.been.calledWith(RoomQueries.FETCH_ALL)
     })
 
     it("returns all the rooms", function() {
@@ -35,7 +35,7 @@ describe("Rooms", function() {
     })
   })
 
-  xdescribe("#asDoorDestination", function() {
+  describe("#asDoorDestination", function() {
     beforeEach(async function() {
       RedisGraphShim.prototype.executeAndReturnMany.resolves([
         [ A_ROOM_ID, A_ROOM_NAME, A_ROOM_DESCRIPTION ],
@@ -47,7 +47,7 @@ describe("Rooms", function() {
 
     it("fetches the rooms", function() {
       expect(RedisGraphShim.prototype.executeAndReturnMany)
-        .to.have.been.calledWith(Queries.FETCH_AS_DOOR_DESTINATION)
+        .to.have.been.calledWith(RoomQueries.FETCH_AS_DOOR_DESTINATION)
     })
 
     it("returns all the rooms", function() {

@@ -1,7 +1,6 @@
 const RedisGraphShim = require('../../mud/data/redis-graph-shim')
-const Queries = require('../../mud/things/doors/door-queries')
-const Door = require('../../mud/things/doors/door')
-const Rooms = require('../../mud/things/rooms/rooms')
+const DoorQueries = require('../../mud/things/door-queries')
+const { Door, Rooms } = require('../../mud/things/things')
 
 describe("Door", function() {
 
@@ -15,7 +14,7 @@ describe("Door", function() {
 
     it("create the door", function() {
       expect(RedisGraphShim.prototype.executeAndReturnSingle)
-        .to.have.been.calledWith(Queries.CREATE, { 
+        .to.have.been.calledWith(DoorQueries.CREATE, { 
           name: A_DOOR_NAME,
           description: 'This is a door.' })
     })
@@ -58,7 +57,7 @@ describe("Door", function() {
   
       it("renames the room", function() {
         expect(RedisGraphShim.prototype.execute)
-          .to.have.been.calledWith(Queries.UPDATE, {
+          .to.have.been.calledWith(DoorQueries.UPDATE, {
             id: A_DOOR_ID,
             name: ANOTHER_DOOR_NAME,
             description: A_DOOR_DESCRIPTION })
@@ -76,7 +75,7 @@ describe("Door", function() {
   
       it("updates the room", function() {
         expect(RedisGraphShim.prototype.execute)
-          .to.have.been.calledWith(Queries.UPDATE, {
+          .to.have.been.calledWith(DoorQueries.UPDATE, {
             id: A_DOOR_ID,
             name: A_DOOR_NAME,
             description: ANOTHER_DOOR_DESCRIPTION })
@@ -90,7 +89,7 @@ describe("Door", function() {
         Rooms.asDoorDestination.resolves([this.aRoom, this.anotherRoom, this.aThirdRoom])
         this.rooms = await this.subject.destinations()
       })
-  
+
       it("fetches the destination room from the dungeon", function() {
         expect(Rooms.asDoorDestination).to.have.been.calledWith(A_DOOR_ID)
       })
@@ -110,7 +109,7 @@ describe("Door", function() {
   
       it("places the door in the room", function() {
         expect(RedisGraphShim.prototype.execute)
-          .to.have.been.calledWith(Queries.PLACE_IN, {
+          .to.have.been.calledWith(DoorQueries.PLACE_IN, {
             id: A_DOOR_ID,
             roomId: A_ROOM_ID })
       })
@@ -123,7 +122,7 @@ describe("Door", function() {
   
       it("adds the destination to the door", function() {
         expect(RedisGraphShim.prototype.execute)
-          .to.have.been.calledWith(Queries.ADD_DESTINATION, {
+          .to.have.been.calledWith(DoorQueries.ADD_DESTINATION, {
             id: A_DOOR_ID,
             roomId: A_ROOM_ID })
       })

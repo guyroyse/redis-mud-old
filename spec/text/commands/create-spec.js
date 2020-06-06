@@ -1,6 +1,5 @@
 const { Create } = require('../../../mud/text/commands')
-const Room = require('../../../mud/things/rooms/room')
-const Door = require('../../../mud/things/doors/door')
+const { Room, Door } = require('../../../mud/things/things')
 
 describe("Create", function() {
   beforeEach(function() {

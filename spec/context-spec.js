@@ -1,5 +1,5 @@
 const Context = require('../mud/context')
-const Room = require('../mud/things/rooms/room')
+const { Room } = require('../mud/things/things')
 
 describe("Context", function() {
   beforeEach(function() {

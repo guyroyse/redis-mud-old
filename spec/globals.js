@@ -17,22 +17,24 @@ global.stripAnsi = stripAnsi
 /* Stubbed Test Objects */
 
 const Context = require('../mud/context')
+const { Door, Room } = require('../mud/things/things')
+
 global.createStubContext = (room) => {
   let context = sinon.createStubInstance(Context)
   context.room = room
   return context
 }
 
-const Door = require('../mud/things/doors/door')
 global.createStubDoor = (id, name, description) => {
   let door = sinon.createStubInstance(Door)
+  door.name = name
+  door.description = description
   sinon.stub(door, 'id').get(() => id)
-  sinon.stub(door, 'name').get(() => name)
-  sinon.stub(door, 'description').get(() => description)
+  sinon.spy(door, 'name', ['get', 'set'])
+  sinon.spy(door, 'description', ['get', 'set'])
   return door
 }
 
-const Room = require('../mud/things/rooms/room')
 global.createStubRoom = (id, name, description) => {
   let room = sinon.createStubInstance(Room)
   room.name = name
