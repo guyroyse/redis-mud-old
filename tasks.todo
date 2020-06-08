@@ -37,10 +37,10 @@ Features:
     ☐ Select random destination when using door if there are multiple @created(2020-04-25)
   
   Objects:
-    ☐ Look at objects by name @created(2020-04-25)
     ☐ Look at objects by ID @created(2020-04-25)
-    ☐ Use objects by name @created(2020-04-25)
     ☐ Use objects by ID @created(2020-04-25)
+    ☐ Look at objects by name @created(2020-04-25)
+    ☐ Use objects by name @created(2020-04-25)
 
 Archive:
   ✔ Lay foundation for Redis connections to be pooled @created(2020-06-05) @done(2020-06-05) @project(Technical Debt)
