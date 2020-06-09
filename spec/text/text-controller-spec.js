@@ -5,7 +5,7 @@ const Prompt = require('../../mud/text/prompt')
 
 const { Say, Emote, Describe, Rename, List, Error, Teleport } = require('../../mud/text/commands')
 
-const Create = require('../../mud/text/commands/create')
+const { Create } = require('../../mud/text/commands/create')
 const Use = require('../../mud/text/commands/use')
 const Look = require('../../mud/text/commands/look')
 

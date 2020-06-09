@@ -46,4 +46,4 @@ class CreateDoor {
   }
 }
 
-module.exports = Create
+module.exports = { Create, CreateRoom, CreateDoor }

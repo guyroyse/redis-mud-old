@@ -1,22 +1,7 @@
 const Motd = require('./motd')
 const Prompt = require('./prompt')
 
-const { Say, Emote, Describe, Rename, List, Error, Teleport } = require('./commands')
-
-const Create = require('./commands/create')
-const Look = require('./commands/look')
-const Use = require('./commands/use')
-
-const commandTable = {
-  '/emote': Emote,
-  '/look': Look,
-  '/describe': Describe,
-  '/rename': Rename,
-  '/create': Create,
-  '/list': List,
-  '/teleport': Teleport,
-  '/use': Use
-}
+const Command = require('./commands/command')
 
 class TextController {
   constructor() {
@@ -25,27 +10,15 @@ class TextController {
   }
 
   processStart(context) {
-    return [
-      this._motd.fetchMotd(),
-      this._prompt.fetchPrompt(context)
-    ].join('\n')
+    let motd = this._motd.fetchMotd()
+    let prompt = this._prompt.fetchPrompt(context)
+    return [ motd, prompt ].join('\n')
   }
 
   async processMessage(context, message) {
-    let trimmed = message.trim()
-
-    let clazz
-    if (this.isSlashCommand(trimmed)) {
-      let slashCommand = this.extractSlashCommand(trimmed)
-      clazz = commandTable[slashCommand] || Error 
-    } else {
-      clazz = Say
-    }
-
-    return [
-      await new clazz().execute(context, trimmed),
-      this._prompt.fetchPrompt(context)
-    ].join('\n')
+    let result = await new Command().execute(context, message.trim())
+    let prompt = this._prompt.fetchPrompt(context)
+    return [ result, prompt ].join('\n')
   }
 
   isSlashCommand(slashCommand) {
