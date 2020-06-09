@@ -7,15 +7,15 @@ class Create {
 
     if (!match) return new Builder().red("INVALID COMMAND").white(":").space().green("Ye can't get ye flask.").build()
 
-    let [ , noun, remainder ] = match
-    if (noun === 'door') return await this.createDoor(remainder, context.room.id)
-    if (noun === 'room') return await this.createRoom(remainder)
+    let [ , subcommand, args ] = match
+    if (subcommand === 'door') return await this.createDoor(args, context.room.id)
+    if (subcommand === 'room') return await this.createRoom(args)
   }
 
-  async createDoor(remainder, roomId) {
-    let name = this.parseName(remainder)
-    let destinations = this.parseDestinations(remainder, [])
-    let locations = this.parseLocations(remainder, [roomId])
+  async createDoor(args, roomId) {
+    let name = this.parseName(args)
+    let destinations = this.parseDestinations(args, [])
+    let locations = this.parseLocations(args, [roomId])
 
     let door = await Door.create(name)
     await Promise.all(locations.map(location => door.placeIn(location)))
@@ -24,39 +24,38 @@ class Create {
     return `Door '${door.name}' created with ID of ${door.id}.`
   }
 
-  parseName(remainder) {
-    let nameMatch = remainder.match(/^(\S+)/)
-    let name = nameMatch ? nameMatch[1] : null
+  async createRoom(args) {
+    let name = this.parseName(args)
+    let room = await Room.create(name)
+    return `Room '${room.name}' created with ID of ${room.id}.`
+  }
+
+  parseName(args) {
+    let match = args.match(/^(\S+)/)
+    let name = match ? match[1] : null
     if (name.startsWith('"')) {
-      nameMatch = remainder.match(/^"(.*?)"/)
-      name = nameMatch[1]
+      match = args.match(/^"(.*?)"/)
+      name = match[1]
     }
     return name
   }
 
-  parseDestinations(remainder, defaultValue) {
-    let to = defaultValue
-    let toMatch = remainder.match(/\s+to=(\S+)/)
-    if (toMatch) {
-      let tokens = toMatch[1].split(',')
-      to = tokens.map(token => Number(token))
-    }
-    return to
+  parseDestinations(args, defaultValue) {
+    return this.parseIdList(args, /\s+to=(\S+)/, defaultValue)
   }
 
-  parseLocations(remainder, defaultValue) {
-    let from = defaultValue
-    let fromMatch = remainder.match(/\s+from=(\S+)/)
-    if (fromMatch) {
-      let tokens = fromMatch[1].split(',')
-      from = tokens.map(token => Number(token))
-    }
-    return from
+  parseLocations(args, defaultValue) {
+    return this.parseIdList(args, /\s+from=(\S+)/, defaultValue)
   }
 
-  async createRoom(name) {
-    let room = await Room.create(name)
-    return `Room '${room.name}' created with ID of ${room.id}.`
+  parseIdList(args, regex, defaultValue) {
+    let list = defaultValue
+    let match = args.match(regex)
+    if (match) {
+      let tokens = match[1].split(',')
+      list = tokens.map(token => Number(token))
+    }
+    return list
   }
 }
 

@@ -129,7 +129,42 @@ describe("Create", function() {
     })
   })
 
-  describe(`/create  door  "The Big Door"  to=${A_ROOM_ID}  from=${ANOTHER_ROOM_ID}`, function() {
+  describe('/create room "The Blue Room"', function() {
+    beforeEach(async function() {
+      Room.create.resolves(this.aRoom)
+      this.response = stripAnsi(await this.subject.execute(this.context, '/create room "The Blue Room"'))
+    })
+
+    it("creates the room", function() {
+      expect(Room.create).to.have.been.calledWith("The Blue Room")
+    })
+
+    it("returns the expected response", function() {
+      expect(this.response).to.equal(`Room '${this.aRoom.name}' created with ID of ${this.aRoom.id}.`)
+    })
+  })
+
+  context("when parsing unknown noun", function() {
+    beforeEach(async function() {
+      this.response = stripAnsi(await this.subject.execute(this.context, "/create unknown A Noun That Doesn't Exist"))
+    })
+
+    it("return a reasonable error", function() {
+      expect(this.response).to.equal("INVALID COMMAND: Ye can't get ye flask.")
+    })
+  })
+
+  context("when parsing unknown noun with superfulous whitespace", function() {
+    beforeEach(async function() {
+      this.response = stripAnsi(await this.subject.execute(this.context, "/create  unknown  A Noun That Doesn't Exist"))
+    })
+
+    it("return a reasonable error", function() {
+      expect(this.response).to.equal("INVALID COMMAND: Ye can't get ye flask.")
+    })
+  })
+
+  context("when parsing a door command with superfulous whitespace", function() {
     beforeEach(async function() {
       Door.create.resolves(this.aDoor)
       this.response = stripAnsi(await this.subject.execute(this.context, `/create  door  "The Big Door"  to=${this.aRoom.id}  from=${this.anotherRoom.id}`))
@@ -137,10 +172,6 @@ describe("Create", function() {
 
     it("creates the door", function() {
       expect(Door.create).to.have.been.calledWithExactly("The Big Door")
-    })
-
-    it("does not place the door in the current room", function() {
-      expect(this.aDoor.placeIn).to.not.have.been.calledWithExactly(this.currentRoom.id)
     })
 
     it("places the door in the requested room", function() {
@@ -156,10 +187,10 @@ describe("Create", function() {
     })
   })
 
-  describe("/create room The Blue Room", function() {
+  context("when parsing a rooms command with superfulous whitespace", function() {
     beforeEach(async function() {
       Room.create.resolves(this.aRoom)
-      this.response = stripAnsi(await this.subject.execute(this.context, "/create room The Blue Room"))
+      this.response = stripAnsi(await this.subject.execute(this.context, '/create  room  "The Blue Room"'))
     })
 
     it("creates the room", function() {
@@ -171,13 +202,26 @@ describe("Create", function() {
     })
   })
 
-  describe("/create unknown A Noun That Doesn't Exist", function() {
+  context("when parsing a door command without quotes around the name", function() {
     beforeEach(async function() {
-      this.response = stripAnsi(await this.subject.execute(this.context, "/create unknown A Noun That Doesn't Exist"))
+      Door.create.resolves(this.aDoor)
+      this.response = stripAnsi(await this.subject.execute(this.context, `/create door The Big Door`))
     })
 
-    it("return a reasonable error", function() {
-      expect(this.response).to.equal("INVALID COMMAND: Ye can't get ye flask.")
+    it("creates the door with just the first word of the name", function() {
+      expect(Door.create).to.have.been.calledWithExactly("The")
     })
   })
+
+  context("when parsing a room command without quotes around the name", function() {
+    beforeEach(async function() {
+      Room.create.resolves(this.aRoom)
+      this.response = stripAnsi(await this.subject.execute(this.context, '/create room The Blue Room'))
+    })
+
+    it("creates the room with just the first word of the name", function() {
+      expect(Room.create).to.have.been.calledWith("The")
+    })
+  })
+
 })
