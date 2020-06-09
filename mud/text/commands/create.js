@@ -1,20 +1,19 @@
-const Builder = require('../builder')
 const { Room, Door } = require('../../things/things')
+const { Error } = require('../commands')
 
 const Parsers = require('./argument-parsers')
 
 class Create {
   async execute(context, message) {
-    let match = message.match(/^\/create\s+(door|room)\s+.*$/)
+    let match = message.match(/^\/create\s+(\S+)\s+.*$/)
 
-    if (!match) return new Builder().red("INVALID COMMAND").white(":").space().green("Ye can't get ye flask.").build()
+    let delegateClass = Error
+    if (match) {
+      let subcommand = match[1]
+      delegateClass = subcommandDelegateMap[subcommand] || Error
+    }
 
-    let subcommand = match[1]
-
-    let subcommandMap = { door: CreateDoor, room: CreateRoom }
-
-    let delegate = new subcommandMap[subcommand]()
-    return await delegate.execute(context, message)
+    return await new delegateClass().execute(context, message)
   }
 }
 
@@ -45,5 +44,7 @@ class CreateDoor {
     return `Door '${door.name}' created with ID of ${door.id}.`
   }
 }
+
+let subcommandDelegateMap = { door: CreateDoor, room: CreateRoom }
 
 module.exports = { Create, CreateRoom, CreateDoor }

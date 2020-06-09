@@ -150,7 +150,7 @@ describe("Create", function() {
     })
 
     it("return a reasonable error", function() {
-      expect(this.response).to.equal("INVALID COMMAND: Ye can't get ye flask.")
+      expect(this.response).to.equal("Ye can't get ye flask! INVALID COMMAND '/create unknown A Noun That Doesn't Exist'")
     })
   })
 
@@ -160,7 +160,7 @@ describe("Create", function() {
     })
 
     it("return a reasonable error", function() {
-      expect(this.response).to.equal("INVALID COMMAND: Ye can't get ye flask.")
+      expect(this.response).to.equal("Ye can't get ye flask! INVALID COMMAND '/create  unknown  A Noun That Doesn't Exist'")
     })
   })
 

@@ -1,3 +1,5 @@
+const Builder = require('./builder')
+
 const { Room, Rooms } = require('../things/things')
 
 class Describe {
@@ -17,7 +19,10 @@ class Emote {
 
 class Error {
   execute({}, message) {
-    return `Invalid command '${message}'`
+    return new Builder()
+      .green("Ye can't get ye flask!").space()
+      .red("INVALID COMMAND").space()
+      .white("'").cyan(message).white("'").build()
   }
 }
 
