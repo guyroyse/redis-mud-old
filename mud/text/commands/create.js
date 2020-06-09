@@ -13,32 +13,45 @@ class Create {
   }
 
   async createDoor(remainder, roomId) {
+    let name = this.parseName(remainder)
+    let destinations = this.parseDestinations(remainder, [])
+    let locations = this.parseLocations(remainder, [roomId])
 
+    let door = await Door.create(name)
+    await Promise.all(locations.map(location => door.placeIn(location)))
+    await Promise.all(destinations.map(destination => door.addDestination(destination)))
+
+    return `Door '${door.name}' created with ID of ${door.id}.`
+  }
+
+  parseName(remainder) {
     let nameMatch = remainder.match(/^(\S+)/)
     let name = nameMatch ? nameMatch[1] : null
     if (name.startsWith('"')) {
       nameMatch = remainder.match(/^"(.*?)"/)
       name = nameMatch[1]
     }
+    return name
+  }
 
+  parseDestinations(remainder, defaultValue) {
+    let to = defaultValue
     let toMatch = remainder.match(/\s+to=(\S+)/)
-    let to = toMatch ? Number(toMatch[1]) : null
+    if (toMatch) {
+      let tokens = toMatch[1].split(',')
+      to = tokens.map(token => Number(token))
+    }
+    return to
+  }
 
+  parseLocations(remainder, defaultValue) {
+    let from = defaultValue
     let fromMatch = remainder.match(/\s+from=(\S+)/)
-    let from = fromMatch ? Number(fromMatch[1]) : null
-
-    let door = await Door.create(name)
-    if (from) {
-      await door.placeIn(from)
-    } else {
-      await door.placeIn(roomId)
+    if (fromMatch) {
+      let tokens = fromMatch[1].split(',')
+      from = tokens.map(token => Number(token))
     }
-
-    if (to) {
-      await door.addDestination(to)
-    }
-    
-    return `Door '${door.name}' created with ID of ${door.id}.`
+    return from
   }
 
   async createRoom(name) {

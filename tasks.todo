@@ -26,8 +26,6 @@ Features:
     ☐ Deprecate rename and describe commands from room @created(2020-04-25)
 
   Doors:
-    ☐ Create door with source and destination @created(2020-04-25)
-    ☐ Create door with sources and destinations @created(2020-04-25)
     ☐ Edit door to set name, description, locations, destinations, and traversal message @created(2020-04-25)
     ☐ Look at doors by name @created(2020-04-25)
     ☐ Look at doors by ID @created(2020-04-25)
@@ -43,6 +41,8 @@ Features:
     ☐ Use objects by name @created(2020-04-25)
 
 Archive:
+  ✔ Create door with source and destination @created(2020-04-25) @done(2020-06-08) @project(Features.Doors)
+  ✔ Create door with sources and destinations @created(2020-04-25) @done(2020-06-08) @project(Features.Doors)
   ✔ Lay foundation for Redis connections to be pooled @created(2020-06-05) @done(2020-06-05) @project(Technical Debt)
   ✔ Eliminate dungeon @created(2020-06-05) @done(2020-06-05) @project(Technical Debt)
   ✔ Create door with destination @created(2020-04-25) @started(2020-06-01) @done(2020-06-05) @project(Features.Doors)

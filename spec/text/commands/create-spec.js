@@ -8,6 +8,8 @@ describe("Create", function() {
 
     this.aRoom = createARoom()
     this.anotherRoom = createAnotherRoom()
+    this.aThirdRoom = createAThirdRoom()
+
     this.aDoor = createADoor()
 
     this.currentRoom = createCurrentRoom()
@@ -78,6 +80,48 @@ describe("Create", function() {
 
     it("add the destination to the door", function() {
       expect(this.aDoor.addDestination).to.have.been.calledWithExactly(this.aRoom.id)
+    })
+
+    it("returns the expected response", function() {
+      expect(this.response).to.equal(`Door '${this.aDoor.name}' created with ID of ${this.aDoor.id}.`)
+    })
+  })
+
+  describe(`/create door "The Big Door" to=${A_ROOM_ID},${ANOTHER_ROOM_ID},${A_THIRD_ROOM_ID}`, function() {
+    beforeEach(async function() {
+      Door.create.resolves(this.aDoor)
+      this.response = stripAnsi(await this.subject.execute(this.context, `/create door "The Big Door" to=${this.aRoom.id},${this.anotherRoom.id},${this.aThirdRoom.id}`))
+    })
+
+    it("creates the door", function() {
+      expect(Door.create).to.have.been.calledWithExactly("The Big Door")
+    })
+
+    it("add the destinations to the door", function() {
+      expect(this.aDoor.addDestination).to.have.been.calledWithExactly(this.aRoom.id)
+      expect(this.aDoor.addDestination).to.have.been.calledWithExactly(this.anotherRoom.id)
+      expect(this.aDoor.addDestination).to.have.been.calledWithExactly(this.aThirdRoom.id)
+    })
+
+    it("returns the expected response", function() {
+      expect(this.response).to.equal(`Door '${this.aDoor.name}' created with ID of ${this.aDoor.id}.`)
+    })
+  })
+
+  describe(`/create door "The Big Door" from=${A_ROOM_ID},${ANOTHER_ROOM_ID},${A_THIRD_ROOM_ID}`, function() {
+    beforeEach(async function() {
+      Door.create.resolves(this.aDoor)
+      this.response = stripAnsi(await this.subject.execute(this.context, `/create door "The Big Door" from=${this.aRoom.id},${this.anotherRoom.id},${this.aThirdRoom.id}`))
+    })
+
+    it("creates the door", function() {
+      expect(Door.create).to.have.been.calledWithExactly("The Big Door")
+    })
+
+    it("places the door in the requested rooms", function() {
+      expect(this.aDoor.placeIn).to.have.been.calledWithExactly(this.aRoom.id)
+      expect(this.aDoor.placeIn).to.have.been.calledWithExactly(this.anotherRoom.id)
+      expect(this.aDoor.placeIn).to.have.been.calledWithExactly(this.aThirdRoom.id)
     })
 
     it("returns the expected response", function() {
