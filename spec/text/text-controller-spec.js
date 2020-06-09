@@ -2,20 +2,17 @@ const TextController = require('../../mud/text/text-controller')
 
 const Motd = require('../../mud/text/motd')
 const Prompt = require('../../mud/text/prompt')
-
-const { Say, Emote, Describe, Rename, List, Error, Teleport } = require('../../mud/text/commands')
-
-const { Create } = require('../../mud/text/commands/create')
-const Use = require('../../mud/text/commands/use')
-const Look = require('../../mud/text/commands/look')
+const Command = require('../../mud/text/commands/command')
 
 describe("TextController", function() {
   beforeEach(function() {
     sinon.stub(Motd.prototype, 'fetchMotd')
     sinon.stub(Prompt.prototype, 'fetchPrompt')
+    sinon.stub(Command.prototype, 'execute')
 
     Motd.prototype.fetchMotd.returns("a message")
     Prompt.prototype.fetchPrompt.returns("a prompt")
+    Command.prototype.execute.resolves("a result")
 
     this.context = createStubContext()
     this.subject = new TextController()
@@ -40,74 +37,32 @@ describe("TextController", function() {
   })
 
   describe("#processMessage", function() {
-    context("when processing commands", function() {
+    context("when processing a command", function() {
+      beforeEach(async function() {
+        this.response = await this.subject.processMessage(this.context, "a command")
+      })
 
-      let scenarios = [
-        { command: 'say what?', clazz: Say },
-        { command: '/emote', clazz: Emote }, 
-        { command: '/look', clazz: Look }, 
-        { command: '/describe', clazz: Describe }, 
-        { command: '/rename', clazz: Rename }, 
-        { command: '/create', clazz: Create }, 
-        { command: '/list', clazz: List }, 
-        { command: '/teleport', clazz: Teleport },
-        { command: '/use', clazz: Use },
-        { command: '/foo bar', clazz: Error }
-      ]
+      it("executes the command on the expected class", function() {
+        expect(Command.prototype.execute).to.have.been.calledWith(this.context, "a command")
+      })
 
-      scenarios.forEach(scenario => {
-        let { command, clazz } = scenario 
-
-        beforeEach(async function() {
-          sinon.stub(clazz.prototype, 'execute')
-          clazz.prototype.execute.resolves('a message')
-          this.response = await this.subject.processMessage(this.context, command)
-        })
-
-        it("executes the command on the expected class", function() {
-          expect(clazz.prototype.execute).to.have.been.calledWith(this.context, command)
-        })
-
-        it("returns the message and the prompt", function() {
-          expect(this.response).to.equal('a message\na prompt')
-        })
+      it("returns the message and the prompt", function() {
+        expect(this.response).to.equal('a result\na prompt')
       })
     })
 
-    context("when processing command with whitespace", function() {
-      context("when processing a bare command", function() {
-        beforeEach(async function() {
-          sinon.stub(Say.prototype, 'execute')
-          Say.prototype.execute.resolves('a message')
-      
-          this.response = await this.subject.processMessage(this.context, "  This command has whitespace\t\t\n\n  ")
-        })
-    
-        it("trims the whitespace before executing the command", function() {
-          expect(Say.prototype.execute).to.have.been.calledWith(this.context, "This command has whitespace")
-        })
-  
-        it("returns the message and the prompt", function() {
-          expect(this.response).to.equal('a message\na prompt')
-        })
+    context("when processing command with surrounding whitespace", function() {
+      beforeEach(async function() {
+        this.response = await this.subject.processMessage(this.context, "   a command\t\t\n\n  ")
       })
-    
-      context("when processing a slash command", function() {
-        beforeEach(async function() {
-          sinon.stub(Error.prototype, 'execute')
-          Error.prototype.execute.resolves('an error')
-  
-          this.response = await this.subject.processMessage(this.context, "  /foo is not a command\t\t\n\n  ")
-        })
-    
-        it("trims the whitespace before executing the command", function() {
-          expect(Error.prototype.execute).to.have.been.calledWith(this.context, "/foo is not a command")
-        })
 
-        it("returns the message and the prompt", function() {
-          expect(this.response).to.equal('an error\na prompt')
-        })
+      it("executes strips the whitespace before invoking the command", function() {
+        expect(Command.prototype.execute).to.have.been.calledWith(this.context, "a command")
       })
-    })  
+
+      it("returns the message and the prompt", function() {
+        expect(this.response).to.equal('a result\na prompt')
+      })
+    })
   })
 })

@@ -20,15 +20,6 @@ class TextController {
     let prompt = this._prompt.fetchPrompt(context)
     return [ result, prompt ].join('\n')
   }
-
-  isSlashCommand(slashCommand) {
-    return slashCommand.startsWith('/')
-  }
-
-  extractSlashCommand(message) {
-    return message.split(' ')[0]
-  }
-
 }
 
 module.exports = TextController
