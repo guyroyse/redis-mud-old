@@ -1,4 +1,4 @@
-const Parsers = require('./argument-parsers')
+const Parsers = require('./parsers')
 
 const { Say, Emote, Describe, Rename, List, Error, Teleport } = require('../commands')
 
@@ -8,14 +8,14 @@ const Use = require('./use')
 
 
 const slashCommandDelegates = {
-  '/emote': Emote,
-  '/look': Look,
-  '/describe': Describe,
-  '/rename': Rename,
-  '/create': Create,
-  '/list': List,
-  '/teleport': Teleport,
-  '/use': Use
+  'emote': Emote,
+  'look': Look,
+  'describe': Describe,
+  'rename': Rename,
+  'create': Create,
+  'list': List,
+  'teleport': Teleport,
+  'use': Use
 }
 
 class Command {
@@ -27,7 +27,7 @@ class Command {
 
   selectDelegateClass(command) {
     if (this.isSlashCommand(command)) {
-      let slashCommand = this.extractSlashCommand(command)
+      let slashCommand = Parsers.slashCommand(command)
       return slashCommandDelegates[slashCommand] || Error 
     }
 

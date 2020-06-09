@@ -1,10 +1,12 @@
 const { Create } = require('../../../mud/text/commands/create')
+const { Error } = require('../../../mud/text/commands')
 const { Room, Door } = require('../../../mud/things/things')
 
 describe("Create", function() {
   beforeEach(function() {
     sinon.stub(Room, 'create')
     sinon.stub(Door, 'create')
+    sinon.stub(Error.prototype, 'execute')
 
     this.aRoom = createARoom()
     this.anotherRoom = createAnotherRoom()
@@ -149,8 +151,8 @@ describe("Create", function() {
       this.response = stripAnsi(await this.subject.execute(this.context, "/create unknown A Noun That Doesn't Exist"))
     })
 
-    it("return a reasonable error", function() {
-      expect(this.response).to.equal("Ye can't get ye flask! INVALID COMMAND '/create unknown A Noun That Doesn't Exist'")
+    it("delegates to the error command", function() {
+      expect(Error.prototype.execute).to.have.been.calledWith(this.context, "/create unknown A Noun That Doesn't Exist")
     })
   })
 
@@ -159,8 +161,8 @@ describe("Create", function() {
       this.response = stripAnsi(await this.subject.execute(this.context, "/create  unknown  A Noun That Doesn't Exist"))
     })
 
-    it("return a reasonable error", function() {
-      expect(this.response).to.equal("Ye can't get ye flask! INVALID COMMAND '/create  unknown  A Noun That Doesn't Exist'")
+    it("delegates to the error command", function() {
+      expect(Error.prototype.execute).to.have.been.calledWith(this.context, "/create  unknown  A Noun That Doesn't Exist")
     })
   })
 
