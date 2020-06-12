@@ -24,8 +24,8 @@ class CreateDoor {
   async execute(context, message) {
     let args = Parsers.args(message)
     let name = Parsers.name(args)
-    let destinations = Parsers.destinations(args, [])
-    let locations = Parsers.locations(args, [context.room.id])
+    let destinations = Parsers.idList('to', args, [])
+    let locations = Parsers.idList('from', args, [context.room.id])
 
     let door = await Door.create(name)
     await Promise.all(

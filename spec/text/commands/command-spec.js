@@ -3,6 +3,7 @@ const Command = require('../../../mud/text/commands/command')
 const { Say, Emote, Describe, Rename, List, Error, Teleport } = require('../../../mud/text/commands')
 
 const { Create } = require('../../../mud/text/commands/create')
+const { Edit } = require('../../../mud/text/commands/edit')
 const Use = require('../../../mud/text/commands/use')
 const Look = require('../../../mud/text/commands/look')
 
@@ -26,6 +27,7 @@ describe("Command", function() {
         { command: '/list', delegateClass: List }, 
         { command: '/teleport', delegateClass: Teleport },
         { command: '/use', delegateClass: Use },
+        { command: '/edit', delegateClass: Edit },
         { command: '/foo bar', delegateClass: Error }
       ]
 

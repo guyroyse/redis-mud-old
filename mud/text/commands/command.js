@@ -2,7 +2,8 @@ const Parsers = require('./parsers')
 
 const { Say, Emote, Describe, Rename, List, Error, Teleport } = require('../commands')
 
-const { Create, CreateRoom, CreateDoor } = require('./create')
+const { Create } = require('./create')
+const { Edit } = require('./edit')
 const Look = require('./look')
 const Use = require('./use')
 
@@ -15,7 +16,8 @@ const slashCommandDelegates = {
   'create': Create,
   'list': List,
   'teleport': Teleport,
-  'use': Use
+  'use': Use,
+  'edit': Edit
 }
 
 class Command {

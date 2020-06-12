@@ -20,6 +20,16 @@ module.exports = {
     return args
   },
 
+  id: function parseId(args, defaultValue) {
+    let id = defaultValue
+    let match = args.match(/^(\d+)/)
+    if (match) {
+      id  = Number(match[1])
+    }
+    return id
+
+  },
+
   name: function parseName(args) {
     let match = args.match(/^(\S+)/)
     let name = match ? match[1] : null
@@ -29,22 +39,27 @@ module.exports = {
     }
     return name
   },
-  
-  destinations: function parseDestinations(args, defaultValue) {
-    return this.idList(args, /\s+to=(\S+)/, defaultValue)
-  },
-  
-  locations: function parseLocations(args, defaultValue) {
-    return this.idList(args, /\s+from=(\S+)/, defaultValue)
-  },
-  
-  idList: function parseIdList(args, regex, defaultValue) {
+
+  idList: function parseIdList(key, args, defaultValue) {
     let list = defaultValue
-    let match = args.match(regex)
+    let match = this.matchOnKey(key, args)
     if (match) {
       let tokens = match[1].split(',')
       list = tokens.map(token => Number(token))
     }
     return list
   },
+  
+  stringValue: function parseStringValue(key, args, defaultValue) {
+    let value = defaultValue
+    let match = this.matchOnKey(key, args)
+    if (match) {
+      value = match[1]
+    }
+    return value
+  },
+
+  matchOnKey: function matchOnKey(key, args) {
+    return args.match(new RegExp(`\\s+${key}=(\\S+)`))
+  }
 }
