@@ -51,9 +51,10 @@ module.exports = {
   },
   
   stringValue: function parseStringValue(key, args, defaultValue) {
-    let value = defaultValue
     let match = this.matchOnKey(key, args)
-    if (match) {
+    let value = match ? match[1] : defaultValue
+    if (value && value.startsWith('"')) {
+      match = args.match(`\\s+${key}="(.*?)"`)
       value = match[1]
     }
     return value
