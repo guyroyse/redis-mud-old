@@ -31,12 +31,9 @@ module.exports = {
   },
 
   name: function parseName(args) {
-    let match = args.match(/^(\S+)/)
+    let match = args.match(/^(".+"|\S+)/)
     let name = match ? match[1] : null
-    if (name.startsWith('"')) {
-      match = args.match(/^"(.*?)"/)
-      name = match[1]
-    }
+    name = this.stripQuotes(name)
     return name
   },
 
@@ -53,14 +50,23 @@ module.exports = {
   stringValue: function parseStringValue(key, args, defaultValue) {
     let match = this.matchOnKey(key, args)
     let value = match ? match[1] : defaultValue
-    if (value && value.startsWith('"')) {
-      match = args.match(`\\s+${key}="(.*?)"`)
-      value = match[1]
-    }
+    value = this.stripQuotes(value)
     return value
   },
 
   matchOnKey: function matchOnKey(key, args) {
-    return args.match(new RegExp(`\\s+${key}=(\\S+)`))
+    return args.match(new RegExp(`\\s+${key}=("[^\\"]+"|\\S+)`))
+  },
+
+  stripQuotes: function stripQuotes(s) {
+    if (s) {
+      if (s.startsWith('"')) {
+        s = s.substring(1)
+      }  
+      if (s.endsWith('"')) {
+        s = s.substring(0, s.length - 1)
+      }
+    }
+    return s
   }
 }

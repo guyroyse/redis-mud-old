@@ -17,11 +17,12 @@ describe("Edit", function() {
   describe("/edit room", function() {
     beforeEach(async function() {
       Room.byId.resolves(this.aRoom)
+      this.previousName = this.aRoom.name
+      this.previousDescription = this.aRoom.description
     })
 
     context("when changing the name", function() {
       beforeEach(async function() {
-        this.previousDescription = this.aRoom.description
         this.response = stripAnsi(await this.subject.execute(this.context,
           `/edit room ${this.aRoom.id} name=TheBlueRoom`))
       })
@@ -37,7 +38,6 @@ describe("Edit", function() {
 
     context("when changing the description", function() {
       beforeEach(async function() {
-        this.previousName = this.aRoom.name
         this.response = stripAnsi(await this.subject.execute(this.context,
           `/edit room ${this.aRoom.id} description="The Blue Room Is Blue"`))
       })
@@ -52,7 +52,18 @@ describe("Edit", function() {
     })
 
     context("when changing all the properties", function() {
-      
+      beforeEach(async function() {
+        this.response = stripAnsi(await this.subject.execute(this.context,
+          `/edit room ${this.aRoom.id} name="The Blue Room" description="The Blue Room Is Blue"`))
+      })
+
+      it("updates the name of the room", function() {
+        expect(this.aRoom.name).to.equal("The Blue Room")
+      })
+
+      it("updates the description of the room", function() {
+        expect(this.aRoom.description).to.equal("The Blue Room Is Blue")
+      })
     })
   })
 })
