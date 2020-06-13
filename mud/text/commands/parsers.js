@@ -1,72 +1,56 @@
-module.exports = {
-  slashCommand: function parseSlashCommand(command, defaultValue) {
-    let slashCommand = defaultValue
-    let match = command.match(/^\/(\w+).*$/)
+let Parsers = {
+  slashCommand: function parseSlashCommand(command) {
+    let slashCommand
+    let match = command.match(/^\/(\w+)/)
     if (match) slashCommand = match[1]
     return slashCommand
   },
 
-  subcommand: function parseSubcommand(command, defaultValue) {
-    let subcommand = defaultValue
-    let match = command.match(/^\/\w+\s+(\w+).*$/)
+  subcommand: function parseSubcommand(command) {
+    let subcommand = ""
+    let match = command.match(/^\/\w+\s+(\w+)/)
     if (match) subcommand = match[1]
     return subcommand
   },
 
-  args: function parseArgs(command, defaultValue = "") {
-    let args = defaultValue
-    let match = command.match(/^\/\w+\s+\w+\s+(.*)$/)
+  args: function parseArgs(command) {
+    let args = ""
+    let match = command.match(/^\/\w+\s+\w+\s+(.*)/)
     if (match) args = match[1]
     return args
   },
 
-  id: function parseId(args, defaultValue) {
+  id: function parseId(args, defaultValue = null) {
     let id = defaultValue
     let match = args.match(/^(\d+)/)
     if (match) {
-      id  = Number(match[1])
+      id = Number(match[1])
     }
     return id
-
   },
 
-  name: function parseName(args) {
-    let match = args.match(/^(".+"|\S+)/)
-    let name = match ? match[1] : null
-    name = this.stripQuotes(name)
-    return name
+  name: function parseName(args, defaultValue = null) {
+    let match = args.match(/^(?:"([^"]*)"|(\S+))/)
+    let name = match ? match[1] || match[2] : defaultValue
+    return name || defaultValue
   },
 
-  idList: function parseIdList(key, args, defaultValue) {
-    let list = defaultValue
-    let match = this.matchOnKey(key, args)
-    if (match) {
-      let tokens = match[1].split(',')
-      list = tokens.map(token => Number(token))
-    }
-    return list
+  idList: function parseIdList(key, args, defaultValue = []) {
+    let list
+    let value = this.matchOnKey(key, args)
+    if (value) list = value.split(',').map(token => Number(token))
+    return list || defaultValue
   },
   
-  stringValue: function parseStringValue(key, args, defaultValue) {
-    let match = this.matchOnKey(key, args)
-    let value = match ? match[1] : defaultValue
-    value = this.stripQuotes(value)
-    return value
+  stringValue: function parseStringValue(key, args, defaultValue = null) {
+    let value = this.matchOnKey(key, args)
+    return value || defaultValue
   },
 
   matchOnKey: function matchOnKey(key, args) {
-    return args.match(new RegExp(`\\s+${key}=("[^\\"]+"|\\S+)`))
-  },
-
-  stripQuotes: function stripQuotes(s) {
-    if (s) {
-      if (s.startsWith('"')) {
-        s = s.substring(1)
-      }  
-      if (s.endsWith('"')) {
-        s = s.substring(0, s.length - 1)
-      }
-    }
-    return s
+    let match = args.match(new RegExp(`\\s+${key}=(?:"([^\\"]+)"|(\\S+))`))
+    return match ? match[1] || match[2] : undefined
   }
 }
+
+module.exports = Parsers
