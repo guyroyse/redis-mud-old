@@ -14,6 +14,10 @@ class Edit {
 
     let description = Parsers.stringValue('description', args, room.description)
     if (description) room.description = description
+
+    if (room.id === context.room.id) context.room = room
+
+    return `Updated room with ID of ${room.id}.`
   }
 }
 

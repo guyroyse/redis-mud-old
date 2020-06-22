@@ -64,6 +64,33 @@ describe("Edit", function() {
       it("updates the description of the room", function() {
         expect(this.aRoom.description).to.equal("The Blue Room Is Blue")
       })
+
+      it("returns the expected response", function() {
+        expect(this.response).to.equal(`Updated room with ID of ${this.aRoom.id}.`)
+      })
+    })
+
+    context("when changing the current room", function() {
+      beforeEach(async function() {
+        Room.byId.resolves(this.currentRoom)
+        this.response = stripAnsi(await this.subject.execute(this.context,
+          `/edit room ${this.currentRoom.id} name="The New Room" description="The New Room Is New"`))
+      })
+
+      it("updates the current room", function() {
+        expect(this.context.room).to.equal(this.currentRoom)
+      })
+    })
+
+    context("when change a room other than the current room", function() {
+      beforeEach(async function() {
+        this.response = stripAnsi(await this.subject.execute(this.context,
+          `/edit room ${this.aRoom.id} name="The Blue Room" description="The Blue Room Is Blue"`))
+      })
+
+      it("updates the current room", function() {
+        expect(this.context.room).to.not.equal(this.aRoom)
+      })
     })
   })
 })
