@@ -21,7 +21,7 @@ Features:
     ☐ Send whispers between players @created(2020-04-25)
 
   Rooms:
-    ☐ Edit room to set name and description @created(2020-04-25) @started(2020-06-22)
+    ✔ Edit room to set name and description @created(2020-04-25) @started(2020-06-22) @done(2020-06-22)
     ☐ Deprecate rename and describe commands from room @created(2020-04-25) @started(2020-06-22)
     ☐ Display greeting message when entering a room @created(2020-04-25)
 

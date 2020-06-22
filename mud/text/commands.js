@@ -2,14 +2,6 @@ const Builder = require('./builder')
 
 const { Room, Rooms } = require('../things/things')
 
-class Describe {
-  execute({ room }, message) {
-    let [ , description ] = message.match(/^\/describe room (.*)$/)
-    room.description = description
-    return "Room description updated."
-  }
-}
-
 class Emote {
   execute({}, message) {
     let [ , emote ] = message.match(/^\/emote (.*)$/)
@@ -33,14 +25,6 @@ class List {
   }
 }
 
-class Rename {
-  execute({ room }, message) {
-    let [ , name ] = message.match(/^\/rename room (.*)$/)
-    room.name = name
-    return "Room renamed."
-  }
-}
-
 class Say {
   execute({}, message) {
     return `You said: ${message}`
@@ -56,4 +40,4 @@ class Teleport {
   }
 }
 
-module.exports = { Describe, Emote, List, Error, Rename, Say, Teleport }
+module.exports = { Emote, List, Error, Say, Teleport }

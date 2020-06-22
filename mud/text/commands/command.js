@@ -11,8 +11,6 @@ const Use = require('./use')
 const slashCommandDelegates = {
   'emote': Emote,
   'look': Look,
-  'describe': Describe,
-  'rename': Rename,
   'create': Create,
   'list': List,
   'teleport': Teleport,

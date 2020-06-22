@@ -21,8 +21,6 @@ describe("Command", function() {
         { command: 'say what?', delegateClass: Say },
         { command: '/emote', delegateClass: Emote }, 
         { command: '/look', delegateClass: Look }, 
-        { command: '/describe', delegateClass: Describe }, 
-        { command: '/rename', delegateClass: Rename }, 
         { command: '/create', delegateClass: Create }, 
         { command: '/list', delegateClass: List }, 
         { command: '/teleport', delegateClass: Teleport },
