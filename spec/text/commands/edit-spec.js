@@ -14,7 +14,7 @@ describe("Edit", function() {
     this.subject = new Edit()
   })
 
-  describe("/edit room", function() {
+  describe("Room", function() {
     beforeEach(async function() {
       Room.byId.resolves(this.aRoom)
       this.previousName = this.aRoom.name
@@ -24,11 +24,11 @@ describe("Edit", function() {
     context("when changing the name", function() {
       beforeEach(async function() {
         this.response = stripAnsi(await this.subject.execute(this.context,
-          `/edit room ${this.aRoom.id} name=TheBlueRoom`))
+          `/edit room ${this.aRoom.id} name="The Blue Room"`))
       })
 
       it("updates the name of the room", function() {
-        expect(this.aRoom.name).to.equal("TheBlueRoom")
+        expect(this.aRoom.name).to.equal("The Blue Room")
       })
 
       it("does not update the description of the room", function() {
