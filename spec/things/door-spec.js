@@ -133,7 +133,18 @@ describe("Door", function() {
             roomId: A_ROOM_ID })
       })
     })
+
+    describe("#dislocate", function() {
+      beforeEach(async function() {
+        await this.subject.dislocate()
+      })
   
+      it("removed the door from all room", function() {
+        expect(RedisGraphShim.prototype.execute)
+          .to.have.been.calledWith(DoorQueries.DISLOCATE, { id: A_DOOR_ID })
+      })
+    })
+
     describe("#addDestination", function() {
       beforeEach(async function() {
         await this.subject.addDestination(A_ROOM_ID)
@@ -144,6 +155,17 @@ describe("Door", function() {
           .to.have.been.calledWith(DoorQueries.ADD_DESTINATION, {
             id: A_DOOR_ID,
             roomId: A_ROOM_ID })
+      })
+    })
+
+    describe("#clearDestinations", function() {
+      beforeEach(async function() {
+        await this.subject.clearDestinations()
+      })
+  
+      it("clears all destinations", function() {
+        expect(RedisGraphShim.prototype.execute)
+          .to.have.been.calledWith(DoorQueries.CLEAR_DESTINATIONS, { id: A_DOOR_ID })
       })
     })
   })

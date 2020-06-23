@@ -18,10 +18,20 @@ module.exports = {
     MATCH (r:room) WHERE id(r) = $roomId
     CREATE (r)-[:contains]->(d)`,
 
+  DISLOCATE: `
+    MATCH (:room)-[c:contains]->(d:door)
+    WHERE id(d) = $id
+    DELETE c`,
+
   ADD_DESTINATION: `
     MATCH (d:door) WHERE id(d) = $id
     MATCH (r:room) WHERE id(r) = $roomId
     CREATE (d)-[:leads_to]->(r)`,
+
+  CLEAR_DESTINATIONS: `
+    MATCH (d:door)-[l:leads_to]->(:room)
+    WHERE id(d) = $id
+    DELETE l`,
 
   UPDATE: `
     MATCH (d:door)

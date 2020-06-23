@@ -136,9 +136,19 @@ class Door {
     await graph.execute(DoorQueries.PLACE_IN, { id: this.id, roomId })
   }
 
+  async dislocate() {
+    let graph = new RedisGraphShim()
+    await graph.execute(DoorQueries.DISLOCATE, { id: this.id })
+  }
+
   async addDestination(roomId) {
     let graph = new RedisGraphShim()
     await graph.execute(DoorQueries.ADD_DESTINATION, { id: this.id, roomId })
+  }
+
+  async clearDestinations() {
+    let graph = new RedisGraphShim()
+    await graph.execute(DoorQueries.CLEAR_DESTINATIONS, { id: this.id })
   }
 
   async update() {
