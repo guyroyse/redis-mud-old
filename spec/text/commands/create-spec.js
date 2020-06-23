@@ -159,7 +159,7 @@ describe("Create", function() {
   })
 
   describe("Unknown", function() {
-    context("when parsing unknown noun", function() {
+    context("when parsing unknown subcommand", function() {
       beforeEach(async function() {
         this.response = stripAnsi(await this.subject.execute(this.context, `/create unknown "A Noun That Doesn't Exist"`))
       })

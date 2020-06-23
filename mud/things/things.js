@@ -99,6 +99,9 @@ class Door {
     })
   }
 
+  static async byId() {
+  }
+
   static async create(name) {
     let graph = new RedisGraphShim()
 
