@@ -4,6 +4,11 @@ module.exports = {
     WHERE id(from) = $roomId
     RETURN id(d), d.name, d.description`,
 
+  FETCH_BY_ID: `
+    MATCH (d:door)
+    WHERE id(d) = $id
+    RETURN id(d), d.name, d.description`,
+
   CREATE: `
     CREATE (d:door { name: $name, description: $description })
     RETURN id(d), d.name, d.description`,

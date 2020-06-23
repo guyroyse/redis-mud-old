@@ -99,7 +99,10 @@ class Door {
     })
   }
 
-  static async byId() {
+  static async byId(id) {
+    let graph = new RedisGraphShim()
+    let values = await graph.executeAndReturnSingle(DoorQueries.FETCH_BY_ID, {id})
+    return this.fromValues(values)
   }
 
   static async create(name) {

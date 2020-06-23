@@ -4,6 +4,25 @@ const { Door, Rooms } = require('../../mud/things/things')
 
 describe("Door", function() {
 
+  describe("#byId", function() {
+    beforeEach(async function() {
+      RedisGraphShim.prototype.executeAndReturnSingle
+        .resolves([ A_DOOR_ID, A_DOOR_NAME, A_DOOR_DESCRIPTION ])
+      this.result = await Door.byId(A_DOOR_ID)
+    })
+
+    it("askes the graph for the door", function() {
+      expect(RedisGraphShim.prototype.executeAndReturnSingle)
+        .to.have.been.calledWith(DoorQueries.FETCH_BY_ID, { id: A_DOOR_ID })
+    })
+
+    it("returns a room with expected properties", function() {
+      expect(this.result.id).to.equal(A_DOOR_ID)
+      expect(this.result.name).to.equal(A_DOOR_NAME)
+      expect(this.result.description).to.equal(A_DOOR_DESCRIPTION)
+    })
+  })
+
   describe("#create", function() {
     beforeEach(async function() {
       RedisGraphShim.prototype.executeAndReturnSingle.resolves(

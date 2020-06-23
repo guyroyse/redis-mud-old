@@ -22,11 +22,12 @@ Features:
 
   Rooms:
     ✔ Edit room to set name and description @created(2020-04-25) @started(2020-06-22) @done(2020-06-22)
-    ☐ Deprecate rename and describe commands from room @created(2020-04-25) @started(2020-06-22)
+    ✔ Deprecate rename and describe commands from room @created(2020-04-25) @started(2020-06-22) @done(2020-06-22)
     ☐ Display greeting message when entering a room @created(2020-04-25)
 
   Doors:
-    ☐ Edit door to set name, description, locations and destinations @created(2020-04-25) @started(2020-06-22)
+    ☐ Edit door to set name and description @created(2020-04-25) @started(2020-06-22)
+    ☐ Edit door to set locations and destinations @created(2020-06-22)
     ☐ Look at doors by ID @created(2020-04-25)
     ☐ Select random destination when using door if there are multiple @created(2020-04-25)
     ☐ Display description of door when looked at @created(2020-04-25)
