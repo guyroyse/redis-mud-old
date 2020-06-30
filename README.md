@@ -1,7 +1,7 @@
 # RedisMUD
 We're building a classic 80s MUD using Node, WebSockets, and—most interestingly—RedisGraph.
 Also known as:
-That one dungeon project that did a thing using redis.
+*That one dungeon project that did a thing using redis.* ~ Luc
 
 ## Twitch
 I'm streaming the development of a MUD using Node, Websockets, and RedisGraph.
