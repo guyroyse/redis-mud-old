@@ -1,0 +1,25 @@
+# This is a cool file
+
+name: Deploy Thing for twitch people to play with
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build and push Client image to registry
+      uses: docker/build-push-action@v1.1.0
+      with:
+        username: ${{ secrets.registryusername }}
+        password: ${{ secrets.registrypassword }}
+        registry: ${{ secrets.registrylink }}
+        repository: coolname/thingie
+        path: "."
+        dockerfile: "./Dockerfile"
+        tags: ${{ github.sha }},latest
