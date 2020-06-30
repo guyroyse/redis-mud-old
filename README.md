@@ -31,7 +31,7 @@ https://redislabs.com/blog/redisgraph-and-redis/
 ## Stalk me
 Work. Life. Code. Game. Lather. Rinse. Repeat. — ENFP. Husband and father of three. Developer Advocate at  [@RedisLabs](https://redislabs.com/). Geek. Graybeard. Gamemaster.
 
-![My Twitter](https://twitter.com/guyroyse)
+[My Twitter](https://twitter.com/guyroyse)
 
 ## Cool Linkie Things
 https://pubconf.io/speakers/guy_royse/
