@@ -29,9 +29,9 @@ https://redislabs.com/blog/redisgraph-and-redis/
 ![Not Santa](https://pubconf.io/assets/images/speakers/guyroyse.jpg)
 
 ## Stalk me
-Work. Life. Code. Game. Lather. Rinse. Repeat. — ENFP. Husband and father of three. Developer Advocate at 
+Work. Life. Code. Game. Lather. Rinse. Repeat. — ENFP. Husband and father of three. Developer Advocate at  [@RedisLabs](https://redislabs.com/). Geek. Graybeard. Gamemaster.
 
-@RedisLabs. Geek. Graybeard. Gamemaster.
+![My Twitter](https://twitter.com/guyroyse)
 
 ## Cool Linkie Things
 https://pubconf.io/speakers/guy_royse/
