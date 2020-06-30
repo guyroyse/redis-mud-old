@@ -22,7 +22,11 @@ class RedisConnector {
     if (!redisConnection) redisConnection = createRedisConnection()
     return redisConnection
   }
-  
+
+  fetchSubscriberConnection() {
+    return createRedisConnection()
+  }
+
   fetchGraphConnection() {
     if (!graphConnection) graphConnection = createGraphConnection()
     return graphConnection

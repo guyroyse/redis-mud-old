@@ -24,6 +24,12 @@ class Session {
     this.sendMessage(message)
   }
 
+  processEvent(data) {
+    let event = JSON.parse(data)
+    let message = event.message
+    this.sendMessage(`Someone said: ${message}`)
+  }
+
   sendMessage(s) {
     let response = { messages: s.split('\n') }
     this.ws.send(JSON.stringify(response))

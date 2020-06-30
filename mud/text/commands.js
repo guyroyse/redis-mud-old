@@ -1,6 +1,7 @@
 const Builder = require('./builder')
 
 const { Room, Rooms } = require('../things/things')
+const EventPublisher = require('../events/publisher')
 
 class Emote {
   execute({}, message) {
@@ -26,7 +27,11 @@ class List {
 }
 
 class Say {
-  execute({}, message) {
+  execute(context, message) {
+
+    let publisher = new EventPublisher()
+    publisher.say(context, message)
+
     return `You said: ${message}`
   }
 }
