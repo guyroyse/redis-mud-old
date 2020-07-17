@@ -1,7 +1,7 @@
 const { Room } = require('./things/things')
 
 class Context {
-  async load() {
+  async load(username) {
     this._room = await Room.hub()
   }
 

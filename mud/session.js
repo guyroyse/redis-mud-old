@@ -3,14 +3,15 @@ const Context = require('./context')
 
 class Session {
 
-  constructor(ws) {
+  constructor(ws, username) {
     this.ws = ws
+    this.username = username
     this.context = new Context()
     this.controller = new TextController()
   }
 
   async start() {
-    await this.context.load()
+    await this.context.load(this.username)
 
     let message = this.controller.processStart(this.context)
     this.sendMessage(message)

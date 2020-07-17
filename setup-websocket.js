@@ -17,7 +17,7 @@ function init(server, sessionParser) {
   
     console.log(req.session.passport.user)
   
-    let session = new Session(ws)
+    let session = new Session(ws, username)
     await session.start()
   
     ws.on('message', async message => await session.processMessage(message))
