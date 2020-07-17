@@ -1,14 +1,24 @@
-const WebSocketServer = require('./mud/servers/web-socket-server')
-const HttpServer = require('./mud/servers/http-server')
+const express = require('express')
+const WebSocket = require('ws')
 const Session = require('./mud/session')
 
-let wss = new WebSocketServer()
-wss.start(8081)
+const app = express()
 
-wss.onConnection(async ws => {
-  let session = new Session(ws)
-  await session.start()
-  wss.onMessage(ws, async message => await session.processMessage(message))
+app.use(express.static('static'))
+
+let wss = new WebSocket.Server({
+  port: 8081,
+  verifyClient: (info, done) => {
+    console.log("verifying client", info.req.session)
+    done(true)
+  }
 })
 
-HttpServer.start()
+wss.on('connection', async ws => {
+  let session = new Session(ws)
+  await session.start()
+
+  ws.on('message', async message => await session.processMessage(message))
+})
+
+app.listen(8080, () => console.log(`Listening on port 8080`))
