@@ -10,8 +10,20 @@
       <h1>Welcome to RedisMUD</h1>
     </header>
     <main>
-      <section id="text-panel"></section>
-      <p><input id="text-input" /></p>
+      <section id="loading">
+        <h1>RedisMUD is loading...</h1>
+      </section>
+      <section id="login" class="hidden">
+        <input id="username-input" />
+        <input type="password" id="password-input" />
+        <button id="login-button">Login</button>
+      </section>
+      <section id="register" class="hidden">
+      </section>
+      <section id="game" class="hidden">
+        <div id="text-panel"></div>
+        <p><input id="text-input" /></p>
+      </section>
     </main>
   </body>
 </html>
