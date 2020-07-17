@@ -1,24 +1,32 @@
-const express = require('express')
-const WebSocket = require('ws')
-const Session = require('./mud/session')
+const setupWebSocket = require('./setup-websocket')
+const setupPassport = require('./setup-passport')
+const setupRoutes = require('./setup-routes')
 
+const express = require('express')
+const session = require('express-session')
+const flash = require('express-flash')
 const app = express()
 
+const http = require('http')
+const server = http.createServer(app)
+
+app.set('view-engine', 'ejs')
 app.use(express.static('static'))
+app.use(express.urlencoded({ extended: false }))
+app.use(flash())
 
-let wss = new WebSocket.Server({
-  port: 8081,
-  verifyClient: (info, done) => {
-    console.log("verifying client", info.req.session)
-    done(true)
-  }
+const sessionParser = session({
+  secret: '$3kr3t',
+  resave: false,
+  saveUninitialized: false
 })
 
-wss.on('connection', async ws => {
-  let session = new Session(ws)
-  await session.start()
+app.use(sessionParser)
 
-  ws.on('message', async message => await session.processMessage(message))
-})
+const users = []
+
+setupPassport(app, users)
+setupRoutes(app, users)
+setupWebSocket(server, sessionParser)
 
 app.listen(8080, () => console.log(`Listening on port 8080`))
