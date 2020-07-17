@@ -7,13 +7,13 @@ body {
   width: 1000px;
 }
 
-header > * {
+header {
   font-family: Raleway, sans-serif;
   color: #0c0;
   text-align: center;
 }
 
-main > section, main > p, main > p > input {
+main {
   font-family: 'Fira Code', monospace;
   font-size: 16px;
   color: rgb(187, 187, 187);
@@ -23,21 +23,57 @@ main > section, main > p, main > p > input {
   background-color: #111;
   text-align: left;
   padding: 10px;
+  height: 75%;
   width: 100%;
 }
 
-main > section > p {
-  margin: 15px;
+main > input {
+  display: block;
+  font-family: 'Fira Code', monospace;
+  font-size: 16px;
+  color: rgb(187, 187, 187);
+  background-color: #333;
+  border-width: 1px;
+  border-style: none;
+  margin-bottom: 10px;
+}
+
+main > form > label {
+  display: block;
+}
+
+main > form > button {
+  font-family: 'Fira Code', monospace;
+  font-size: 16px;
+  text-decoration: underline;
+  border-width: 0px;
+  cursor: pointer;
+  color: #0c0;
+  background-color: #111;
   padding: 0px;
 }
 
+main > form > a {
+  font-family: 'Fira Code', monospace;
+  font-size: 16px;
+  text-decoration: underline;
+  border-width: 0px;
+  cursor: pointer;
+  color: #0c0;
+  background-color: #111;
+  padding: 0px;
+}
+
+main > section > p {
+  margin-top: 0px;
+}
+
 #text-panel {
-  height: 75%;
+  height: 94%;
   overflow: auto;
 }
 
 #text-input {
-  border-style: none;
-  padding: 0px;
-  outline: none;
+  margin-top: 10px;
+  width: 100%;
 }

@@ -5,18 +5,19 @@
   </head>
   <body>
     <header>
-      <h1>RedisMUD - Login</h1>
-      <h2><a href="/signup">Sign up instead</a></h2>
+      <h1>RedisMUD</h1>
     </header>
     <main>
       <form action="/login" method="POST">
         <label for="name">User</label>
-        <input type="text" id="name" name="name" required />
+        <input type="text" id="name" name="name" />
       
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" required />
+        <input type="password" id="password" name="password" />
       
         <button type="submit">Login</button>
+
+        <a href="/signup">Sign Up</a>
       </form>
     </main>
   </body>
