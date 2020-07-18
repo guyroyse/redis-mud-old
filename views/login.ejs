@@ -5,15 +5,18 @@
   </head>
   <body>
     <header>
-      <h1>RedisMUD</h1>
+      <h1>Welcome to RedisMUD</h1>
     </header>
     <main>
+      <% if (messages.error) { %>
+        <p><%= messages.error %></p>
+      <% } %>
       <form action="/login" method="POST">
         <label for="name">User</label>
-        <input type="text" id="name" name="name" />
+        <input type="text" id="name" name="name" required autofocus/>
       
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" />
+        <input type="password" id="password" name="password" required/>
       
         <button type="submit">Login</button>
 

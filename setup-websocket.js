@@ -15,7 +15,7 @@ function init(server, sessionParser) {
   
   wss.on('connection', async (ws, req) => {
   
-    console.log(req.session.passport.user)
+    let username = req.session.passport.user
   
     let session = new Session(ws, username)
     await session.start()

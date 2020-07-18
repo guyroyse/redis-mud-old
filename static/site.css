@@ -27,7 +27,7 @@ main {
   width: 100%;
 }
 
-main > input {
+main input {
   display: block;
   font-family: 'Fira Code', monospace;
   font-size: 16px;
@@ -38,11 +38,11 @@ main > input {
   margin-bottom: 10px;
 }
 
-main > form > label {
+main label {
   display: block;
 }
 
-main > form > button {
+main button {
   font-family: 'Fira Code', monospace;
   font-size: 16px;
   text-decoration: underline;
@@ -64,7 +64,7 @@ main > form > a {
   padding: 0px;
 }
 
-main > section > p {
+main p {
   margin-top: 0px;
 }
 
