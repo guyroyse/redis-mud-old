@@ -16,10 +16,10 @@ function init(app) {
 
 async function authenticate(name, password, done) {
   let user = await User.byId(name)
-  if (!user) return done(null, false, { message: "Invalid username"})
+  if (!user) return done(null, false, { message: "Invalid login"})
 
   let success = await bcrypt.compare(password, user.password)
-  if (!success) return done(null, false, { message: "Invalid password" })
+  if (!success) return done(null, false, { message: "Invalid login" })
   
   return done(null, user)
 }
