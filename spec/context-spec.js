@@ -1,5 +1,5 @@
 const Context = require('../mud/context')
-const { Room } = require('../mud/things/things')
+const { Room, User } = require('../mud/things/things')
 
 describe("Context", function() {
   beforeEach(function() {
@@ -9,13 +9,20 @@ describe("Context", function() {
   context("when loaded", function() {
     beforeEach(async function() {
       this.aRoom = createARoom()
-      sinon.stub(Room, 'hub').resolves(this.aRoom)
+      this.aUser = createAUser()
 
-      await this.subject.load()
+      sinon.stub(Room, 'hub').resolves(this.aRoom)
+      sinon.stub(User, 'byId').resolves(this.aUser)
+
+      await this.subject.load('bob')
     })
 
     it("makes the hub the current room", function() {
       expect(this.subject.room).to.equal(this.aRoom)
+    })
+
+    it("makes 'bob' the current user", function() {
+      expect(this.subject.user).to.equal(this.aUser)
     })
 
     context("when the room changes", function() {

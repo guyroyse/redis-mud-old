@@ -11,7 +11,7 @@ describe("Session", function() {
     sinon.stub(TextController.prototype, 'processMessage')
     this.websocket = sinon.createStubInstance(WebSocket)
 
-    this.subject = new Session(this.websocket)
+    this.subject = new Session(this.websocket, A_USER_ID)
   })
 
   afterEach(function() {
@@ -24,8 +24,8 @@ describe("Session", function() {
       return this.subject.start()
     })
 
-    it("loads the context", function() {
-      expect(Context.prototype.load).to.have.been.called
+    it("loads the context with the username", function() {
+      expect(Context.prototype.load).to.have.been.calledWith(A_USER_ID)
     })
 
     it("starts the controller", function() {

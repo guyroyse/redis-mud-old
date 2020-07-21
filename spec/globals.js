@@ -50,6 +50,7 @@ global.createStubUser = (id, password) => {
   let user = sinon.createStubInstance(User)
   user.id = id
   user.password = password
+  return user
 }
 
 global.HUB_ID = 0
@@ -100,8 +101,8 @@ global.createAUser = () => createStubUser(A_USER_ID, A_USER_PASSWORD)
 
 global.ANOTHER_USER_ID = 'bob'
 global.ANOTHER_USER_PASSWORD = 'bar'
-global.createAnotherDoor = () => createStubUser(ANOTHER_USER_ID, ANOTHER_USER_PASSWORD)
+global.createAnotherUser = () => createStubUser(ANOTHER_USER_ID, ANOTHER_USER_PASSWORD)
 
 global.A_THIRD_USER_ID = 'chuck'
 global.A_THIRD_USER_PASSWORD = 'baz'
-global.createAThirdDoor = () => createStubUser(A_THIRD_USER_ID, A_THIRD_USER_PASSWORD)
+global.createAThirdUser = () => createStubUser(A_THIRD_USER_ID, A_THIRD_USER_PASSWORD)
