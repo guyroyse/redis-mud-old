@@ -23,10 +23,8 @@ const sessionParser = session({
 
 app.use(sessionParser)
 
-const users = []
-
-setupPassport(app, users)
-setupRoutes(app, users)
+setupPassport(app)
+setupRoutes(app)
 setupWebSocket(server, sessionParser)
 
 app.listen(8080, () => console.log(`Listening on port 8080`))

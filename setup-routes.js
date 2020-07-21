@@ -1,7 +1,9 @@
 const passport = require('passport')
 const bcrypt = require('bcrypt')
 
-function init(app, users) {
+const { User } = require('./mud/things/things')
+
+function init(app) {
 
   app.get('/', checkAuthenticated, (req, res) => {
     res.render('index.ejs')
@@ -24,7 +26,7 @@ function init(app, users) {
   app.post('/signup', checkNotAuthenticated, async (req, res) => {
     let name = req.body.name
     let hashedPassword = await bcrypt.hash(req.body.password, 10)
-    users.push({ name, hashedPassword })
+    User.create(name, hashedPassword)
     res.redirect('/login')
   })
 

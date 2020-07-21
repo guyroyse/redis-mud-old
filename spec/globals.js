@@ -17,7 +17,8 @@ global.stripAnsi = stripAnsi
 /* Stubbed Test Objects */
 
 const Context = require('../mud/context')
-const { Door, Room } = require('../mud/things/things')
+const { Door, Room, User } = require('../mud/things/things')
+const { password } = require('../mud/config')
 
 global.createStubContext = (room) => {
   let context = sinon.createStubInstance(Context)
@@ -43,6 +44,12 @@ global.createStubRoom = (id, name, description) => {
   sinon.spy(room, 'name', ['get', 'set'])
   sinon.spy(room, 'description', ['get', 'set'])
   return room
+}
+
+global.createStubUser = (id, password) => {
+  let user = sinon.createStubInstance(User)
+  user.id = id
+  user.password = password
 }
 
 global.HUB_ID = 0
@@ -86,3 +93,15 @@ global.A_THIRD_DOOR_NAME = 'The Biggest Door'
 global.A_THIRD_DOOR_DESCRIPTION = "It's the biggest"
 global.A_THIRD_DOOR_DESTINATION = 23
 global.createAThirdDoor = () => createStubDoor(A_THIRD_DOOR_ID, A_THIRD_DOOR_NAME, A_THIRD_DOOR_DESCRIPTION, A_THIRD_DOOR_DESTINATION)
+
+global.A_USER_ID = 'alice'
+global.A_USER_PASSWORD = 'foo'
+global.createAUser = () => createStubUser(A_USER_ID, A_USER_PASSWORD)
+
+global.ANOTHER_USER_ID = 'bob'
+global.ANOTHER_USER_PASSWORD = 'bar'
+global.createAnotherDoor = () => createStubUser(ANOTHER_USER_ID, ANOTHER_USER_PASSWORD)
+
+global.A_THIRD_USER_ID = 'chuck'
+global.A_THIRD_USER_PASSWORD = 'baz'
+global.createAThirdDoor = () => createStubUser(A_THIRD_USER_ID, A_THIRD_USER_PASSWORD)

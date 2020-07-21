@@ -1,6 +1,7 @@
 const RedisGraphShim = require('../data/redis-graph-shim')
 const RoomQueries = require('./room-queries')
 const DoorQueries = require('./door-queries')
+const UserQueries = require('./user-queries')
 
 class Rooms {
   static async all() {
@@ -157,4 +158,45 @@ class Door {
   }
 }
 
-module.exports = { Door, Doors, Room, Rooms }
+class User {
+  constructor({ id, password }) {
+    this._id = id
+    this._password = password
+  }
+
+  static fromValues(values) {
+    return new User({
+      id: values[0],
+      password: values[1]
+    })
+  }
+
+  static async byId(id) {
+    let graph = new RedisGraphShim()
+    let values = await graph.executeAndReturnSingle(UserQueries.FETCH_BY_ID, {id})
+    if (!values) return null;
+    return this.fromValues(values)
+  }
+
+  static async create(id, password) {
+    let graph = new RedisGraphShim()
+    let values = await graph.executeAndReturnSingle(UserQueries.CREATE, { id, password })
+    return this.fromValues(values)
+  }
+
+  get id() { return this._id }
+
+  get password() { return this._password }
+  set password(password) {
+    this._password = password
+    this.update()
+  }
+
+  async update() {
+    let graph = new RedisGraphShim()
+    await graph.execute(UserQueries.UPDATE, { id: this.id, password: this.password })
+  }
+
+}
+
+module.exports = { Door, Doors, Room, Rooms, User }
