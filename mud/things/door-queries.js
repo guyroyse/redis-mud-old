@@ -2,7 +2,7 @@ module.exports = {
   IN_ROOM: `
     MATCH (from:room)-[:contains]->(d:door)
     WHERE id(from) = $roomId
-    RETURN id(d), d.name, d.description`,
+    RETURN id(d) as id, d.name as name, d.description as description`,
 
   FETCH_BY_ID: `
     MATCH (d:door)
@@ -11,7 +11,7 @@ module.exports = {
 
   CREATE: `
     CREATE (d:door { name: $name, description: $description })
-    RETURN id(d), d.name, d.description`,
+    RETURN id(d) as id, d.name as name, d.description as description`,
 
   PLACE_IN: `
     MATCH (d:door) WHERE id(d) = $id

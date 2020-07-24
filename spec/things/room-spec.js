@@ -6,7 +6,7 @@ describe("Room", function() {
 
   describe("#hub", function() {
     beforeEach(async function() {
-      RedisGraphShim.prototype.executeAndReturnSingle.resolves([ HUB_ID, HUB_NAME, HUB_DESCRIPTION ])
+      RedisGraphShim.prototype.executeAndReturnSingle.resolves(createHubMap())
       this.result = await Room.hub()
     })
 
@@ -27,7 +27,7 @@ describe("Room", function() {
   describe("#byId", function() {
     beforeEach(async function() {
       RedisGraphShim.prototype.executeAndReturnSingle
-        .resolves([ A_ROOM_ID, A_ROOM_NAME, A_ROOM_DESCRIPTION ])
+        .resolves(createARoomMap())
       this.result = await Room.byId(A_ROOM_ID)
     })
 
@@ -45,8 +45,7 @@ describe("Room", function() {
 
   describe("#create", function() {
     beforeEach(async function() {
-      RedisGraphShim.prototype.executeAndReturnSingle
-        .resolves([ A_ROOM_ID, A_ROOM_NAME, A_ROOM_DESCRIPTION ])
+      RedisGraphShim.prototype.executeAndReturnSingle.resolves(createARoomMap())
       this.result = await Room.create(A_ROOM_NAME)
     })
 

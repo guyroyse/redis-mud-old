@@ -16,25 +16,36 @@ class RedisGraphShim {
     let record = result.next()
     if (record.size() <= 0) return null
 
-    return record.values()
+    return this.recordToMap(record)
   }
 
   async executeAndReturnMany(query, parameters) {
     let result = await this.connection.query(query, parameters)
 
-    let valueSet = []
+    let set = []
     while (result.hasNext()) {
       let record = result.next()
       if (record.size() > 0) {
-        valueSet.push(record.values())
+        let map = this.recordToMap(record)
+        valueSet.push(map)
       }
     }
 
-    return valueSet
+    return set
   }
 
   get connection() {
     return this.redisConnector.fetchGraphConnection()
+  }
+
+  recordToMap(record) {
+    let values = record.values()
+    let keys = record.keys()
+
+    let map = new Map()
+    keys.forEach((key, index) => map.set(key, values[index]))
+
+    return map
   }
 }
 

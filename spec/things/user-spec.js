@@ -9,7 +9,7 @@ describe("User", function() {
     context("when found", function() {
       beforeEach(async function() {
         RedisGraphShim.prototype.executeAndReturnSingle
-          .resolves([ A_USER_ID, A_USER_NAME, A_USER_PASSWORD ])
+          .resolves(createAUserMap())
         this.result = await User.byName(A_USER_NAME)
       })
   
@@ -44,8 +44,7 @@ describe("User", function() {
 
   describe("#create", function() {
     beforeEach(async function() {
-      RedisGraphShim.prototype.executeAndReturnSingle
-        .resolves([ A_USER_ID, A_USER_NAME, A_USER_PASSWORD ])
+      RedisGraphShim.prototype.executeAndReturnSingle.resolves(createAUserMap())
       this.result = await User.create(A_USER_NAME, A_USER_PASSWORD)
     })
 

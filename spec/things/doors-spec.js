@@ -6,9 +6,7 @@ describe("Doors", function() {
   describe("#inRoom", function() {
     beforeEach(async function() {
       RedisGraphShim.prototype.executeAndReturnMany.resolves([
-        [ A_DOOR_ID, A_DOOR_NAME, A_DOOR_DESCRIPTION ],
-        [ ANOTHER_DOOR_ID, ANOTHER_DOOR_NAME, ANOTHER_DOOR_DESCRIPTION ],
-        [ A_THIRD_DOOR_ID, A_THIRD_DOOR_NAME, A_THIRD_DOOR_DESCRIPTION ]
+        createADoorMap(), createAnotherDoorMap(), createAThirdDoorMap()
       ])
       this.doors = await Doors.inRoom(CURRENT_ROOM_ID)
     })

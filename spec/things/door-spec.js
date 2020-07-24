@@ -7,7 +7,7 @@ describe("Door", function() {
   describe("#byId", function() {
     beforeEach(async function() {
       RedisGraphShim.prototype.executeAndReturnSingle
-        .resolves([ A_DOOR_ID, A_DOOR_NAME, A_DOOR_DESCRIPTION ])
+        .resolves(createADoorMap())
       this.result = await Door.byId(A_DOOR_ID)
     })
 
@@ -25,9 +25,7 @@ describe("Door", function() {
 
   describe("#create", function() {
     beforeEach(async function() {
-      RedisGraphShim.prototype.executeAndReturnSingle.resolves(
-        [ A_DOOR_ID, A_DOOR_NAME, A_DOOR_DESCRIPTION ],
-      )
+      RedisGraphShim.prototype.executeAndReturnSingle.resolves(createADoorMap())
       this.result = await Door.create(A_DOOR_NAME)
     })
 

@@ -3,17 +3,17 @@ const RoomQueries = require('./room-queries')
 const DoorQueries = require('./door-queries')
 const UserQueries = require('./user-queries')
 
-class Rooms {
-  static async all() {
+const Rooms = {
+  all: async function() {
     let graph = new RedisGraphShim()
-    let valueSet = await graph.executeAndReturnMany(RoomQueries.FETCH_ALL)
-    return valueSet.map(values => Room.fromValues(values))
-  }
+    let maps = await graph.executeAndReturnMany(RoomQueries.FETCH_ALL)
+    return maps.map(map => Room.fromMap(map))
+  },
 
-  static async asDoorDestination(doorId) {
+  asDoorDestination: async function(doorId) {
     let graph = new RedisGraphShim()
-    let valueSet = await graph.executeAndReturnMany(RoomQueries.FETCH_AS_DOOR_DESTINATION, { doorId })
-    return valueSet.map(values => Room.fromValues(values))
+    let maps = await graph.executeAndReturnMany(RoomQueries.FETCH_AS_DOOR_DESTINATION, { doorId })
+    return maps.map(map => Room.fromMap(map))
   }
 }
 
@@ -24,33 +24,31 @@ class Room {
     this._description = description
   }
 
-  static fromValues(values) {
-    return new Room({
-      id: values[0],
-      name: values[1],
-      description: values[2]
-    })
+  static fromMap(map) {
+    let arg = {}
+    map.forEach((value, key) => arg[key] = value)
+    return new Room(arg)
   }
 
   static async hub() {
     let graph = new RedisGraphShim()
     let name = 'The Hub'
     let description = 'Huge hub is huge'
-    let values = await graph.executeAndReturnSingle(RoomQueries.FETCH_OR_CREATE_HUB, { name, description })
-    return this.fromValues(values)
+    let map = await graph.executeAndReturnSingle(RoomQueries.FETCH_OR_CREATE_HUB, { name, description })
+    return this.fromMap(map)
   }
 
   static async byId(id) {
     let graph = new RedisGraphShim()
-    let values = await graph.executeAndReturnSingle(RoomQueries.FETCH_BY_ID, {id})
-    return this.fromValues(values)
+    let map = await graph.executeAndReturnSingle(RoomQueries.FETCH_BY_ID, {id})
+    return this.fromMap(map)
   }
 
   static async create(name) {
     let graph = new RedisGraphShim()
     let description = "This is a room."
-    let values = await graph.executeAndReturnSingle(RoomQueries.CREATE, { name, description })
-    return this.fromValues(values)
+    let map = await graph.executeAndReturnSingle(RoomQueries.CREATE, { name, description })
+    return this.fromMap(map)
   }
 
   get id() { return this._id }
@@ -77,11 +75,11 @@ class Room {
   }
 }
 
-class Doors {
-  static async inRoom(roomId) {
+const Doors = {
+  inRoom: async function(roomId) {
     let graph = new RedisGraphShim()
-    let valueSet = await graph.executeAndReturnMany(DoorQueries.IN_ROOM, { roomId })
-    return valueSet.map(values => Door.fromValues(values))
+    let maps = await graph.executeAndReturnMany(DoorQueries.IN_ROOM, { roomId })
+    return maps.map(map => Door.fromMap(map))
   }
 }
 
@@ -92,26 +90,24 @@ class Door {
     this._description = description
   }
 
-  static fromValues(values) {
-    return new Door({
-      id: values[0],
-      name: values[1],
-      description: values[2]
-    })
+  static fromMap(map) {
+    let arg = {}
+    map.forEach((value, key) => arg[key] = value)
+    return new Door(arg)
   }
 
   static async byId(id) {
     let graph = new RedisGraphShim()
-    let values = await graph.executeAndReturnSingle(DoorQueries.FETCH_BY_ID, {id})
-    return this.fromValues(values)
+    let map = await graph.executeAndReturnSingle(DoorQueries.FETCH_BY_ID, {id})
+    return this.fromMap(map)
   }
 
   static async create(name) {
     let graph = new RedisGraphShim()
 
     let description = "This is a door."
-    let values = await graph.executeAndReturnSingle(DoorQueries.CREATE, { name, description })
-    return this.fromValues(values)
+    let map = await graph.executeAndReturnSingle(DoorQueries.CREATE, { name, description })
+    return this.fromMap(map)
   }
 
   get id() { return this._id }
@@ -165,25 +161,23 @@ class User {
     this._password = password
   }
 
-  static fromValues(values) {
-    return new User({
-      id: values[0],
-      name: values[1],
-      password: values[2]
-    })
+  static fromMap(map) {
+    let arg = {}
+    map.forEach((value, key) => arg[key] = value)
+    return new User(arg)
   }
 
   static async byName(name) {
     let graph = new RedisGraphShim()
-    let values = await graph.executeAndReturnSingle(UserQueries.FETCH_BY_NAME, {name})
-    if (!values) return null;
-    return this.fromValues(values)
+    let map = await graph.executeAndReturnSingle(UserQueries.FETCH_BY_NAME, {name})
+    if (!map) return null;
+    return this.fromMap(map)
   }
 
   static async create(name, password) {
     let graph = new RedisGraphShim()
-    let values = await graph.executeAndReturnSingle(UserQueries.CREATE, { name, password })
-    return this.fromValues(values)
+    let map = await graph.executeAndReturnSingle(UserQueries.CREATE, { name, password })
+    return this.fromMap(map)
   }
 
   get id() { return this._id }

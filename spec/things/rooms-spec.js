@@ -6,9 +6,7 @@ describe("Rooms", function() {
   describe("#all", function() {
     beforeEach(async function() {
       RedisGraphShim.prototype.executeAndReturnMany.resolves([
-        [ A_ROOM_ID, A_ROOM_NAME, A_ROOM_DESCRIPTION ],
-        [ ANOTHER_ROOM_ID, ANOTHER_ROOM_NAME, ANOTHER_ROOM_DESCRIPTION ],
-        [ A_THIRD_ROOM_ID, A_THIRD_ROOM_NAME, A_THIRD_ROOM_DESCRIPTION ]
+        createARoomMap(), createAnotherRoomMap(), createAThirdRoomMap()
       ])
       this.rooms = await Rooms.all()
     })
@@ -38,9 +36,7 @@ describe("Rooms", function() {
   describe("#asDoorDestination", function() {
     beforeEach(async function() {
       RedisGraphShim.prototype.executeAndReturnMany.resolves([
-        [ A_ROOM_ID, A_ROOM_NAME, A_ROOM_DESCRIPTION ],
-        [ ANOTHER_ROOM_ID, ANOTHER_ROOM_NAME, ANOTHER_ROOM_DESCRIPTION ],
-        [ A_THIRD_ROOM_ID, A_THIRD_ROOM_NAME, A_THIRD_ROOM_DESCRIPTION ]
+        createARoomMap(), createAnotherRoomMap(), createAThirdRoomMap()
       ])
       this.rooms = await Rooms.asDoorDestination()
     })
