@@ -4,22 +4,23 @@ const { User } = require('../../mud/things/things')
 
 describe("User", function() {
 
-  describe("#byId", function() {
+  describe("#byName", function() {
 
     context("when found", function() {
       beforeEach(async function() {
         RedisGraphShim.prototype.executeAndReturnSingle
-          .resolves([ A_USER_ID, A_USER_PASSWORD ])
-        this.result = await User.byId(A_USER_ID)
+          .resolves([ A_USER_ID, A_USER_NAME, A_USER_PASSWORD ])
+        this.result = await User.byName(A_USER_NAME)
       })
   
       it("askes the graph for the user", function() {
         expect(RedisGraphShim.prototype.executeAndReturnSingle)
-          .to.have.been.calledWith(UserQueries.FETCH_BY_ID, { id: A_USER_ID })
+          .to.have.been.calledWith(UserQueries.FETCH_BY_NAME, { name: A_USER_NAME })
       })
   
       it("returns a user with expected properties", function() {
         expect(this.result.id).to.equal(A_USER_ID)
+        expect(this.result.name).to.equal(A_USER_NAME)
         expect(this.result.password).to.equal(A_USER_PASSWORD)
       })  
     })
@@ -27,12 +28,12 @@ describe("User", function() {
     context("when not found", function() {
       beforeEach(async function() {
         RedisGraphShim.prototype.executeAndReturnSingle.resolves(null)
-        this.result = await User.byId(A_USER_ID)
+        this.result = await User.byName(A_USER_NAME)
       })
   
       it("askes the graph for the user", function() {
         expect(RedisGraphShim.prototype.executeAndReturnSingle)
-          .to.have.been.calledWith(UserQueries.FETCH_BY_ID, { id: A_USER_ID })
+          .to.have.been.calledWith(UserQueries.FETCH_BY_NAME, { name: A_USER_NAME })
       })
   
       it("returns null", function() {
@@ -44,19 +45,20 @@ describe("User", function() {
   describe("#create", function() {
     beforeEach(async function() {
       RedisGraphShim.prototype.executeAndReturnSingle
-        .resolves([ A_USER_ID, A_USER_PASSWORD ])
-      this.result = await User.create(A_USER_ID, A_USER_PASSWORD)
+        .resolves([ A_USER_ID, A_USER_NAME, A_USER_PASSWORD ])
+      this.result = await User.create(A_USER_NAME, A_USER_PASSWORD)
     })
 
     it("creates the user", function() {
       expect(RedisGraphShim.prototype.executeAndReturnSingle)
         .to.have.been.calledWith(UserQueries.CREATE, { 
-          id: A_USER_ID,
+          name: A_USER_NAME,
           password: A_USER_PASSWORD })
     })
 
     it("returns a user with expected properties", function() {
       expect(this.result.id).to.equal(A_USER_ID)
+      expect(this.result.name).to.equal(A_USER_NAME)
       expect(this.result.password).to.equal(A_USER_PASSWORD)
     })
   })

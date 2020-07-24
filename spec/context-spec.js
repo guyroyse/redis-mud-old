@@ -12,7 +12,7 @@ describe("Context", function() {
       this.aUser = createAUser()
 
       sinon.stub(Room, 'hub').resolves(this.aRoom)
-      sinon.stub(User, 'byId').resolves(this.aUser)
+      sinon.stub(User, 'byName').resolves(this.aUser)
 
       await this.subject.load('bob')
     })

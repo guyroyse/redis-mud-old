@@ -159,32 +159,36 @@ class Door {
 }
 
 class User {
-  constructor({ id, password }) {
+  constructor({ id, name, password }) {
     this._id = id
+    this._name = name
     this._password = password
   }
 
   static fromValues(values) {
     return new User({
       id: values[0],
-      password: values[1]
+      name: values[1],
+      password: values[2]
     })
   }
 
-  static async byId(id) {
+  static async byName(name) {
     let graph = new RedisGraphShim()
-    let values = await graph.executeAndReturnSingle(UserQueries.FETCH_BY_ID, {id})
+    let values = await graph.executeAndReturnSingle(UserQueries.FETCH_BY_NAME, {name})
     if (!values) return null;
     return this.fromValues(values)
   }
 
-  static async create(id, password) {
+  static async create(name, password) {
     let graph = new RedisGraphShim()
-    let values = await graph.executeAndReturnSingle(UserQueries.CREATE, { id, password })
+    let values = await graph.executeAndReturnSingle(UserQueries.CREATE, { name, password })
     return this.fromValues(values)
   }
 
   get id() { return this._id }
+
+  get name() { return this._name }
 
   get password() { return this._password }
   set password(password) {

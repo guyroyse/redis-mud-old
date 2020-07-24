@@ -46,9 +46,10 @@ global.createStubRoom = (id, name, description) => {
   return room
 }
 
-global.createStubUser = (id, password) => {
+global.createStubUser = (id, name, password) => {
   let user = sinon.createStubInstance(User)
   user.id = id
+  user.name = name
   user.password = password
   return user
 }
@@ -95,14 +96,17 @@ global.A_THIRD_DOOR_DESCRIPTION = "It's the biggest"
 global.A_THIRD_DOOR_DESTINATION = 23
 global.createAThirdDoor = () => createStubDoor(A_THIRD_DOOR_ID, A_THIRD_DOOR_NAME, A_THIRD_DOOR_DESCRIPTION, A_THIRD_DOOR_DESTINATION)
 
-global.A_USER_ID = 'alice'
+global.A_USER_ID = 111
+global.A_USER_NAME = 'alice'
 global.A_USER_PASSWORD = 'foo'
-global.createAUser = () => createStubUser(A_USER_ID, A_USER_PASSWORD)
+global.createAUser = () => createStubUser(A_USER_ID, A_USER_NAME, A_USER_PASSWORD)
 
-global.ANOTHER_USER_ID = 'bob'
+global.ANOTHER_USER_ID = 222
+global.ANOTHER_USER_NAME = 'bob'
 global.ANOTHER_USER_PASSWORD = 'bar'
-global.createAnotherUser = () => createStubUser(ANOTHER_USER_ID, ANOTHER_USER_PASSWORD)
+global.createAnotherUser = () => createStubUser(ANOTHER_USER_ID, ANOTHER_USER_NAME, ANOTHER_USER_PASSWORD)
 
-global.A_THIRD_USER_ID = 'chuck'
+global.A_THIRD_USER_ID = 333
+global.A_THIRD_USER_NAME = 'chuck'
 global.A_THIRD_USER_PASSWORD = 'baz'
-global.createAThirdUser = () => createStubUser(A_THIRD_USER_ID, A_THIRD_USER_PASSWORD)
+global.createAThirdUser = () => createStubUser(A_THIRD_USER_ID, A_THIRD_USER_NAME, A_THIRD_USER_PASSWORD)
