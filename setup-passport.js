@@ -15,7 +15,7 @@ function init(app) {
 }
 
 async function authenticate(name, password, done) {
-  let user = await User.byId(name)
+  let user = await User.byName(name)
   if (!user) return done(null, false, { message: "Invalid login"})
 
   let success = await bcrypt.compare(password, user.password)
@@ -25,11 +25,11 @@ async function authenticate(name, password, done) {
 }
 
 async function serializeUser(user, done) {
-  done(null, user.id);
+  done(null, user.name);
 }
 
-async function deserializeUser(id, done) {
-  done(null, await User.byId(id))
+async function deserializeUser(name, done) {
+  done(null, await User.byName(name))
 }
 
 module.exports = init

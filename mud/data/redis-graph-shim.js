@@ -27,7 +27,7 @@ class RedisGraphShim {
       let record = result.next()
       if (record.size() > 0) {
         let map = this.recordToMap(record)
-        valueSet.push(map)
+        set.push(map)
       }
     }
 
