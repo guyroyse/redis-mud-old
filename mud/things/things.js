@@ -87,6 +87,12 @@ class Room extends Thing {
     return Room.proxy(map)
   }
 
+  static async forUser(userId) {
+    let graph = new RedisGraphShim()
+    let map = await graph.executeAndReturnSingle(RoomQueries.FETCH_FOR_USER, {userId})
+    return Room.proxy(map)
+  }
+
   static async create(name) {
     let graph = new RedisGraphShim()
     let description = "This is a room."
@@ -117,6 +123,10 @@ class User extends Thing {
     let graph = new RedisGraphShim()
     let map = await graph.executeAndReturnSingle(UserQueries.CREATE, { name, password })
     return User.proxy(map)
+  }
+
+  async currentRoom() {
+    return await Room.forUser(this.id)
   }
 
   async update(proxy) {

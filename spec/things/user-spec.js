@@ -1,6 +1,6 @@
 const RedisGraphShim = require('../../mud/data/redis-graph-shim')
 const UserQueries = require('../../mud/things/user-queries')
-const { User } = require('../../mud/things/things')
+const { User, Room } = require('../../mud/things/things')
 
 describe("User", function() {
 
@@ -80,5 +80,24 @@ describe("User", function() {
           })
       })
     })
+
+    context("when fetching the current room", function() {
+      beforeEach(async function() {
+        sinon.stub(Room, 'forUser')
+
+        this.aRoom = createARoom()
+  
+        Room.forUser.resolves(this.aRoom)
+        this.room = await this.result.currentRoom()
+      })
+
+      it("fetches the room for the user", function() {
+        expect(Room.forUser).to.have.been.calledWith(A_USER_ID)
+      })
+      
+      it("returns the expected room", function() {
+        expect(this.room).to.equal(this.aRoom)
+      })
+    })  
   })
 })

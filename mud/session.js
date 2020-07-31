@@ -29,7 +29,6 @@ class Session {
     let response = { messages: s.split('\n') }
     this.ws.send(JSON.stringify(response))
   }
-
 }
 
 module.exports = Session

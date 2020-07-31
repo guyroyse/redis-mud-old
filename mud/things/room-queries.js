@@ -16,6 +16,11 @@ module.exports = {
     WHERE id(r) = $id
     RETURN id(r) as id, r.name as name, r.description as description`,
 
+  FETCH_FOR_USER: `
+    MATCH (r:room)-[:contains]->(u:user)    
+    WHERE id(u) = $userId
+    RETURN id(r) as id, r.name as name, r.description as description`,
+
   FETCH_AS_DOOR_DESTINATION: `
     MATCH (d:door)-[:leads_to]->(r:room)
     WHERE id(d) = $doorId

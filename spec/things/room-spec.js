@@ -43,6 +43,25 @@ describe("Room", function() {
     })
   })
 
+  describe("#forUser", function() {
+    beforeEach(async function() {
+      RedisGraphShim.prototype.executeAndReturnSingle
+        .resolves(createARoomMap())
+      this.result = await Room.forUser(A_USER_ID)
+    })
+
+    it("askes the graph for the room", function() {
+      expect(RedisGraphShim.prototype.executeAndReturnSingle)
+        .to.have.been.calledWith(RoomQueries.FETCH_FOR_USER, { userId: A_USER_ID })
+    })
+
+    it("returns a room with expected properties", function() {
+      expect(this.result.id).to.equal(A_ROOM_ID)
+      expect(this.result.name).to.equal(A_ROOM_NAME)
+      expect(this.result.description).to.equal(A_ROOM_DESCRIPTION)
+    })
+  })
+
   describe("#create", function() {
     beforeEach(async function() {
       RedisGraphShim.prototype.executeAndReturnSingle.resolves(createARoomMap())
@@ -124,6 +143,6 @@ describe("Room", function() {
         expect(this.doors[1]).to.equal(this.anotherDoor)
         expect(this.doors[2]).to.equal(this.aThirdDoor)
       })
-    })  
+    })
   })
 })
