@@ -28,21 +28,17 @@ global.createStubContext = (room) => {
 
 global.createStubDoor = (id, name, description) => {
   let door = sinon.createStubInstance(Door)
+  door.id = id
   door.name = name
   door.description = description
-  sinon.stub(door, 'id').get(() => id)
-  sinon.spy(door, 'name', ['get', 'set'])
-  sinon.spy(door, 'description', ['get', 'set'])
   return door
 }
 
 global.createStubRoom = (id, name, description) => {
   let room = sinon.createStubInstance(Room)
+  room.id = id
   room.name = name
   room.description = description
-  sinon.stub(room, 'id').get(() => id)
-  sinon.spy(room, 'name', ['get', 'set'])
-  sinon.spy(room, 'description', ['get', 'set'])
   return room
 }
 

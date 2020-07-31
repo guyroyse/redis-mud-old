@@ -10,6 +10,7 @@
     "spec": "spec/**/*-spec.js",
     "ui": "bdd",
     "reporter": "min",
+    "bail": true,
     "watch": true,
     "colors": true,
     "file": [

@@ -54,36 +54,22 @@ describe("User", function() {
           name: A_USER_NAME,
           password: A_USER_PASSWORD })
     })
-
-    it("returns a user with expected properties", function() {
-      expect(this.result.id).to.equal(A_USER_ID)
-      expect(this.result.name).to.equal(A_USER_NAME)
-      expect(this.result.password).to.equal(A_USER_PASSWORD)
-    })
-  })
-
-  context("when created", function() {
-    beforeEach(function() {
-      this.subject = new User({
-        id: A_USER_ID,
-        password: A_USER_PASSWORD })
-    })
   
     it("has expected id", function() {
-      expect(this.subject.id).to.equal(A_USER_ID)
+      expect(this.result.id).to.equal(A_USER_ID)
     })
   
     it("has expected password", function() {
-      expect(this.subject.password).to.equal(A_USER_PASSWORD)
+      expect(this.result.password).to.equal(A_USER_PASSWORD)
     })
   
-    context("when renamed", function() {
+    context("when password is changed", function() {
       beforeEach(function() {
-        this.subject.password = ANOTHER_USER_PASSWORD
+        this.result.password = ANOTHER_USER_PASSWORD
       })
   
       it("has the new password", function() {
-        expect(this.subject.password).to.equal(ANOTHER_USER_PASSWORD)
+        expect(this.result.password).to.equal(ANOTHER_USER_PASSWORD)
       })
   
       it("updates the graph", function() {

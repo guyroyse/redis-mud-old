@@ -56,40 +56,25 @@ describe("Room", function() {
           description: 'This is a room.' })
     })
 
-    it("returns a room with expected properties", function() {
-      expect(this.result.id).to.equal(A_ROOM_ID)
-      expect(this.result.name).to.equal(A_ROOM_NAME)
-      expect(this.result.description).to.equal(A_ROOM_DESCRIPTION)
-    })
-  })
-
-  context("when created", function() {
-    beforeEach(function() {
-      this.subject = new Room({
-        id: A_ROOM_ID,
-        name: A_ROOM_NAME,
-        description: A_ROOM_DESCRIPTION })
-    })
-  
     it("has expected id", function() {
-      expect(this.subject.id).to.equal(A_ROOM_ID)
+      expect(this.result.id).to.equal(A_ROOM_ID)
     })
   
     it("has expected name", function() {
-      expect(this.subject.name).to.equal(A_ROOM_NAME)
+      expect(this.result.name).to.equal(A_ROOM_NAME)
     })
   
     it("has expected description", function() {
-      expect(this.subject.description).to.equal(A_ROOM_DESCRIPTION)
+      expect(this.result.description).to.equal(A_ROOM_DESCRIPTION)
     })
   
     context("when renamed", function() {
       beforeEach(function() {
-        this.subject.name = ANOTHER_ROOM_NAME
+        this.result.name = ANOTHER_ROOM_NAME
       })
   
       it("has the new name", function() {
-        expect(this.subject.name).to.equal(ANOTHER_ROOM_NAME)
+        expect(this.result.name).to.equal(ANOTHER_ROOM_NAME)
       })
   
       it("updates the graph", function() {
@@ -104,11 +89,11 @@ describe("Room", function() {
   
     context("when redescribed", function() {
       beforeEach(function() {
-        this.subject.description = ANOTHER_ROOM_DESCRIPTION
+        this.result.description = ANOTHER_ROOM_DESCRIPTION
       })
   
       it("has the new description", function() {
-        expect(this.subject.description).to.equal(ANOTHER_ROOM_DESCRIPTION)
+        expect(this.result.description).to.equal(ANOTHER_ROOM_DESCRIPTION)
       })
   
       it("updates the graph", function() {
@@ -130,7 +115,7 @@ describe("Room", function() {
         this.aThirdDoor = createAThirdDoor()
   
         Doors.inRoom.resolves([this.aDoor, this.anotherDoor, this.aThirdDoor])
-        this.doors = await this.subject.doors()
+        this.doors = await this.result.doors()
       })
   
       it("returns the expected doors", function() {

@@ -5,25 +5,24 @@ const UserQueries = require('./user-queries')
 
 class Thing {
   static proxy(map) {
-
     let thing = new this()
+    thing.map = map
 
     return new Proxy(thing, {
 
-      get: (thing, propertyName) => {
+      get: (thing, propertyName, proxy) => {
         if (Reflect.has(thing, propertyName)) return thing[propertyName]
-        return map.get(propertyName)
+        return thing.map.get(propertyName)
       },
 
-      set: function(thing, propertyName, value) {
+      set: function(thing, propertyName, value, proxy) {
         if (propertyName !== 'id') {
-          map.set(propertyName, value)
-          thing.update()
+          thing.map.set(propertyName, value)
+          thing.update(proxy)
           return true
         }
         return false
       }
-
     })
   }
 }
@@ -67,9 +66,9 @@ class Door extends Thing {
     await graph.execute(DoorQueries.CLEAR_DESTINATIONS, { id: this.id })
   }
 
-  async update() {
+  async update(proxy) {
     let graph = new RedisGraphShim()
-    await graph.execute(DoorQueries.UPDATE, { id: this.id, name: this.name, description: this.description })
+    await graph.execute(DoorQueries.UPDATE, { id: proxy.id, name: proxy.name, description: proxy.description })
   }
 }
 
@@ -90,7 +89,7 @@ class Room extends Thing {
 
   static async create(name) {
     let graph = new RedisGraphShim()
-    let description = "Room is a room."
+    let description = "This is a room."
     let map = await graph.executeAndReturnSingle(RoomQueries.CREATE, { name, description })
     return this.proxy(map)
   }
@@ -99,9 +98,9 @@ class Room extends Thing {
     return await Doors.inRoom(this.id)
   }
 
-  async update() {
+  async update(proxy) {
     let graph = new RedisGraphShim()
-    await graph.execute(RoomQueries.UPDATE, { id: this.id, name: this.name, description: this.description })
+    await graph.execute(RoomQueries.UPDATE, { id: proxy.id, name: proxy.name, description: proxy.description })
   }
 }
 
@@ -120,9 +119,9 @@ class User extends Thing {
     return User.proxy(map)
   }
 
-  async update() {
+  async update(proxy) {
     let graph = new RedisGraphShim()
-    await graph.execute(UserQueries.UPDATE, { id: this.id, password: this.password })
+    await graph.execute(UserQueries.UPDATE, { id: proxy.id, password: proxy.password })
   }
 
 }
