@@ -25,21 +25,20 @@ class Thing {
       }
     })
   }
+
+  static async executeAndReturnSingle(query, parameters) {
+    return await new RedisGraphShim().executeAndReturnSingle(query, parameters)
+  }
 }
 
 class Door extends Thing {
 
   static async byId(id) {
-    let graph = new RedisGraphShim()
-    let map = await graph.executeAndReturnSingle(DoorQueries.FETCH_BY_ID, {id})
-    return Door.proxy(map)
+    return Door.proxy(await this.executeAndReturnSingle(DoorQueries.FETCH_BY_ID, {id}))
   }
 
   static async create(name) {
-    let graph = new RedisGraphShim()
-    let description = "This is a door."
-    let map = await graph.executeAndReturnSingle(DoorQueries.CREATE, { name, description })
-    return Door.proxy(map)
+    return Door.proxy(await this.executeAndReturnSingle(DoorQueries.CREATE, { name, description: "This is a door." }))
   }
 
   async destinations() {
@@ -74,30 +73,19 @@ class Door extends Thing {
 
 class Room extends Thing {
   static async hub() {
-    let graph = new RedisGraphShim()
-    let name = 'The Hub'
-    let description = 'Huge hub is huge'
-    let map = await graph.executeAndReturnSingle(RoomQueries.FETCH_OR_CREATE_HUB, { name, description })
-    return Room.proxy(map)
+    return Room.proxy(await this.executeAndReturnSingle(RoomQueries.FETCH_OR_CREATE_HUB, { name: "The Hub", description: "Huge hub is huge" }))
   }
 
   static async byId(id) {
-    let graph = new RedisGraphShim()
-    let map = await graph.executeAndReturnSingle(RoomQueries.FETCH_BY_ID, {id})
-    return Room.proxy(map)
+    return Room.proxy(await this.executeAndReturnSingle(RoomQueries.FETCH_BY_ID, {id}))
   }
 
   static async forUser(userId) {
-    let graph = new RedisGraphShim()
-    let map = await graph.executeAndReturnSingle(RoomQueries.FETCH_FOR_USER, {userId})
-    return Room.proxy(map)
+    return Room.proxy(await this.executeAndReturnSingle(RoomQueries.FETCH_FOR_USER, {userId}))
   }
 
   static async create(name) {
-    let graph = new RedisGraphShim()
-    let description = "This is a room."
-    let map = await graph.executeAndReturnSingle(RoomQueries.CREATE, { name, description })
-    return this.proxy(map)
+    return Room.proxy(await this.executeAndReturnSingle(RoomQueries.CREATE, { name, description: "This is a room." }))
   }
 
   async doors() {
@@ -113,27 +101,25 @@ class Room extends Thing {
 class User extends Thing {
 
   static async byName(name) {
-    let graph = new RedisGraphShim()
-    let map = await graph.executeAndReturnSingle(UserQueries.FETCH_BY_NAME, {name})
-    if (!map) return null;
+    let map = await this.executeAndReturnSingle(UserQueries.FETCH_BY_NAME, {name})
+    if (!map) return null
     return User.proxy(map)
   }
 
   static async create(name, password) {
-    let graph = new RedisGraphShim()
-    let map = await graph.executeAndReturnSingle(UserQueries.CREATE, { name, password })
-    return User.proxy(map)
+    return User.proxy(await this.executeAndReturnSingle(UserQueries.CREATE, { name, password }))
   }
 
   async currentRoom() {
     return await Room.forUser(this.id)
   }
 
+  async placeInHub() {}
+
   async update(proxy) {
     let graph = new RedisGraphShim()
     await graph.execute(UserQueries.UPDATE, { id: proxy.id, password: proxy.password })
   }
-
 }
 
 const Doors = {
