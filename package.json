@@ -37,6 +37,6 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "redisgraph.js": "^2.1.0",
-    "ws": "^7.3.0"
+    "ws": "^7.4.6"
   }
 }
